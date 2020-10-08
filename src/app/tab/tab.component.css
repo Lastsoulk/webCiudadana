@@ -1,0 +1,11 @@
+.mat-tab-group {
+    margin-bottom: 48px;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar {
+    background-color: #00A6FF;
+}
+
+.mat-card-image {
+    margin: 0!important;
+}
