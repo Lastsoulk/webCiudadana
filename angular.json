@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "Proyecto-Comunitarias"
+  "defaultProject": "Proyecto-Comunitarias",
+  "cli": {
+    "analytics": "a6db94af-67a7-44dd-8ca3-cd7f322ad4c8"
+  }
 }
