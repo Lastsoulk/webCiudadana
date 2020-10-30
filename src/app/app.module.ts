@@ -11,7 +11,9 @@ import { TabGroupAlignExample } from './tab/tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardFancyExample } from './home/home.component';
 import { Perfil } from './perfil/perfil.component';
-import { Campana } from './DetalleCampana/campana.component';
+import { DetalleCampana } from './campanas/detalleCampana/detalleCampana.component';
+import { CrearCampana } from './campanas/crearCampana/crear_campana.component';
+import { Campana } from './campanas/campanas/campanas.component';
 import { Login } from './Login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,8 +27,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     TabGroupAlignExample,
     CardFancyExample,
     Perfil,
-    Campana,
-    Login
+    DetalleCampana,
+    CrearCampana,
+    Login,
+    Campana
   ],
   imports: [
     BrowserModule,
