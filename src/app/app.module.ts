@@ -20,7 +20,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import {AppService} from './app.service';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +40,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     Campana
   ],
   imports: [
+    MatSelectModule,
+    MatFormFieldModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -45,6 +54,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatGridListModule,
     MatButtonToggleModule,
     NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule
   ],
   exports: [
     MatToolbarModule,
