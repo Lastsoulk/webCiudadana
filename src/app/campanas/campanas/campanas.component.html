@@ -1,10 +1,17 @@
 
-
-
-
-<button class="button">Crear Campaña</button>
-
-
+<div id="campañareciente">Campañas Cerca de Ti</div>
+<div style="width:240px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div>
+<div class="example-container" style="display: flex;margin-top: 1em;">
+    <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Seleccione una ciudad:</div>
+    <mat-form-field appearance="fill">
+      <mat-label>Select</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad.value">
+            {{ciudad.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+</div>
 
 <mat-grid-list cols="3" rowHeight="600px">
     <mat-grid-tile>

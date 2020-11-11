@@ -2,19 +2,27 @@
 
 <div id="datos">
 
+      <h4 id="tituloBienvenido">Bienvenido a Ayudar-App</h4>
+
 
         <input type="email" class="login-username" autofocus="true" required="true" placeholder="Correo" />
         <input type="password" class="login-password" required="true" placeholder="Clave" />
-        <input type="submit" name="Login" value="Iniciar Sesion" class="login-submit" />
+        <!-- <input type="submit" name="Login" value="Iniciar Sesion" class="loginBtn loginCorreo" /> -->
 
-        <div id="customBtn" class="customGPlusSignIn">
-            <span class="icon"></span>
-            <span class="buttonText">Google</span>
-          </div>
+       
+        
+        <button (click)='moveToSelectedTab("Crear Campaña")' class="loginBtn loginCorreo">
+          Iniciar sesion
+        </button>
 
+          <button class="loginBtn loginBtn--facebook">
+            Login with Facebook
+          </button>
 
+          <button class="loginBtn loginBtn--google">
+            Login with Google
+          </button>
 </div>
 
   
-  <div class="underlay-photo"></div>
-  <div class="underlay-black"></div> 
+

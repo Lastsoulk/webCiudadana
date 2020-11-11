@@ -12,7 +12,7 @@ input[type=text],input[type=file], select {
 
   
   input[type=submit] {
-    width: 15%;
+    width: 100%;
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;
@@ -49,3 +49,8 @@ input[type=text],input[type=file], select {
       margin-bottom: 2.5%;
       text-align: center;
   }
+#boton{
+  justify-content: center;
+  margin: 0 auto;
+  width: 25%;
+}
