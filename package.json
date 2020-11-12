@@ -30,6 +30,7 @@
     "angular-bootstrap-md": "^10.0.0",
     "angular-responsive-carousel": "^1.5.11",
     "angularfire2": "^5.4.2",
+    "angularx-social-login": "^3.4.1",
     "animate.css": "^4.1.1",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",

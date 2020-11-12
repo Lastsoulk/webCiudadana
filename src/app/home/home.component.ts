@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FireBaseService, ICampaña } from '../services/fire-base.service';
+import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
 
 /**
@@ -19,7 +20,8 @@ export class CardFancyExample implements OnInit {
     myArray: any[] = []
 
     constructor(
-        private firestore: AngularFirestore
+        private firestore: AngularFirestore,
+        private router: Router,
     ) {
 
     }
@@ -44,4 +46,19 @@ export class CardFancyExample implements OnInit {
             }
         }
     }
+
+
+    
+  redirectCampaignDetail(){
+//     let campaignId = value.campaignId;
+//   //  let campaignUpdateId = value.campaignUpdateId;
+//     let data = {'camp':campaignId}//'upd':campaignUpdateId}
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+          "crearCampana": 'login',
+       //   "upd" : JSON.stringify(campaignUpdateId)
+      }
+    };
+    this.router.navigate(["perfil"],  navigationExtras);
+  }
 }
