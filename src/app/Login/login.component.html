@@ -3,25 +3,57 @@
 <div id="datos">
 
       <h4 id="tituloBienvenido">Bienvenido a Ayudar-App</h4>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="form-group row">
+          <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
+          <div class="col-md-6">
+            <input type="text" class="form-control" required autofocus formControlName="email">
+         
+          </div>
+          
+        </div>
 
 
-        <input type="email" class="login-username" autofocus="true" required="true" placeholder="Correo" />
-        <input type="password" class="login-password" required="true" placeholder="Clave" />
-        <!-- <input type="submit" name="Login" value="Iniciar Sesion" class="loginBtn loginCorreo" /> -->
+        <div class="form-group row">
+          <label for="password" class="col-md-4 col-form-label text-md-right">Contraseña</label>
+          <div class="col-md-6">
+            <input type="password" id="password" class="form-control" formControlName="password" required>
+          
+          </div>
+          
+        </div>
 
+
+        <div class="botones">
+          <button type="submit" class="loginBtn loginCorreo ">
+            Iniciar sesión
+          </button>
        
-        
-        <button  class="loginBtn loginCorreo">
-          Iniciar sesion
-        </button>
 
           <button class="loginBtn loginBtn--facebook">
             Login with Facebook
           </button>
 
-          <button class="loginBtn loginBtn--google" (click)="loginGoogle()">
+          <button type="button" class="loginBtn loginBtn--google" (click)="loginGoogle()">
             Login with Google
           </button>
+        </div>
+
+        
+      
+     
+
+         
+      </form>
+
+
+        <!-- <input type="email" class="login-username" autofocus="true" required="true" placeholder="Correo" />
+        <input type="password" class="login-password" required="true" placeholder="Clave" /> -->
+        <!-- <input type="submit" name="Login" value="Iniciar Sesion" class="loginBtn loginCorreo" /> -->
+
+       
+        
 </div>
 
   
