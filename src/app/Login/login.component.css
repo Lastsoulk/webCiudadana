@@ -1,7 +1,17 @@
 #tituloBienvenido{
-    margin-bottom: 12%;
+    margin-bottom: 10%;
     color: white;
     font-size: 28px;
+}
+#titulo{
+  font-size: 35px;
+  text-align: center;
+
+
+}
+#tituloDiv{
+  margin-top: 5.5%;
+  margin: 0 auto;
 }
 #datos{
     background-color: #4392C6;
@@ -10,7 +20,7 @@
     align-items: center;
     justify-content: center;
     width: 35%;
-    padding: 5%;
+    padding: 3%;
     height: 75%;
     border-radius: 5%;
     border: 2px solid #000000;
@@ -18,17 +28,17 @@
     margin: 0 auto;
     align-items: center;
     align-content: center;
-    margin-top: 5.5%;
+    margin-top: 2.75%;
 
 }
-.login-password{
+#login-password{
     margin-top: 4.5%;
     margin-bottom: 4.5%;
-    width: 250px;
+    width: 225px;
     padding: 2px;
 }
-.login-username{
-    width: 250px;
+#login-username{
+    width: 225px;
     padding: 2px;
 }
 
@@ -47,6 +57,11 @@
     text-align: center;
     justify-content: center;
     align-items: center;
+}
+
+#form{
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -184,7 +199,9 @@
 }
 
 .botones{
-  margin-top: 5%;
+  margin-top: 10%;
+  margin: 0 auto;
+
 
  
 
