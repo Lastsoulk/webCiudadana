@@ -6,6 +6,7 @@ import { rejects } from 'assert';
 //import { User } from 'firebase';
 import { first } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,11 @@ export class AuthService {
 
   }
 
+  async loginGoogle() {
+    const res = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    const email = res.user.email;
+    this.router.navigate(["/home"])
+}
 
 /*  async register(email: string, password: string, payloadObject: any) {
     this.afAuth.createUserWithEmailAndPassword(email, password).then(

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase';
 import { Router } from '@angular/router';
-import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../services/auth.service';
 import Swal from 'sweetalert2';
@@ -29,16 +27,10 @@ export class Login {
     user: any;
     public userRole;
     constructor(
-        private fireAuth: AngularFireAuth,
         private router: Router,
         private AuthService: AuthService
     ) { }
 
-    async loginGoogle() {
-        const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-        const email = res.user.email;
-        this.router.navigate(["/home"])
-    }
 
     matcher = new MyErrorStateMatcher();
     loginForm = new FormGroup({
@@ -63,6 +55,11 @@ export class Login {
     }
   });
 } */
+
+async loginGoogle(){
+this.AuthService.loginGoogle();
+}
+
 async onLogin() {
     const { email, password } = this.loginForm.value;
     console.log('holi');
