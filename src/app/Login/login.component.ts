@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import {SocialAuthServiceConfig,SocialAuthService,GoogleLoginProvider} from 'angularx-social-login';
+import { AngularFireAuth } from '@angular/fire/auth';
+import firebase from 'firebase';
+import { Router } from '@angular/router';
 /**
  * @title Card with multiple sections
  */
@@ -11,18 +13,16 @@ import {SocialAuthServiceConfig,SocialAuthService,GoogleLoginProvider} from 'ang
 })
 export class Login {
     images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
-    user:any;
+    user: any;
     constructor(
-        private socialServ: SocialAuthService
-    ){}
+        private fireAuth: AngularFireAuth,
+        private router: Router
+    ) { }
 
-    signIn(platform:string):void{
-        platform = GoogleLoginProvider.PROVIDER_ID;
-        this.socialServ.signIn(platform).then((res)=>{
-            console.log(platform + 'logged is: ',res);
-
-            this.user = res;
-        });
+    async loginGoogle() {
+        const res = await this.fireAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        const email = res.user.email;
+        this.router.navigate(["/home"])
     }
 
 }
