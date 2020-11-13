@@ -21,14 +21,14 @@ export class CardFancyExample implements OnInit {
 
     constructor(
         private firestore: AngularFirestore,
-        private router: Router,
+        public router: Router,
     ) {
 
     }
 
     ngOnInit(): void {
         this.firestore
-            .collection("Campañas")
+            .collection("campaigns")
             .get()
             .subscribe((ss) => {
                 ss.docs.forEach((doc) => {
@@ -48,17 +48,17 @@ export class CardFancyExample implements OnInit {
     }
 
 
-    
-  redirectCampaignDetail(){
-//     let campaignId = value.campaignId;
-//   //  let campaignUpdateId = value.campaignUpdateId;
-//     let data = {'camp':campaignId}//'upd':campaignUpdateId}
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-          "crearCampana": 'login',
-       //   "upd" : JSON.stringify(campaignUpdateId)
-      }
-    };
-    this.router.navigate(["crearCampana"],  navigationExtras);
-  }
+
+    redirectCampaignDetail() {
+        //     let campaignId = value.campaignId;
+        //   //  let campaignUpdateId = value.campaignUpdateId;
+        //     let data = {'camp':campaignId}//'upd':campaignUpdateId}
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                "crearCampana": 'login',
+                //   "upd" : JSON.stringify(campaignUpdateId)
+            }
+        };
+        this.router.navigate(["crearCampana"], navigationExtras);
+    }
 }

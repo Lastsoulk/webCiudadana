@@ -18,7 +18,7 @@ font-size: 1.5em;
 margin-block-start: 0.83em;
 margin-inline-start: 0px;
 margin-inline-end: 0px;
-margin-left: 2em;
+margin-left: 3em;
 }
 
 img {
@@ -42,7 +42,8 @@ margin-top: 1.5em;
   margin: 0 auto;
 }
 
-.container img {vertical-align: middle;}
+.container img {vertical-align: middle;
+  padding-top: 1em;}
 
 .container .content {
   position: absolute;
@@ -52,6 +53,7 @@ margin-top: 1.5em;
   color: #f1f1f1;
   width: 50%;
   padding: 20px;
+  height: 75%;
 }
 
 .container .content2 {
@@ -68,4 +70,8 @@ margin-top: 1.5em;
 .content3 .material-icons{
   margin-bottom: 1em;
   font-size: 50px;
+}
+
+.mat-card-image {
+  margin: 0;
 }
