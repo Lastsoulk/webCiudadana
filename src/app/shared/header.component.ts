@@ -23,7 +23,9 @@ export class Header{
     private AuthService: AuthService,
     private router: Router,
 
-  ) { }
+  ) {
+    
+   }
 
   // @HostListener('click')
 
@@ -31,16 +33,18 @@ export class Header{
      const user = await this.AuthService.getCurrentUser();
      if (user) {
         this.logeado = true;
-       //console.log('user->', user);
-
+       console.log('user->', user);
       }
    }
+
+   
    async logOut() {
      try {
       this.AuthService.logout();
       localStorage.clear();
       this.router.navigate(['/login']);
       this.logeado = false;
+      this.user$=null;
      } catch (error) {
        console.log(error);
      }

@@ -60,6 +60,10 @@ async loginGoogle(){
 this.AuthService.loginGoogle();
 }
 
+async loginFacebook(){
+    this.AuthService.loginFacebook();
+    }
+
 async onLogin() {
     const { email, password } = this.loginForm.value;
     console.log('holi');

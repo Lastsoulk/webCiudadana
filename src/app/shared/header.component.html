@@ -41,7 +41,7 @@
  
  
  
-        <li class="nav-item" >
+        <li *ngIf="user$!=null" class="nav-item" >
           <a class="nav-link element" routerLink="/login">Login
           </a>
         </li>

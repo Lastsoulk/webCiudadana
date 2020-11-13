@@ -12,7 +12,7 @@ import firebase from 'firebase';
   providedIn: 'root'
 })
 export class AuthService {
-  //public user: User;
+  public user: any;
 
   constructor(
     public afAuth: AngularFireAuth,
@@ -38,25 +38,30 @@ export class AuthService {
     const res = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const email = res.user.email;
     this.router.navigate(["/home"])
-}
-
-/*  async register(email: string, password: string, payloadObject: any) {
-    this.afAuth.createUserWithEmailAndPassword(email, password).then(
-      (user) => {
-        if (user) {
-          this.updateUserData(user, payloadObject)
-          Swal.fire("Registro exitoso","Se ha guardado correctamente el registro","success")
-
-          this.router.navigate(['/login']);
-
-        }
-      }).catch(
-        (err) => {
-          Swal.fire("Error", err.message, "error")
-          console.log(err);
-        })
   }
-*/
+
+  async loginFacebook() {
+    const res = await this.afAuth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    const email = res.user.email;
+  }
+
+  /*  async register(email: string, password: string, payloadObject: any) {
+      this.afAuth.createUserWithEmailAndPassword(email, password).then(
+        (user) => {
+          if (user) {
+            this.updateUserData(user, payloadObject)
+            Swal.fire("Registro exitoso","Se ha guardado correctamente el registro","success")
+  
+            this.router.navigate(['/login']);
+  
+          }
+        }).catch(
+          (err) => {
+            Swal.fire("Error", err.message, "error")
+            console.log(err);
+          })
+    }
+  */
   // async updateUserData(userCredential: firebase.auth.UserCredential, payloadObject: any) {
   //   //console.log(userCredential.user.uid)
   //     if(userCredential.user.uid){
@@ -70,9 +75,9 @@ export class AuthService {
   //           console.log(error)
   //         }
   //         )
-        
+
   //     }
-       
+
   // }
 
   async logout() {
@@ -92,12 +97,13 @@ export class AuthService {
   public getUsers() {
     return this.firestore.collection("users").snapshotChanges();
   }
+  
 
   public isUserAdmin(userUID) {
     return this.firestore.collection("users").doc(userUID).snapshotChanges();
   }
 
   delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
