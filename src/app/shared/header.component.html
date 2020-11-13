@@ -15,20 +15,36 @@
         <a class="nav-link element" routerLink="/campanas">Eventos
         </a>
       </li>
-      <li class="nav-item" >
+      <li class="nav-item" *ngIf="user$ | async as user">
         <a class="nav-link waves-light element"  routerLink="/perfil">Perfil
         </a>
       </li>
+
+   
+
+     
+    
+
     </ul>
     <ul class="navbar-nav ml-auto">
       <!-- <li class="nav-item" //*ngIf="!isLogged"> -->
+
+        <li class="nav-item dropdown" *ngIf="user$ | async as user">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user-circle"></i> {{ user?.email }}
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)= "logOut()">Cerrar sesión</a>
+          </div>
+        </li>
  
  
  
-      <li class="nav-item" >
-        <a class="nav-link element" routerLink="/login">Login
-        </a>
-      </li>
+        <li class="nav-item" >
+          <a class="nav-link element" routerLink="/login">Login
+          </a>
+        </li>
   
     </ul>
   </div>

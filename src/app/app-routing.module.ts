@@ -12,15 +12,14 @@ import { CardFancyExample } from './home/home.component';
 
 
 const routes: Routes = [
-   { path: '', redirectTo: '/home', pathMatch: 'full'  },
-     { path: 'home', component: CardFancyExample },
-    { path: 'campanas', component: Campana },
-
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: CardFancyExample },
+  { path: 'campanas', component: Campana },
   { path: 'perfil', component: Perfil },
   { path: 'crearCampana', component: CrearCampana },
   { path: 'detalleCampana', component: DetalleCampana },
-  {path: 'login',component: Login},
- 
+  { path: 'login', component: Login },
+
 ];
 
 @NgModule({

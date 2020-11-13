@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-// import {AngularFire, FireBaseListObservable} from '@angular/fire';
-// import {AppService} from './app.service';
+import { environment } from '../environments/environment'
+//import {AngularFire, FireBaseListObservable} from '@angular/fire';
+//import {AppService} from './app.service';
+import * as firebase from 'firebase/app'; //The core firebase client
 
 @Component({
   selector: 'app-root',
@@ -10,9 +12,12 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Ayudar App';
 
-  // constructor(private servicio: AppService){
+  constructor(
+  
+   ){
   //   //this.items = af.database
-  // }
-
-
+  
+  
+ }
+ 
 }
