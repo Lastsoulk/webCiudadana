@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
+import {AngularFireAuthModule} from '@angular/fire/auth';
 
 //import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Routes, RouterModule } from '@angular/router';
@@ -58,6 +59,7 @@ import { PageComponentComponent } from './page-component/page-component.componen
  //   RouterModule.forRoot(rutas),
    // HttpClientModule,
   //  MDBBootstrapModule.forRoot(),
+     AngularFireAuthModule,
 
 
     MatSelectModule,
@@ -76,7 +78,7 @@ import { PageComponentComponent } from './page-component/page-component.componen
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment),
     AngularFirestoreModule
   ],
   exports: [

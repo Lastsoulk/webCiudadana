@@ -101,10 +101,16 @@
   
 /* Shared */
 .loginBtn {
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     box-sizing: border-box;
     position: relative;
     /* width: 13em;  - apply for fixed size */
     width: 212px;
+   
 
     padding: 0 15px 0 46px;
     border: none;
@@ -114,7 +120,7 @@
     border-radius: 0.2em;
     font-size: 16px;
     color: #FFF;
-    margin-top: 5%;
+    margin-top: 3.5%;
   }
   .loginBtn:before {
     content: "";
@@ -149,3 +155,39 @@
     background-color: #5B7BD5;
     background-image: linear-gradient(#5B7BD5, #4864B1);
   }
+
+  .example-container {
+    position: relative;
+    padding: 5px;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.example-full-width:nth-last-child(0) {
+    margin-bottom: 10px;
+}
+
+.button-row {
+    margin: 10px 0;
+}
+
+.mat-flat-button {
+    margin: 5px;
+}
+
+.botones{
+  margin-top: 5%;
+
+ 
+
+
+  
+}
