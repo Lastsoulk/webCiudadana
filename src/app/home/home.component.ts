@@ -59,6 +59,6 @@ export class CardFancyExample implements OnInit {
        //   "upd" : JSON.stringify(campaignUpdateId)
       }
     };
-    this.router.navigate(["perfil"],  navigationExtras);
+    this.router.navigate(["crearCampana"],  navigationExtras);
   }
 }

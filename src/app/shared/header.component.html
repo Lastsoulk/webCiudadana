@@ -1,56 +1,35 @@
-
-<nav class="navbar navbar-expand-lg navbar-dark cabecera">
-  <a class="navbar-brand" routerLink="/"><img src="https://github.com/AngelJumbo/DAW_BuyAndHelp/blob/master/bootstrap-shop/administrador/resources/logo/logo_index.png?raw=true"  height="50" /></a>
-
-  <button #navbarToggler class="navbar-toggler" routerLink="/"  type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary header">
+  <a class="navbar-brand" id="home" routerLink="/">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
-    </button>
-    
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">		
-      <form class="form-inline waves-light" mdbWavesEffect>
-          <div class="md-form my-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Ingrese búsqueda" aria-label="Search">
-          </div>
-          <div>
-              <button class="btn btn-success btn block" id="inicioBuscar" block="true" routerLink="/perfil"  type="submit">Buscar</button>
-          </div>
-      </form>
+  </button>
 
-
-
-      <div >
-
-              <ul class="navbar-nav mr-auto">		
-                  <li class="nav-item">
-                      <a class="nav-link">
-                        <div class="btn-group" mdbDropdown>
-        
-                        
-        
-        
-                        <a class="nav-link dropdown-toggle waves-light"  id="navbarDropdownMenuLink" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false"></a>
-                        <div class="dropdown-menu dropdown-menu-right dropdown-primary">
-                          <a class="dropdown-item" routerLink="/mis_productos" >Mis Productos</a>
-                          <a class="dropdown-item" routerLink="/mis_productos" >Mi Carrito</a>
-                          <a class="dropdown-item" routerLink="/admin" >Administracion</a>
-                          <a class="dropdown-item" routerLink="/login">Cerrar Sesión</a>
-                        </div>
-        
-                          
-                         
-                        </div>
-                      </a>
-                  </li>
-                </ul>
-          
-      </div>
-    
-    
-
-    
-
-
-        
+  <div class="collapse navbar-collapse " id="mainNavbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" >
+        <a class="nav-link element" routerLink="/campanas">Campañas
+        </a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link element" routerLink="/campanas">Eventos
+        </a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link waves-light element"  routerLink="/perfil">Perfil
+        </a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <!-- <li class="nav-item" //*ngIf="!isLogged"> -->
+ 
+ 
+ 
+      <li class="nav-item" >
+        <a class="nav-link element" routerLink="/login">Login
+        </a>
+      </li>
+  
+    </ul>
   </div>
 </nav>
