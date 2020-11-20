@@ -18,6 +18,7 @@ export class CardFancyExample implements OnInit {
     images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
     myArray: any[] = []
+    events: any[] = []
 
     constructor(
         private firestore: AngularFirestore,
@@ -33,6 +34,14 @@ export class CardFancyExample implements OnInit {
             .subscribe((ss) => {
                 ss.docs.forEach((doc) => {
                     this.myArray.push(doc.data());
+                });
+            });
+        this.firestore
+            .collection("events")
+            .get()
+            .subscribe((ss) => {
+                ss.docs.forEach((doc) => {
+                    this.events.push(doc.data());
                 });
             });
     }
