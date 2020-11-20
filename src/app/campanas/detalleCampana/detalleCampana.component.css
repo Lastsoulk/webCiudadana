@@ -10,6 +10,12 @@
     height: 15%;
     width: 32%;
     border-radius: 8%;
+    margin-top: 2.5%;
+}
+
+#fotoPerfil{
+    width: 550px;
+    height: 350px;
 }
 
 #mainCampana{
@@ -30,4 +36,16 @@
 }
 #textoDetalle{
     margin-left: 1.5%;
+}
+
+#Info{
+    display: flex; 
+    flex-direction: column; 
+    margin: 0 auto;
+
+    width: 55%;
+    margin-top: 5%;
+    justify-content: center;
+    align-items: left;
+
 }

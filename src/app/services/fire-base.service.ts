@@ -13,6 +13,16 @@ export class FireBaseService {
   getCampañas() {
     return this.firestore.collection("Campañas").snapshotChanges();
   }
+
+  getCampañas1() {
+    return this.firestore.collection("campaignUpdates").snapshotChanges();
+  }
+
+  public getOriginalCampaignById(campaign_id: any) {
+    return this.firestore.collection("campaigns").doc(campaign_id).snapshotChanges();
+  }
+
+
 }
 
 export interface ICampaña {
@@ -22,4 +32,8 @@ export interface ICampaña {
   TipoPromotor: string;
   Promotor: string;
   Descripcion: string
+}
+
+export interface IUser{
+  
 }

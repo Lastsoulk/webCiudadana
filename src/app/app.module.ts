@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { firebaseConfig } from '../environments/environment';
+import { environment } from '../environments/environment';
 
 //import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -48,7 +48,7 @@ import { AngularFireModule } from '@angular/fire';
     PageComponentComponent
   ],
   imports: [
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(environment),
     AngularFireAuthModule,
     MatSelectModule,
     MatFormFieldModule,

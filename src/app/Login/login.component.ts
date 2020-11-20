@@ -31,6 +31,14 @@ export class Login {
         private AuthService: AuthService
     ) { }
 
+//     async ngOnInit() {
+//      const user = await this.AuthService.getCurrentUser();
+//      if (user) {
+//         this.logeado = true;
+//        console.log('user->', user);
+//       }
+//    }
+
 
     matcher = new MyErrorStateMatcher();
     loginForm = new FormGroup({
@@ -66,15 +74,18 @@ async loginFacebook(){
 
 async onLogin() {
     const { email, password } = this.loginForm.value;
+
     console.log('holi');
     try {
         const user = await this.AuthService.login(email, password);
+      //  localStorage.setItem('usuarioLogeado',user);
+
         console.log('estamos aqui 1');
         console.log(user);
         if (user) {
             this.AuthService.isUserAdmin(user.user.uid).subscribe((res) => {
                 console.log('estamos aqui');
-
+                
 
                 Swal.fire("Inicio de sesión exitoso.", "Ingreso correcto", "success");
                 this.router.navigate(['home']);

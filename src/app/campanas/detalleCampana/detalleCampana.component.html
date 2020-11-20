@@ -1,16 +1,23 @@
-<div id="titulo"> <h3>Titulo de la campaña</h3></div>
+<div id="titulo"> 
+    <h3>{{originalCampaign.name}}</h3>
+</div>
 <!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
 <div id="mainCampana">
-    <div id="campanaFoto"><img mat-card-image id="fotoPerfil" src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"></div>
+    <div id="campanaFoto"><img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu"></div>
     <div id="descripcion">
     <p id="textoDetalle">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+       {{originalCampaign.description}}
     </p>
 </div>
 
+
+</div>
+<div id="Info">
+    <h4>Nombre del promotor: {{originalCampaign.promoter.name}}</h4>
+    <h4>Numero de seguidores: {{originalCampaign.numFollowers}}</h4>
+    <h4>Fecha de inicio: {{originalCampaign.dateStart}}</h4>
+    <h4>Fecha de finalizacion: {{originalCampaign.dateEnd}}</h4>
 
 </div>
 

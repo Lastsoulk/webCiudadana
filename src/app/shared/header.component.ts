@@ -17,6 +17,7 @@ export class Header{
   nameUsuario: string = '';
   isCollapsed = false;
   logeado = false;
+  public usuario;
   public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
 
   constructor(
@@ -31,11 +32,15 @@ export class Header{
 
   async ngOnInit() {
      const user = await this.AuthService.getCurrentUser();
-     if (user) {
-        this.logeado = true;
-       console.log('user->', user);
-      }
+     this.user$.subscribe(res=>{
+       this.usuario = res;
+     }
+     )
+     
+       
+      
    }
+
 
    
    async logOut() {
@@ -44,7 +49,7 @@ export class Header{
       localStorage.clear();
       this.router.navigate(['/login']);
       this.logeado = false;
-      this.user$=null;
+      this.usuario=null;
      } catch (error) {
        console.log(error);
      }

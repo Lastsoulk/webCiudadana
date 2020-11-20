@@ -58,16 +58,16 @@ export class CardFancyExample implements OnInit {
 
 
 
-    redirectCampaignDetail() {
+    cambiarPestana(pestana) {
         //     let campaignId = value.campaignId;
         //   //  let campaignUpdateId = value.campaignUpdateId;
         //     let data = {'camp':campaignId}//'upd':campaignUpdateId}
         let navigationExtras: NavigationExtras = {
             queryParams: {
-                "crearCampana": 'login',
+                pestana: pestana,
                 //   "upd" : JSON.stringify(campaignUpdateId)
             }
         };
-        this.router.navigate(["crearCampana"], navigationExtras);
+        this.router.navigate([pestana], navigationExtras);
     }
 }

@@ -1,8 +1,9 @@
 <div id="campañareciente">Campañas Recientes</div>
 <div style="width:230px;height:5px; background: #00A6FF;margin-left: 4.5em;"></div>
 
-<div style="display: flex;margin-left: 5em;margin-right: 5em;margin-top: 1em;margin-bottom: 1em;">
+<div ng-repeat="(key, value) in myArray" style="display: flex;margin-left: 5em;margin-right: 5em;margin-top: 1em;margin-bottom: 1em;">
     <div class="col-md-4" style="margin-right: 2em;">
+
         <mat-card style="margin-right: 2em;" class="example-card">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
@@ -56,7 +57,7 @@
                 </p>
             </mat-card-content>
             <mat-card-actions style="float: none;text-align: center;">
-                <button style="width: 20em;height: 3em;font-size: medium;" (click)="redirectCampaignDetail()" mat-raised-button>Comienza Aquí</button>
+                <button style="width: 20em;height: 3em;font-size: medium;" (click)="cambiarPestana('crearCampana')" mat-raised-button>Comienza Aquí</button>
             </mat-card-actions>
         </mat-card>
     </div>
