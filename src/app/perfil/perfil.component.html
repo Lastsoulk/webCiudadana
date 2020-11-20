@@ -8,15 +8,15 @@
     <h3>Datos Personales</h3>
 
     <h4 class="infoUsuario">Nombre</h4>
-    <h5 class="textoUsuario">Adan Jose</h5>
+    <h6 class="textoUsuario" *ngIf="user$ | async as user">{{ user?.profilePic }}</h6>
 
 
     <h4 class="infoUsuario">Apellido</h4>
-    <h5 class="textoUsuario">Navarrete Mora</h5>
+    <h5 class="textoUsuario"></h5>
 
 
-    <h4 class="infoUsuario">Direccion</h4>
-    <h5 class="textoUsuario">Espol</h5>
+    <h4 class="infoUsuario">Correo</h4>
+    <h6 class="textoUsuario" *ngIf="user$ | async as user">{{ user?.email }}</h6>
 
 
 </div>
