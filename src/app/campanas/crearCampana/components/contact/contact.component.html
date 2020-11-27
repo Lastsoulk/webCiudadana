@@ -1,0 +1,28 @@
+<div ngModelGroup="{{modelGroupName}}">
+    <div>
+        <div style="color: #2a3eb1;font-size: medium;margin-bottom: 0.2em;">¿Cómo quieres que se llame tu campaña?</div>
+        <mat-form-field fxFlex="45" style="width: 50%;">
+            <input matInput #nameCampaign placeholder="Nombre de Campaña" name="nameCampaign" required ngModel i18n-placeholder  maxlength="80">
+            <mat-error *ngIf="nameCampaign.value.length==0">
+                Por favor, ingresa un nombre
+              </mat-error>
+            <mat-hint align="end">{{nameCampaign.value.length}} / 80</mat-hint>
+        </mat-form-field>
+        <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;">¿A qué autoridad va dirigida tu campaña?</div>
+        <mat-form-field appearance="fill" style="margin-top: 0.7em;width: 50%;">
+            <mat-label>Autoridad</mat-label>
+            <mat-select required>
+                <ng-container *ngFor="let autoridad of autoridades">
+                    <mat-option required  [value]="autoridad.viewValue" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
+                        <span>{{autoridad.viewValue}}<br /></span> 
+                        <small class="text-grey">  {{autoridad.posicion}}</small>
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+        <div class="example-button-row">
+            <button matStepperNext mat-raised-button style="background-color: #3f51b5;color: white;">Siguiente</button>
+            <button mat-button color="warn" style="margin-left: 2em;" [routerLink]="'/home'">Cancelar</button>
+        </div>
+    </div>
+</div>
