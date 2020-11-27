@@ -14,8 +14,24 @@ export class FireBaseService {
     return this.firestore.collection("Campañas").snapshotChanges();
   }
 
-  getCampañas1() {
+  getCampanasActivas(){
     return this.firestore.collection("campaignUpdates").snapshotChanges();
+  }
+
+  getCampañas1(id:String="") {
+      if(id=="todas"){
+        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2")).snapshotChanges();
+      }
+      else if(id=="negadas"){
+        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.rejected","==",true)).snapshotChanges();
+      }else if(id=="pendientes"){
+        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.waiting",'==',true)).snapshotChanges();
+      }else if(id=="aprobadas"){
+        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.approved",'==',true)).snapshotChanges();
+      }else{
+         return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2")).snapshotChanges();
+      }
+    //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
 
   public getOriginalCampaignById(campaign_id: any) {

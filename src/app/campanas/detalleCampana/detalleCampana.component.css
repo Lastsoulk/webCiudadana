@@ -3,37 +3,65 @@
     align-items: center;
     align-content: center;
     margin-top: 2%;
-    margin-bottom: 2%;
+    margin-bottom: 1.5%;
 }
 
 #campanaFoto{
-    height: 15%;
+
     width: 32%;
-    border-radius: 8%;
-    margin-top: 2.5%;
+    height: 550px;
+    border-radius: 7.5%;
+    margin-top: 1.5%;
+    
+    margin-right: 2;
 }
 
 #fotoPerfil{
-    width: 550px;
-    height: 350px;
+    width: 85%;
+    height: 85%;
+    border-radius: 7.5%;
+    
 }
 
 #mainCampana{
+    margin: 0 auto;
     display: flex; 
     flex-direction: row; 
     align-items: center;
-    width: 85%;
+    width: 95%;
     justify-content: center;
     align-content: center;
-    margin-left: 7.5%;
+    height: 75%;
+    
+    /* margin-left: 7.5%; */
     
 
 }
-#descripcion{
-    margin-left: 2.5%;
-    width: 62%;
-    text-align: center;
+
+.titulos{
+    align-items: left;
+    font-weight: bold;
+    font-size: 19px;
 }
+.textoDetalle{
+    font-size: 15px;
+    text-align: left;
+}
+
+#descripcion{
+    text-align: left;
+}
+#divChat{
+    display: flex; 
+    margin: 0 auto;
+    margin-top: 1%;
+}
+#botonChat{
+    margin: 0 auto;
+}
+/* 
+
+
 #textoDetalle{
     margin-left: 1.5%;
 }
@@ -42,10 +70,8 @@
     display: flex; 
     flex-direction: column; 
     margin: 0 auto;
-
     width: 55%;
     margin-top: 5%;
     justify-content: center;
     align-items: left;
-
-}
+} */

@@ -8,7 +8,7 @@
     <h3>Datos Personales</h3>
 
     <h4 class="infoUsuario">Nombre</h4>
-    <h6 class="textoUsuario" *ngIf="user$ | async as user">{{ user?.profilePic }}</h6>
+    <h6 class="textoUsuario" *ngIf="user$ | async as user">{{ user?.id }}</h6>
 
 
     <h4 class="infoUsuario">Apellido</h4>
@@ -20,7 +20,7 @@
 
 
 </div>
-
+<!-- 
 <div id="campañareciente">Mis campañas</div>
 <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;margin-bottom: 0.5em;"></div>
 
@@ -159,4 +159,4 @@
         </mat-card>
     </mat-grid-tile>
 </mat-grid-list>
-
+ -->

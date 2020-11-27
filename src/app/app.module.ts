@@ -18,7 +18,9 @@ import { Header } from './shared/header.component';
 import { Perfil } from './perfil/perfil.component';
 import { DetalleCampana } from './campanas/detalleCampana/detalleCampana.component';
 import { CrearCampana } from './campanas/crearCampana/crear_campana.component';
+import { ChatComponent } from './chat/chat.component';
 import { Campana } from './campanas/campanas/campanas.component';
+import { misCampanas } from './campanas/misCampanas/misCampanas.component';
 import { Login } from './Login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,6 +33,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { PageComponentComponent } from './page-component/page-component.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
+import { HttpClientModule } from '@angular/common/http';
+// import { firestore } from 'firebase';
 
 import { ContactComponent } from './campanas/crearCampana/components/contact/contact.component';
 import { AddressComponent } from './campanas/crearCampana/components/address/address.component';
@@ -109,6 +113,7 @@ import { AngularImgComponent } from './campanas/crearCampana/components/successi
     MatDatepickerModule,
     MatStepperModule,
     AngularFireModule.initializeApp(environment),
+    HttpClientModule,
     AngularFireAuthModule,
     MatSelectModule,
     MatFormFieldModule,

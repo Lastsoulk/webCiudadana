@@ -1,0 +1,122 @@
+<div class="row text-center pt-10">
+  <div class="col-12">
+    <h1> Eventos</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <nav class="navbar-light" aria-label="breadcrumb" style="background-color: #e3f2fd;">
+      <ol class="breadcrumb" style="background-color: #e3f2fd;">
+        <li class="breadcrumb-item">Eventos</li>
+        <a class="breadcrumb-item" routerLink="/home/eventos">Listado de eventos</a>
+        <li class="breadcrumb-item active" aria-current="page">Detalle de eventos</li>
+
+      </ol>
+    </nav>
+  </div>
+</div>
+<section id="campaign-title">
+  <div class="container">
+    <h2 class="section-title text-center">{{campaignObject?.name}}</h2>
+  </div>
+</section>
+<div class="container">
+  <div class="row">
+    
+    <mat-card-content class="col-md-3 col-xs-3">
+      <img mat-card-image src="{{campaignObject?.campaignPic}} " alt="Foto del campaña">
+    </mat-card-content >
+    <div class="col-md-9 col-xs-9 text-align-left;">
+      <h3 style="text-align: center;">Información de la campaña</h3>
+
+      <div class="text-align-left;">
+        <h4 class="promotor" style="color:cadetblue;">{{campaignObject?.promoter?.name}} </h4>
+        <p class="fecha">{{campaignObject?.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{campaignObject?.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
+        <h6 class="" style="color:rgb(10, 41, 180);"> {{campaignObject?.authority?.name}}</h6>
+        <h6 class="" style="color:cadetblue;">{{campaignObject?.zone?.name}} </h6>
+        <h6>{{campaignObject?.numFollowers}} <i class="fa fa-heart" style="color: red;"></i></h6>
+        <h6 *ngIf="campaignObject?.state?.waiting == true" style="color:rgba(9, 134, 9, 0.699)"> En espera </h6>
+        <h6 *ngIf="campaignObject?.state?.running == true" style="color:rgba(9, 134, 9, 0.699)"> Activa </h6>
+
+       
+        <div class="row" style="padding: 10px; text-align: justify;">
+          <p class="mensaje" style="padding: 5px;">{{campaignObject?.description}} </p>
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+  
+  
+</div>
+
+
+<div class="col-12 pt-20 pb-10">
+  <h3>Eventos relacionados</h3>
+  <ng-container matColumnDef="acciones">
+    <button type="button" class="btn btn-primary btn-sm" (click)="redirectEventDetailEdit()">Editar evento</button>
+</ng-container>
+</div>
+
+<mat-card class="example-card mat-elevation-z8">
+  <mat-card-header>
+    <div mat-card-avatar *ngIf= "eventObject?.type == 'convocatoria'" class="convocatoria-image"></div>
+    <div mat-card-avatar *ngIf= "eventObject?.type == 'noticia'" class="noticia-image"></div>
+    <mat-card-title *ngIf= "eventObject?.type == 'convocatoria'">CONVOCATORIA</mat-card-title>
+    <mat-card-title *ngIf= "eventObject?.type == 'noticia'">NOTICIA</mat-card-title>
+    <mat-card-subtitle>{{eventObject?.name}} </mat-card-subtitle>
+  </mat-card-header>
+  <div class="row">
+  <mat-card-content class="col-md-3 col-xs-3">
+    <img mat-card-image src="{{eventObject?.eventPic}}" alt="Foto del evento">
+  </mat-card-content >
+  <mat-card-content class="col-md-9 col-xs-9">
+    <h6 *ngIf="eventObject?.state?.waiting == true" style="color: rgba(9, 134, 9, 0.699);" > En espera </h6>
+    <h6 *ngIf="eventObject?.state?.running == true" style="color: rgba(22, 96, 233, 0.699);" > Aprobado </h6>
+    <h6 *ngIf="eventObject?.state?.rejected == true" style="color: rgba(231, 10, 10, 0.699);" > Rechazado </h6>
+
+    <mat-card-subtitle>{{(eventObject?.type == "convocatoria") ? (eventObject?.dateEvent.seconds * 1000 | date:'MM-dd-yyyy') : (eventObject?.dateCreate.seconds * 1000 | date:'MM-dd-yyyy')}} </mat-card-subtitle>
+    <h6>{{eventObject?.notified}} <i class="fa fa-users" style="color:cadetblue"></i></h6>
+
+    <p>
+      {{eventObject?.description}}
+    </p>
+    <p style="color: red;">
+      {{eventObject?.denyReason}}
+    </p>
+  </mat-card-content>
+
+  
+</div>
+
+
+  <mat-card-actions class="text-center pt-10 mt-10" *ngIf="eventObject?.state?.waiting==true">
+    <button class="btn btn-success btn-lg mb-2 mr-5 float-center" style="color:white" mat-button (click)="approveEvent()" color="primary" >APROBAR EVENTO</button>
+    <button class="btn btn-danger btn-lg mb-2 mr-5 float-center" style="color:white" mat-button  (click)="denyEvent()" color="warn">RECHAZAR EVENTO</button>
+
+  </mat-card-actions>
+  <mat-card-actions class="text-center pt-10 mt-10" *ngIf="eventObject?.state?.running==true">
+    <button class="btn btn-danger btn-lg mb-2 mr-5 float-center" style="color:white" mat-button  (click)="denyEvent()" color="warn">RECHAZAR EVENTO</button>
+
+  </mat-card-actions>
+  <mat-card-actions class="text-center pt-10 mt-10" *ngIf="eventObject?.state?.rejected==true">
+    <button class="btn btn-success btn-lg mb-2 mr-5 float-center" style="color:white"  mat-button  (click)="approveEvent()" color="warn">APROBAR EVENTO</button>
+
+  </mat-card-actions>
+ 
+  <!-- CHAT -->
+ 
+  <button *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
+  <ng-container *ngIf="mostrar_chat">
+    <button (click)="mostrar_chat=false">Ocultar Chat</button>
+        <!-- Componente chat -->
+
+          <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
+  </ng-container>
+
+  <!-- FIN CHAT -->
+
+  
+</mat-card>
