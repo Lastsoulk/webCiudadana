@@ -1,0 +1,77 @@
+
+  <!-- Material Design Lite -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <!-- App Styling -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+<div id="messages-card-container" class="mdl-cell mdl-cell--12-col mdl-grid">
+  <!-- CHAT -->
+  
+
+  <ng-container >
+    <div #scrollMe *ngIf="conversaciones.length!=0;else elsechat" style="width: 100%;min-height:10px;max-height: 300px; overflow-y: scroll;">
+      <div class="container darker">
+        <div #messageContainer *ngFor="let mensaje of conversaciones">
+          <div *ngIf="mensaje.sender_user=='admin';else elsemensaje">
+              <div class="menssage-left">{{mensaje.message}}
+                <span class="time-left">{{mensaje.timestamp*1000 | date: 'HH:mm'}}</span>
+              </div>
+          </div>
+          <ng-template #elsemensaje>
+            <div  *ngIf="mensaje.sender_user=='user'">
+              <div class="menssage-right">{{mensaje.message}}
+                <span class="time-right">{{mensaje.timestamp*1000 | date: 'HH:mm'}}</span>
+              </div>
+            </div>
+          </ng-template>    
+          </div>
+      </div>
+        
+        <!-- Fin componente chat -->
+    </div>
+    <ng-template #elsechat>
+        <p>
+          NO TIENES MENSAJES
+        </p>
+    </ng-template> 
+  </ng-container>
+  
+  <!-- FIN CHAT -->
+    <!-- Messages container -->
+    <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--12-col-desktop">
+       <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+      <div id="messages">
+        </div>
+        
+        <form id="message-form" action="#">
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input  *ngIf="status" #message [(value)]="mensaje" (keyup)="toogle_buton($event)" (change)="toogle_buton($event)"  class="mdl-textfield__input" type="text" id="message" autocomplete="off">
+            <input  *ngIf="!status" disabled class="mdl-textfield__input" type="text" id="message" autocomplete="off">
+            <div *ngIf="status">
+              <label *ngIf="disabled" class="mdl-textfield__label" for="message">Mensaje...</label>
+            </div>
+
+            <!-- <div *ngIf="!status">
+              <label *ngIf="disabled" class="mdl-textfield__label" for="message">Chat Bloqueado</label>
+            </div> -->
+          </div>
+          
+          <button *ngIf="status" [disabled]="disabled " id="submit"  type="submit" (click)="sendMessage()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+            Enviar
+          </button>
+          <!-- bloqueo  -->
+        <!-- <button *ngIf="status"(click)="this.statusConversations(false)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Bloquear</button>
+        <button *ngIf="!status"(click)="this.statusConversations(true)" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Desbloquear</button> -->
+
+        </form>
+      </div>
+    </div>
+
+    <div id="must-signin-snackbar" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
+  </div>

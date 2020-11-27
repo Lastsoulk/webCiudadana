@@ -4,21 +4,41 @@
 <!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
 <div id="mainCampana">
-    <div id="campanaFoto"><img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu"></div>
+    <div id="campanaFoto">
+        <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
+    </div>
     <div id="descripcion">
-    <p id="textoDetalle">
-       {{originalCampaign.description}}
-    </p>
+        <p class="titulos">Descripcion de la campaña</p>
+        <p class="textoDetalle">{{originalCampaign.description}}</p>
+        <p class="titulos">Promotor de la campaña</p>
+        <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
+        <p class="titulos">Numero de seguidores</p>
+        <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
+        <p class="titulos">Inicio-Fin de la campaña</p>
+        <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
+    
+    </div>
 </div>
 
 
-</div>
+<!-- </div>
 <div id="Info">
     <h4>Nombre del promotor: {{originalCampaign.promoter.name}}</h4>
     <h4>Numero de seguidores: {{originalCampaign.numFollowers}}</h4>
-    <h4>Fecha de inicio: {{originalCampaign.dateStart}}</h4>
-    <h4>Fecha de finalizacion: {{originalCampaign.dateEnd}}</h4>
 
+    <p class="fecha">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p> -->
+    <!-- <h4>Fecha de inicio: {{originalCampaign.dateStart}}</h4>
+    <h4>Fecha de finalizacion: {{originalCampaign.dateEnd}}</h4> -->
+
+<!-- </div> *ngIf="!status" -->
+
+<div *ngIf="miCampanaNegada" id="divChat">
+    <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
+    <ng-container *ngIf="mostrar_chat">
+        <button (click)="mostrar_chat=false">Ocultar Chat</button>
+        
+ 
+           <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
+</ng-container>
 </div>
-
 

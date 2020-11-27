@@ -53,7 +53,7 @@ export class Campana {
     // }
 
     getCampaigns(): void {
-        this.firestoreService.getCampañas1().subscribe((campaignsSnapshot) => {
+        this.firestoreService.getCampanasActivas().subscribe((campaignsSnapshot) => {
         this.campaigns = [];
         this.categories = [];
         campaignsSnapshot.forEach((campaign: any) => {
@@ -69,6 +69,7 @@ export class Campana {
           categories: campaign.payload.doc.data().categories,
           dateStart: campaign.payload.doc.data().dateStart,
           numFollowers: campaign.payload.doc.data().numFollowers,
+          state: campaign.payload.doc.data().state,
           //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
 
         });
@@ -110,11 +111,14 @@ export class Campana {
     
     redirectCampaignDetail(value){
         let campaignId = value.campaignId;
+      //  console.log("aqui abajo",bandera)
   
    
         let navigationExtras: NavigationExtras = {
         queryParams: {
           "camp": JSON.stringify(campaignId),
+          "misCampanas":false,
+          // "estadoNegado": bandera,
          
                     }
         };
