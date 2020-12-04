@@ -28,7 +28,6 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { PageComponentComponent } from './page-component/page-component.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
@@ -81,6 +80,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogContentExampleDialog } from './campanas/crearCampana/dialog.component';
 import { AngularImgComponent } from './campanas/crearCampana/components/successicon/success-icon.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -102,7 +102,8 @@ import { AngularImgComponent } from './campanas/crearCampana/components/successi
     SymptomComponent,
     AddressComponent,
     ContactComponent,
-    DialogContentExampleDialog
+    DialogContentExampleDialog,
+    misCampanas
   ],
   imports: [
     NoopAnimationsModule,
@@ -116,7 +117,6 @@ import { AngularImgComponent } from './campanas/crearCampana/components/successi
     HttpClientModule,
     AngularFireAuthModule,
     MatSelectModule,
-    MatFormFieldModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -164,6 +164,7 @@ import { AngularImgComponent } from './campanas/crearCampana/components/successi
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    MatFormFieldModule
   ],
   exports: [
     MatToolbarModule,
