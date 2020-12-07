@@ -9,6 +9,7 @@ import { Campana } from './campanas/campanas/campanas.component';
 import { misCampanas } from './campanas/misCampanas/misCampanas.component';
 import { Login } from './Login/login.component';
 import { CardFancyExample } from './home/home.component';
+import { eventosComponent } from './eventos/eventos.component';
 
 
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'detalleCampana', component: DetalleCampana },
   { path: 'login', component: Login },
   { path: 'misCampanas', component: misCampanas },
+  { path: 'eventos', component: eventosComponent },
 
 ];
 

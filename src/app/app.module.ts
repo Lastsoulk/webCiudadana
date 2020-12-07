@@ -81,6 +81,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogContentExampleDialog } from './campanas/crearCampana/dialog.component';
 import { AngularImgComponent } from './campanas/crearCampana/components/successicon/success-icon.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { eventosComponent } from './eventos/eventos.component';
 
 
 
@@ -88,6 +89,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
+    eventosComponent,
     AngularImgComponent,
     AppComponent,
     TabGroupAlignExample,
