@@ -12,13 +12,17 @@
         </a>
       </li>
       <li class="nav-item" >
-        <a class="nav-link element" routerLink="/campanas">Eventos
+        <a class="nav-link element" routerLink="/eventos">Eventos
         </a>
       </li>
-      <li class="nav-item" *ngIf="usuario">
+      <li class="nav-item" >
+        <a class="nav-link element" routerLink="/nosotros">Nosotros
+        </a>
+      </li>
+      <!-- <li class="nav-item" *ngIf="usuario">
         <a class="nav-link waves-light element"  routerLink="/perfil">Perfil
         </a>
-      </li>
+      </li> -->
 
    
 
@@ -35,7 +39,8 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           
-            <a class="dropdown-item" routerLink="/misCampanas">Mis campanas</a>
+            <a class="dropdown-item" routerLink="/misCampanas">Mis campañas</a>
+            <a class="dropdown-item" routerLink="/perfil">Mi Perfil</a>
             <a class="dropdown-item" (click)= "logOut()">Cerrar sesión</a>
           </div>
         </li>

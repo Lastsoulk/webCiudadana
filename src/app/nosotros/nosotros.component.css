@@ -1,0 +1,29 @@
+
+  
+  #tituloPerfil{
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 2.5%;
+  }
+  
+  #fotoPerfil{
+  height: 10%;
+  width: 25%;
+  border-radius: 10%;
+  }
+  
+  #divFoto{
+  margin-top: 2%;
+  text-align: center;
+  }
+  
+  #datosUsuario{
+  text-align: center;
+  margin-top: 2.55%;
+  margin-bottom: 3.5%;
+  }
+  
+  .infoUsuario{
+  margin-top: 1.2%;
+  }

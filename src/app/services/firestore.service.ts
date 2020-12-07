@@ -16,11 +16,17 @@ export class FirestoreService {
 
   //get campaigns from campaignUpdates that are in waiting state
   public getCampaigns() {
-/*     return this.firestore.collection("campaignUpdates", ref => ref.where('state.waiting', '==', true)).snapshotChanges();
- */  
+
       return this.firestore.collection("campaignUpdates").snapshotChanges();
 
-}
+  }
+
+   public getEvents() {
+
+      return this.firestore.collection("events").snapshotChanges();
+
+  }
+
 
   //get campaign by id
   public getOriginalCampaignById(campaign_id: any) {

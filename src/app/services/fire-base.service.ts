@@ -38,6 +38,18 @@ export class FireBaseService {
     return this.firestore.collection("campaigns").doc(campaign_id).snapshotChanges();
   }
 
+  public getEventById(event_id: any) {
+    //console.log(this.firestore.collection("events").doc(event_id).snapshotChanges());
+    return this.firestore.collection("events").doc(event_id).snapshotChanges();
+    //return this.firestore.collection("events", ref => ref.where("campaignId",'==',event_id)).snapshotChanges();
+  }
+
+    public getEvents() {
+
+      return this.firestore.collection("events", ref => ref.where("state.running",'==',true)).snapshotChanges();
+
+  }
+
 
 }
 

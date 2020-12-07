@@ -1,0 +1,21 @@
+<div id="titulo"> 
+    <h3>{{evento.name}}</h3>
+</div>
+
+<div id="mainCampana">
+    <div id="campanaFoto">
+        <img mat-card-image id="fotoPerfil" src={{evento.eventPic}} alt="Photo of a Shiba Inu">
+    </div>
+    <div id="descripcion">
+        <p class="titulos">Descripcion del evento</p>
+        <p class="textoDetalle">{{evento.description}}</p>
+        <p class="titulos">Dia del evento</p>
+        <p class="textoDetalle">{{evento.dateEvent | date:'yyyy/MM/dd'}}</p>
+      
+    
+    </div>
+</div>
+
+
+
+

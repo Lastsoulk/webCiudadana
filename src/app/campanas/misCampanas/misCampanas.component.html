@@ -23,6 +23,8 @@
 
 
 
+
+
 <mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;">
     <mat-grid-tile *ngFor="let key of campaigns">
         <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectCampaignDetail({campaignId: key.campaignId})">
@@ -42,11 +44,10 @@
                     <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
 
                     
-                    <p style="font-size: 17.2px;" *ngIf="key.state.rejected">Estado: Negada</p>
-                    <p style="font-size: 17.2px;" *ngIf="key.state.waiting">Estado: En espera</p>
-                    <p style="font-size: 17.2px;" *ngIf="key.state.approved">Estado: En espera</p>
+                    <p style="font-size: 17.2px; color:red " *ngIf="key.state.rejected" >Estado: Negada</p>
+                    <p style="font-size: 17.2px; color: yellow" *ngIf="key.state.waiting">Estado: Pendiente</p>
+                    <p style="font-size: 17.2px; color: green" *ngIf="key.state.approved">Estado: Aprobada</p>
      
-    
                 </div>
             </div>
             

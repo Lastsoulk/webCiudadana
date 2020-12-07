@@ -13,9 +13,10 @@ import { TabGroupAlignExample } from './tab/tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardFancyExample } from './home/home.component';
 
-
+//import {EventDetailComponent} from './event-detail/event-detail.component';
 import {Header} from './shared/header.component';
 import { Perfil } from './perfil/perfil.component';
+import { Nosotros } from './nosotros/nosotros.component';
 import { DetalleCampana } from './campanas/detalleCampana/detalleCampana.component';
 import { CrearCampana } from './campanas/crearCampana/crear_campana.component';
 import { ChatComponent } from './chat/chat.component';
@@ -34,6 +35,9 @@ import { PageComponentComponent } from './page-component/page-component.componen
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
+import { Eventos } from './eventos/eventos/evento.component';
+import { DetalleEvento } from './eventos/detalleEvento/detalleEvento.component';
+import { RegistrarUsuario } from './cuenta/registrarUsuario/registrarUsuario.component';
 // import { firestore } from 'firebase';
 
 
@@ -51,7 +55,12 @@ import { HttpClientModule } from '@angular/common/http';
     Campana,
     PageComponentComponent,
     ChatComponent,
-    misCampanas
+    misCampanas,
+    Nosotros,
+    Eventos,
+    DetalleEvento,
+    RegistrarUsuario
+   // EventDetailComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment),
