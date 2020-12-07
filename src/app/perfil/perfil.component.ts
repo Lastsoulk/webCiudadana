@@ -8,24 +8,24 @@ import firebase from "firebase/app"
  */
 
 @Component({
-    selector: 'perfil',
-    templateUrl: './perfil.component.html',
-    styleUrls: ['./perfil.component.css'],
+  selector: 'perfil',
+  templateUrl: './perfil.component.html',
+  styleUrls: ['./perfil.component.css'],
 })
 export class Perfil {
-    images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
-    public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
+  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
 
-    constructor(
+  constructor(
     private AuthService: AuthService,
 
   ) {
-    
-   }
 
-    async ngOnInit() {
-     const user = await this.AuthService.getCurrentUser();
-     console.log(user);
-  
-   }
+  }
+
+  async ngOnInit() {
+    const user = await this.AuthService.getCurrentUser();
+    console.log(user.displayName);
+
+  }
 }

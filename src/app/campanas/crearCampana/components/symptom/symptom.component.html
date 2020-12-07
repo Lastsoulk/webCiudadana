@@ -1,0 +1,17 @@
+<div ngModelGroup="{{modelGroupName}}">
+    <div>
+        <div style="color: #2a3eb1;font-size: medium;margin-bottom: 0.2em;">Añada una descripción corta</div>
+        <mat-form-field fxFlex="45" style="width: 50%;">
+            <input matInput #descriptionCampaign placeholder="Descripción" name="descriptionCampaign" required ngModel i18n-placeholder  maxlength="200">
+            <mat-error *ngIf="descriptionCampaign.value.length==0">
+                Por favor, ingresa un nombre
+              </mat-error>
+            <mat-hint align="end">{{descriptionCampaign.value.length}} / 200</mat-hint>
+        </mat-form-field>
+        
+        <div class="example-button-row">
+            <button matStepperNext mat-raised-button style="background-color: #3f51b5;color: white;">Siguiente</button>
+            <button matStepperPrevious mat-button color="warn" style="margin-left: 2em;">Anterior</button>
+        </div>
+    </div>
+</div>

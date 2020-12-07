@@ -13,6 +13,7 @@ import { misCampanas } from './campanas/misCampanas/misCampanas.component';
 import { Login } from './Login/login.component';
 import { CardFancyExample } from './home/home.component';
 import { RegistrarUsuario } from './cuenta/registrarUsuario/registrarUsuario.component';
+import { eventosComponent } from './eventos/eventos.component';
 
 
 
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'nosotros', component: Nosotros },
   { path: 'eventos', component: Eventos },
   { path: 'registrarUsuario', component: RegistrarUsuario },
+  { path: 'eventos', component: eventosComponent },
 
 ];
 
