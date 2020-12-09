@@ -14,7 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardFancyExample } from './home/home.component';
 
 //import {EventDetailComponent} from './event-detail/event-detail.component';
-import {Header} from './shared/header.component';
+import { Header } from './shared/header.component';
 
 
 import { Perfil } from './perfil/perfil.component';
@@ -113,12 +113,13 @@ import { eventosComponent } from './eventos/eventos.component';
     Eventos,
     DetalleEvento,
     RegistrarUsuario,
-   // EventDetailComponent
+    // EventDetailComponent
     SymptomComponent,
     AddressComponent,
     ContactComponent,
     DialogContentExampleDialog,
-    misCampanas
+    misCampanas,
+    ChatComponent
   ],
   imports: [
     NoopAnimationsModule,

@@ -36,8 +36,6 @@
     <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
     <ng-container *ngIf="mostrar_chat">
         <button (click)="mostrar_chat=false">Ocultar Chat</button>
-        
- 
            <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
 </ng-container>
 </div>
