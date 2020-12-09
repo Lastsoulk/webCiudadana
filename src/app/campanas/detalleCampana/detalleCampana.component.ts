@@ -37,6 +37,8 @@ export class DetalleCampana {
 
     public conversation={}
     public mostrar_chat:boolean = false;
+
+
     public miCampanaNegada:boolean;
     public misCampanas:boolean;
 
@@ -56,13 +58,15 @@ export class DetalleCampana {
 
         this.campaignId = this.params.camp.replace("\"","");   
         this.campaignId = this.campaignId.toString().substring(0,this.campaignId.length-1);
-        this.misCampanas = this.params.misCampanas;
-        console.log("detalle campana hola: ",this.miCampanaNegada);
+        this.miCampanaNegada = this.params.estadoCampana;
+       // this.misCampanas = this.params.misCampanas;
+        //console.log("detalle campana hola: ",this.miCampanaNegada);
 // this.campaignUpdateId = this.params.upd;
 //  this.campaignUpdateId = this.params.upd.replace("\"","");   
 //  this.campaignUpdateId = this.campaignUpdateId.toString().substring(0,this.campaignUpdateId.length-1)
 
     console.log("this.campaignId", this.campaignId);
+    console.log("estamos con el valor de aca: ", this.miCampanaNegada);
   }
 
    ngOnInit(): void {
@@ -76,11 +80,9 @@ export class DetalleCampana {
 
   getOriginalCampaignById(campaignId) {
     this.firestoreService.getOriginalCampaignById(campaignId).subscribe((campaignSnapshot) => {
-    this.originalCampaign = campaignSnapshot.payload.data();
-   // this.categoriesOriginal = campaignSnapshot.payload.data()['categories']
+        this.originalCampaign = campaignSnapshot.payload.data();
 
-    // console.log("this.categoriesOriginal", this.categoriesOriginal)
-     console.log("this.originalCampaign", this.originalCampaign);
+        console.log("this.originalCampaign", this.originalCampaign);
 
     }, (error) => {
       console.log(error)

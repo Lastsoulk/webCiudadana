@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormControl, FormGroupDirective, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthService } from '../services/auth.service';
 import Swal from 'sweetalert2';
+import { NavigationExtras, Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -65,7 +65,7 @@ export class Login {
 } */
 
 async loginGoogle(){
-this.AuthService.loginGoogle();
+    this.AuthService.loginGoogle();
 }
 
 async loginFacebook(){
@@ -80,18 +80,7 @@ async onLogin() {
         const user = await this.AuthService.login(email, password);
       //  localStorage.setItem('usuarioLogeado',user);
 
-        console.log('estamos aqui 1');
-        console.log(user);
-        if (user) {
-            this.AuthService.isUserAdmin(user.user.uid).subscribe((res) => {
-                console.log('estamos aqui');
-                
-
-                Swal.fire("Inicio de sesión exitoso.", "Ingreso correcto", "success");
-                this.router.navigate(['home']);
-
-            })
-        }
+    
     } catch (error) {
         console.log(error);
     }

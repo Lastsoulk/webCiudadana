@@ -1,17 +1,17 @@
-.course-header {
-    &.Actualizacion {
+
+    .Actualizacion {
       background-color: #fc4b6c;
     }
  
-    &.Convocatoria {
+    .Convocatoria {
       background-color: #1e88e5;
     }
  
-    &.Design {
+    .Design {
       background-color: #26c6da;
     }
  
-    &.Android {
+    .Android {
       background-color: #ffb22b;
     }
  
@@ -28,7 +28,7 @@
         align-items: center;
       }
     }
-  }
+ 
  
   .mat-card-actions {
     border-top: 1px solid rgba(120, 130, 140, 0.13);

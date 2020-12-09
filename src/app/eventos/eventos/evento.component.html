@@ -7,7 +7,7 @@
 
 <mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;">
     <mat-grid-tile *ngFor="let key of events">
-        <mat-card style="margin-right: 2em;" class="example-card tarjeta" >
+        <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectEventDetail({eventId: key.eventId})" >
             <!-- (click)="redirectEventDetail({eventId: key.campaignId})" -->
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>

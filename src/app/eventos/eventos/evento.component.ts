@@ -57,28 +57,18 @@ export class Eventos {
 
  
     getEvents(): void {
-        this.firestoreService.getEvents().subscribe((campaignsSnapshot) => {
+        this.firestoreService.getEvents().subscribe((eventsSnapshot) => {
         this.events = [];
         this.categories = [];
-        campaignsSnapshot.forEach((event: any) => {
+        eventsSnapshot.forEach((event: any) => {
         this.events.push({
-        //  address: event.payload.doc.data(),
           name: event.payload.doc.data().name,
           address: event.payload.doc.data().address,
           description : event.payload.doc.data().description,
-          campaignId: event.payload.doc.data().campaignId,
+          eventId: event.payload.doc.id,
           eventPic: event.payload.doc.data().eventPic,
           state: event.payload.doc.data().state,
           dateEvent: event.payload.doc.data().dateEvent,
-        //   campaignUpdateId: campaign.payload.doc.id,
-        //   name: campaign.payload.doc.data().name,
-        //   description: campaign.payload.doc.data().description,
-        //   promoter: campaign.payload.doc.data().promoter,
-        //   categories: campaign.payload.doc.data().categories,
-        //   dateStart: campaign.payload.doc.data().dateStart,
-        //   numFollowers: campaign.payload.doc.data().numFollowers,
-        //   state: campaign.payload.doc.data().state,
-          //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
 
         });
       });
@@ -96,16 +86,6 @@ export class Eventos {
         this.getEvents();
 
 
-    // this.dataSource.filterPredicate = (data: Campana, filter: string): boolean => {
-    //   const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
-    //     console.log((data as { [key: string]: any })[key]);
-    //     return (currentTerm + (data as { [key: string]: any })[key]);
-    //   }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-    //   const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-    //   return dataStr.indexOf(transformedFilter) != -1;
-  //  }
   }
 
     

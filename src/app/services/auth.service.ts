@@ -37,6 +37,8 @@ export class AuthService {
   async loginGoogle() {
     const res = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     const email = res.user.email;
+    
+    console.log('esto es: ',res.user.uid);
     this.router.navigate(["/home"])
   }
 
@@ -99,9 +101,6 @@ export class AuthService {
   }
   
 
-  public isUserAdmin(userUID) {
-    return this.firestore.collection("users").doc(userUID).snapshotChanges();
-  }
 
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));

@@ -36,6 +36,8 @@ export class Campana {
   public campaigns2 = [];
   public categories = [];
 
+  public producto = [{name:'campana adam',numFollowers:2}];
+
   constructor(
     private firestore: AngularFirestore,
     private firestoreService: FireBaseService,
@@ -46,16 +48,7 @@ export class Campana {
 
   }
 
-  // getCampaigns(): void {
-  //     this.firestore
-  //         .collection("campaignsUpdates")
-  //         .get()
-  //         .subscribe((ss) => {
-  //             ss.docs.forEach((doc) => {
-  //                 this.myArray.push(doc.data());
-  //             });
-  //         });
-  // }
+
 
   getCampaigns(): void {
     this.firestoreService.getCampanasActivas().subscribe((campaignsSnapshot) => {
@@ -66,8 +59,9 @@ export class Campana {
           campaignInfo: campaign.payload.doc.data(),
           campaignPic: campaign.payload.doc.data().campaignPic,
           category: campaign.payload.doc.data().categories,
-          campaignId: campaign.payload.doc.data().campaignId,
-          campaignUpdateId: campaign.payload.doc.id,
+          //campaignId: campaign.payload.doc.data().campaignId,
+          //campaignUpdateId: campaign.payload.doc.id,
+          campaignId: campaign.payload.doc.id,
           name: campaign.payload.doc.data().name,
           description: campaign.payload.doc.data().description,
           promoter: campaign.payload.doc.data().promoter,
@@ -81,80 +75,37 @@ export class Campana {
       });
       //console.log("this.campaigns", this.campaigns);
       // this.dataSource.data = this.campaigns as Campaign[];
-    }, (error) => {
-      console.log("Error al cargar las campañas", error)
-    });
+    }), (error) => {
+      console.log("Error al cargar las campañas", error);
+    }
   }
 
-  getCampaignsUser(username): void {
-    this.firestoreService.getCampanasActivas().subscribe((campaignsSnapshot) => {
-      this.campaigns2 = [];
-      this.categories = [];
-      campaignsSnapshot.forEach((campaign: any) => {
-        if (username == campaign.payload.doc.data().promoter.name) {
-          this.campaigns2.push({
-            campaignInfo: campaign.payload.doc.data(),
-            campaignPic: campaign.payload.doc.data().campaignPic,
-            category: campaign.payload.doc.data().categories,
-            campaignId: campaign.payload.doc.data().campaignId,
-            campaignUpdateId: campaign.payload.doc.id,
-            name: campaign.payload.doc.data().name,
-            description: campaign.payload.doc.data().description,
-            promoter: campaign.payload.doc.data().promoter,
-            categories: campaign.payload.doc.data().categories,
-            dateStart: campaign.payload.doc.data().dateStart,
-            numFollowers: campaign.payload.doc.data().numFollowers,
-            state: campaign.payload.doc.data().state,
-            //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
-          });
-        }
 
-      });
-      console.log("this.campaigns", this.campaigns2);
-      // this.dataSource.data = this.campaigns as Campaign[];
-    }, (error) => {
-      console.log("Error al cargar las campañas", error)
-    });
+  
+  crearCampaign(){
+    console.log('Aqui llamaremos')
+    console.log(this.producto)
+    this.firestoreService.crearCampaña(this.producto);
+    
+    // .subscribe(
+    //   (response)=>console.log(response),
+    //   (error)=>{
+    //       console.log('error de crear1');
+    //       console.log(error);
+    //   }
+    // )
   }
-
+  
+  
   async ngOnInit() {
-    const user = await this.AuthService.getCurrentUser();
-    //console.log(user.displayName);
 
-    this.getCampaignsUser(user.displayName);
 
     this.getCampaigns();
+    this.crearCampaign();
 
-    // this.firestore
-    //         .collection("campaigns")
-    //         .get()
-    //         .subscribe((ss) => {
-    //             ss.docs.forEach((doc) => {
-    //                 this.myArray.push(doc.data());
-    //             });
-    //         });
+ 
 
-    this.dataSource2.filterPredicate = (data: Campana, filter: string): boolean => {
-      const dataStr2 = Object.keys(data).reduce((currentTerm: string, key: string) => {
-        //console.log((data as { [key: string]: any })[key]);
-        return (currentTerm + (data as { [key: string]: any })[key]);
-      }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-      const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-      return dataStr2.indexOf(transformedFilter) != -1;
-    }
-
-    this.dataSource.filterPredicate = (data: Campana, filter: string): boolean => {
-      const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
-        //console.log((data as { [key: string]: any })[key]);
-        return (currentTerm + (data as { [key: string]: any })[key]);
-      }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-      const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-      return dataStr.indexOf(transformedFilter) != -1;
-    }
+   
   }
 
 
@@ -167,6 +118,7 @@ export class Campana {
       queryParams: {
         "camp": JSON.stringify(campaignId),
         "misCampanas": false,
+        "estadoCampana":false
         // "estadoNegado": bandera,
 
       }
@@ -185,9 +137,5 @@ export class Campana {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  ciudades: Ciudad[] = [
-    { value: 'ciudad-0', viewValue: 'Guayaquil' },
-    { value: 'ciudad-1', viewValue: 'Quito' },
-    { value: 'ciudad-2', viewValue: 'Cuenca' }
-  ];
+ 
 }

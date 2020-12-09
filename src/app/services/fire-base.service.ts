@@ -1,41 +1,100 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+// import { Observable } from 'rxjs';
+// import { AuthService } from '../services/auth.service';
+// import firebase from "firebase/app";
+import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
 export class FireBaseService {
 
+  // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
+  // public userId;
+  // public datosUsuario;
+
+
   constructor(
-    private firestore: AngularFirestore
+    //private AuthService: AuthService,
+   // private firestoreService: FireBaseService,
+    private firestore: AngularFirestore,
+    private http: HttpClient
   ) { }
 
-  getCampañas() {
-    return this.firestore.collection("Campañas").snapshotChanges();
+  // getCampañas() {
+  //   return this.firestore.collection("Campañas").snapshotChanges();
+  // }
+
+  async ngOnInit() {
+    // const user = await this.AuthService.getCurrentUser();
+    // this.userId = await this.AuthService.getCurrentUser();
+    // console.log('aqui: ',this.userId.uid)
+    //this.getDatosUser(user.uid);
+   // console.log(user.displayName);
+
   }
 
   getCampanasActivas(){
-    return this.firestore.collection("campaignUpdates").snapshotChanges();
+    console.log('luis');
+    console.log(this.firestore.collection("campaigns").snapshotChanges());
+    return this.firestore.collection("campaigns").snapshotChanges();
   }
 
-  getCampañas1(id:String="") {
+  getCampañasUsuario(id:String="",userId:String="") {
       if(id=="todas"){
-        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2")).snapshotChanges();
+        console.log('cargando todas de: ',userId)
+        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId)).snapshotChanges();
       }
       else if(id=="negadas"){
-        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.rejected","==",true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.rejected","==",true)).snapshotChanges();
       }else if(id=="pendientes"){
-        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.waiting",'==',true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.waiting",'==',true)).snapshotChanges();
       }else if(id=="aprobadas"){
-        return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.approved",'==',true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2").where("state.running",'==',true)).snapshotChanges();
       }else{
-         return this.firestore.collection("campaignUpdates", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2")).snapshotChanges();
+         return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',"1JxdyCTzsdZcVMjvqHfTk5I9Dpv2")).snapshotChanges();
       }
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
 
+  crearCampaña(campaigns:any[]){
+    console.log('holita')
+    console.log(campaigns)
+
+    let body = JSON.stringify(campaigns);
+    let headers = new HttpHeaders({
+      'Content-Type':'application/json'
+    });
+    console.log('no');
+    console.log(body)
+    return this.http.post('https://us-central1-test-cd786.cloudfunctions.net/CreateCampaign/posts.json',body,{headers}).pipe(map(res=>{
+      console.log('hola aqui');
+      console.log(res);
+      return res;
+    })) //.subscribe()
+
+  }
+
+
+
   public getOriginalCampaignById(campaign_id: any) {
     return this.firestore.collection("campaigns").doc(campaign_id).snapshotChanges();
+  }
+
+// const racesCollection: AngularFirestoreCollection<Race>;
+// return racesCollection.snapshotChanges().map(actions => {       
+//   return actions.map(a => {
+//     const data = a.payload.doc.data() as Race;
+//     data.id = a.payload.doc.id;
+//     return data;
+//   });
+// });
+
+
+
+  public getDatosUser(userId: any){
+    return this.firestore.collection("users").doc(userId).snapshotChanges();
   }
 
   public getEventById(event_id: any) {

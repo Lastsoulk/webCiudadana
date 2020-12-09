@@ -8,6 +8,10 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
 import { MatTableDataSource } from '@angular/material/table';
 
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
+import firebase from "firebase/app";
+
 /**
  * @title Card with multiple sections
  */
@@ -37,10 +41,17 @@ export class misCampanas {
     // public usuario;
     // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
 
+
+    public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
+    public datosUsuario;
+
+
     constructor(
         private firestore: AngularFirestore,
         private firestoreService: FireBaseService,
         public router: Router,
+
+        private AuthService: AuthService,
         
     ) {
 
@@ -55,7 +66,7 @@ export class misCampanas {
 
 
 
-                this.firestoreService.getCampañas1(estado).subscribe((campaignsSnapshot) => {
+                this.firestoreService.getCampañasUsuario(estado,this.datosUsuario).subscribe((campaignsSnapshot) => {
                 this.campaigns = [];
                 this.categories = [];
                 campaignsSnapshot.forEach((campaign: any) => {
@@ -63,8 +74,8 @@ export class misCampanas {
                 campaignInfo: campaign.payload.doc.data(),
                 campaignPic: campaign.payload.doc.data().campaignPic,
                 category : campaign.payload.doc.data().categories,
-                campaignId: campaign.payload.doc.data().campaignId,
-                campaignUpdateId: campaign.payload.doc.id,
+                campaignId: campaign.payload.doc.id,
+                //campaignUpdateId: campaign.payload.doc.id,
                 name: campaign.payload.doc.data().name,
                 description: campaign.payload.doc.data().description,
                 promoter: campaign.payload.doc.data().promoter,
@@ -86,9 +97,14 @@ export class misCampanas {
         }
 
 
-    ngOnInit(): void {
+    async ngOnInit() {
  
 
+        
+
+        const user = await this.AuthService.getCurrentUser();
+        this.datosUsuario = user.uid;
+        console.log('user: ',this.datosUsuario)
         this.getCampaigns(this.estadoCampana);
 
         // const user = await this.AuthService.getCurrentUser();
@@ -112,13 +128,14 @@ export class misCampanas {
     
     redirectCampaignDetail(value){
         let campaignId = value.campaignId;
+        let estadoCampana = value.estadoCampana;
         
-  
+        console.log('aca: ',estadoCampana);
    
         let navigationExtras: NavigationExtras = {
         queryParams: {
           "camp": JSON.stringify(campaignId),
-          "misCampanas":true,
+          "estadoCampana":estadoCampana,
          
                     }
         };

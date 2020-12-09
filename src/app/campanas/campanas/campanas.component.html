@@ -1,18 +1,7 @@
 
 <div id="campañareciente">Campañas Cerca de Ti</div>
 <div style="width:240px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div>
-<div class="example-container" style="display: flex;margin-top: 1em;">
-    <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Seleccione una ciudad:</div>
-    <mat-form-field appearance="fill">
-      <mat-label>Select</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let ciudad of ciudades" [value]="ciudad.value">
-            {{ciudad.viewValue}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <!-- <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="titulo o estado"> -->
-</div>
+
 
 
 
@@ -24,7 +13,7 @@
       <input matInput type="text"  placeholder="Ej. titulo o estado">
     </mat-form-field>
   </div> -->
-
+<!-- 
 <h2 style="margin-left: 2em;">Mis Campañas</h2>
 <div style="width:230px;height:5px; background: black;margin-left: 4em;"></div>
 
@@ -34,29 +23,27 @@
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                 <mat-card-title>{{key.promoter.name}}</mat-card-title>
-                <!-- <mat-card-subtitle>Promotor Estrella</mat-card-subtitle> -->
+        
             </mat-card-header>
             <div class="container" style="margin-top: 5%;padding-left: 0;padding-right: 0;text-align: center;">
                 <img mat-card-image src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                 <div class="content">
                   <h4>{{key.name}}</h4>
                   <p style="font-size: 17.2px;">{{key.description}}</p>
-                  <!-- <p style="color:#13CE66;">4  convocatorias</p> -->
+ 
                 </div>
                 <div id="divAbajo">
                     <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
      
-                    <!-- <button style="position: absolute;bottom: 0;color:yellow;" mat-icon-button  aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button> -->
-                    <!-- <button mat-icon-button class="btn btn-primary btn-sm" (click)="redirectCampaignDetail({campaignId: key.campaignId})">
-                        Ver
-                    </button> -->
+ 
                 </div>
             </div>
             
         </mat-card>
-    </mat-grid-tile>
+    </mat-grid-tile> -->
+
+
+
     <!-- <mat-grid-tile>
         <mat-card style="margin-right: 2em;" class="example-card">
             <mat-card-header>
@@ -94,20 +81,17 @@
                 <button mat-button>SHARE</button>
             </mat-card-actions>
         </mat-card>
-    </mat-grid-tile> -->
+    </mat-grid-tile> 
 </mat-grid-list>
+-->
 
-<hr style="height:2px;border-width:0;color:gray;background-color:gray">
-
-<h2 style="margin-left: 2em;">Todas las Campañas</h2>
-<div style="width:320px;height:5px; background: black;margin-left: 4em;"></div>
 
 <mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;">
     <mat-grid-tile *ngFor="let key of campaigns">
         <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectCampaignDetail({campaignId: key.campaignId})">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                <mat-card-title>{{key.promoter.name}}</mat-card-title>
+                <mat-card-title>{{key.name}}</mat-card-title>
                 <!-- <mat-card-subtitle>Promotor Estrella</mat-card-subtitle> -->
             </mat-card-header>
             <div class="container" style="margin-top: 5%;padding-left: 0;padding-right: 0;text-align: center;">

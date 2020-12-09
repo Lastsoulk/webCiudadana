@@ -47,7 +47,7 @@ export class DetalleEvento {
         this.eventoId = this.params.eventId.replace("\"","");   
         console.log('datos de: ',this.eventoId);
         this.eventoId = this.eventoId.toString().substring(0,this.eventoId.length-1);
-        this.detalleEvento = this.params.eventoId;
+       // this.detalleEvento = this.params.eventoId;
         //console.log("detalle campana hola: ",this.detalleEvento);
 
 
@@ -57,7 +57,7 @@ export class DetalleEvento {
    ngOnInit(): void {
        console.log('aqui');
         this.getRouteParams();
-        this.getEventById("eFU5ej2dMPyK3hy56lX3");
+        this.getEventById(this.eventoId);
         //this.miCampanaNegada = this.misCampanas;
   }
 
