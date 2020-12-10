@@ -8,7 +8,7 @@
         <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
     </div>
     <div id="descripcion">
-        <p class="titulos">{{miCampanaNegada}}</p>
+        <p class="titulos">Detalle de campaña</p>
         <p class="textoDetalle">{{originalCampaign.description}}</p>
         <p class="titulos">Promotor de la campaña</p>
         <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
@@ -32,7 +32,7 @@
 
 <!-- </div> *ngIf="!status" -->
 
-<div *ngIf="miCampanaNegada==true" id="divChat">
+<div *ngIf="miCampanaNegada" id="divChat">
     <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
     <ng-container *ngIf="mostrar_chat">
         <button (click)="mostrar_chat=false">Ocultar Chat</button>
