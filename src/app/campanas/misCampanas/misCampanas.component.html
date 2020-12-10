@@ -22,10 +22,13 @@
 
 
 
+<div style="text-align: center;" *ngIf="condicioncampanavacia">
+    <div style="    font-size: xx-large;color: #00A6FF;margin-top: 2em;">Lo sentimos, no hay campañas registradas aún.</div>
+    <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
+</div>
 
 
-
-<mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;">
+<mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;"  *ngIf="!condicioncampanavacia">
     <mat-grid-tile *ngFor="let key of campaigns">
         <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectCampaignDetail({campaignId: key.campaignId, estadoCampana: key.state.rejected})">
             <mat-card-header>
