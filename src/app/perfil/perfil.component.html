@@ -2,6 +2,7 @@
 <!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
 <div id="divFoto" *ngIf="datosUsuario.profilePic!=null"><img mat-card-image id="fotoPerfil" src={{datosUsuario.profilePic}} alt="Photo of a Shiba Inu"></div>
+<div id="divFoto" *ngIf="datosUsuario.profilePic==null"><img mat-card-image id="fotoPerfil" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyUguex7RmISnFFKWSbxE3lHHD5r9IljJAbA&usqp=CAU" alt="Photo of a Shiba Inu"></div>
 
 
 <div id="datosUsuario">

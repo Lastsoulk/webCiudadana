@@ -150,6 +150,19 @@ export class misCampanas {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    cambiarPestana(pestana) {
+        //     let campaignId = value.campaignId;
+        //   //  let campaignUpdateId = value.campaignUpdateId;
+        //     let data = {'camp':campaignId}//'upd':campaignUpdateId}
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                pestana: pestana,
+                //   "upd" : JSON.stringify(campaignUpdateId)
+            }
+        };
+        this.router.navigate([pestana], navigationExtras);
+    }
+
 
     ciudades: Ciudad[] = [
         { value: 'ciudad-0', viewValue: 'Guayaquil' },
