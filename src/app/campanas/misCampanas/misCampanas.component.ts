@@ -29,7 +29,7 @@ interface Ciudad {
     styleUrls: ['./misCampanas.component.css'],
 })
 export class misCampanas {
-    images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+    condicioncampanavacia = false;
 
     myArray: any[] = []
     public dataSource = new MatTableDataSource<misCampanas>();
@@ -37,7 +37,7 @@ export class misCampanas {
     public campaigns = [];
     public categories = [];
     public estadoCampana = "";
-    public arregloEstados = ["negadas","pendientes","aprobadas","todas"];
+    public arregloEstados = ["negadas", "pendientes", "aprobadas", "todas"];
     // public usuario;
     // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
 
@@ -52,59 +52,66 @@ export class misCampanas {
         public router: Router,
 
         private AuthService: AuthService,
-        
+
     ) {
 
     }
 
 
     getCampaigns(estado): void {
-            
-            // estado.subscribe(res=>{
 
-            //     this.estadoCampana = estado;
+        // estado.subscribe(res=>{
+
+        //     this.estadoCampana = estado;
 
 
 
-                this.firestoreService.getCampañasUsuario(estado,this.datosUsuario).subscribe((campaignsSnapshot) => {
-                this.campaigns = [];
-                this.categories = [];
-                campaignsSnapshot.forEach((campaign: any) => {
+        this.firestoreService.getCampañasUsuario(estado, this.datosUsuario).subscribe((campaignsSnapshot) => {
+            this.campaigns = [];
+            this.categories = [];
+            campaignsSnapshot.forEach((campaign: any) => {
                 this.campaigns.push({
-                campaignInfo: campaign.payload.doc.data(),
-                campaignPic: campaign.payload.doc.data().campaignPic,
-                category : campaign.payload.doc.data().categories,
-                campaignId: campaign.payload.doc.id,
-                //campaignUpdateId: campaign.payload.doc.id,
-                name: campaign.payload.doc.data().name,
-                description: campaign.payload.doc.data().description,
-                promoter: campaign.payload.doc.data().promoter,
-                categories: campaign.payload.doc.data().categories,
-                dateStart: campaign.payload.doc.data().dateStart,
-                numFollowers: campaign.payload.doc.data().numFollowers,
-                state: campaign.payload.doc.data().state,
-                //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
+                    campaignInfo: campaign.payload.doc.data(),
+                    campaignPic: campaign.payload.doc.data().campaignPic,
+                    category: campaign.payload.doc.data().categories,
+                    campaignId: campaign.payload.doc.id,
+                    //campaignUpdateId: campaign.payload.doc.id,
+                    name: campaign.payload.doc.data().name,
+                    description: campaign.payload.doc.data().description,
+                    promoter: campaign.payload.doc.data().promoter,
+                    categories: campaign.payload.doc.data().categories,
+                    dateStart: campaign.payload.doc.data().dateStart,
+                    numFollowers: campaign.payload.doc.data().numFollowers,
+                    state: campaign.payload.doc.data().state,
+                    //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
 
-                    });
                 });
-                console.log("this.campaigns", this.campaigns);
-                // this.dataSource.data = this.campaigns as Campaign[];
-                }, (error) => {
-                console.log("Error al cargar las campañas", error)
-                });
-                // });
-        
-        }
+            });
+            console.log("this.campaigns", this.campaigns);
+            console.log(this.campaigns.length);
+            console.log("aplicado el filtro");
+            if (this.campaigns.length == 0) {
+                this.condicioncampanavacia = true;
+            } else {
+                this.condicioncampanavacia = false;
+            }
+            // this.dataSource.data = this.campaigns as Campaign[];
+        }, (error) => {
+            console.log("Error al cargar las campañas", error)
+        });
+        // });
+
+    }
 
 
     async ngOnInit() {
- 
 
-        
+
+
 
         const user = await this.AuthService.getCurrentUser();
         this.datosUsuario = user.uid;
-        console.log('user: ',this.datosUsuario)
+        console.log('user: ', this.datosUsuario)
         this.getCampaigns(this.estadoCampana);
 
         // const user = await this.AuthService.getCurrentUser();
@@ -114,32 +121,32 @@ export class misCampanas {
         //)
 
         this.dataSource.filterPredicate = (data: misCampanas, filter: string): boolean => {
-        const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
-            console.log((data as { [key: string]: any })[key]);
-            return (currentTerm + (data as { [key: string]: any })[key]);
-        }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
+                console.log((data as { [key: string]: any })[key]);
+                return (currentTerm + (data as { [key: string]: any })[key]);
+            }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-        const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-        return dataStr.indexOf(transformedFilter) != -1;
+            return dataStr.indexOf(transformedFilter) != -1;
         }
-  }
+    }
 
-    
-    redirectCampaignDetail(value){
+
+    redirectCampaignDetail(value) {
         let campaignId = value.campaignId;
         let estadoCampana = value.estadoCampana;
-        
-        console.log('aca: ',estadoCampana);
-   
+
+        console.log('aca: ', estadoCampana);
+
         let navigationExtras: NavigationExtras = {
-        queryParams: {
-          "camp": JSON.stringify(campaignId),
-          "estadoCampana":estadoCampana,
-         
-                    }
+            queryParams: {
+                "camp": JSON.stringify(campaignId),
+                "estadoCampana": estadoCampana,
+
+            }
         };
-        this.router.navigate(["detalleCampana"],  navigationExtras);
+        this.router.navigate(["detalleCampana"], navigationExtras);
     }
 
     public doFilter = (value: string) => {
