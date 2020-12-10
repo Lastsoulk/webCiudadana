@@ -40,7 +40,7 @@ export class DetalleCampana {
   public mostrar_chat: boolean = false;
 
 
-  public miCampanaNegada: boolean;
+  public miCampanaNegada: boolean = false;
   public misCampanas: boolean;
 
   constructor(
@@ -70,7 +70,7 @@ export class DetalleCampana {
     console.log("estamos con el valor de aca: ", this.miCampanaNegada);
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     console.log('aqui');
     this.getRouteParams();
     this.datosconversations();
