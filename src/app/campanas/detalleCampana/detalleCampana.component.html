@@ -14,6 +14,8 @@
         <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
         <p class="titulos">Numero de seguidores</p>
         <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
+        <p class="titulos">Autoridad</p>
+        <p class="textoDetalle">{{originalCampaign.authority.name}}</p>
         <p class="titulos">Inicio-Fin de la campaña</p>
         <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
     
@@ -35,8 +37,21 @@
 <div *ngIf="miCampanaNegada" id="divChat">
     <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
     <ng-container *ngIf="mostrar_chat">
-        <button (click)="mostrar_chat=false">Ocultar Chat</button>
-           <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
+
+        <div id="chat">
+
+            <div id="divBotonNegar">
+                <button (click)="mostrar_chat=false" id="botonOcultar">Ocultar Chat</button>
+            </div>
+            <div id="mensajeria">
+                <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
+            </div>
+
+
+        </div>
+        
+        
+           
 </ng-container>
 </div>
 

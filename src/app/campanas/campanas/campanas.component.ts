@@ -82,19 +82,7 @@ export class Campana {
 
 
   
-  crearCampaign(){
-    console.log('Aqui llamaremos')
-    console.log(this.producto)
-    this.firestoreService.crearCampaña(this.producto);
-    
-    // .subscribe(
-    //   (response)=>console.log(response),
-    //   (error)=>{
-    //       console.log('error de crear1');
-    //       console.log(error);
-    //   }
-    // )
-  }
+
   
   
   async ngOnInit() {
@@ -106,6 +94,21 @@ export class Campana {
  
 
    
+  }
+
+
+    crearCampaign(){
+    console.log('Aqui llamaremos')
+    console.log(this.producto)
+    this.firestoreService.crearCampaña(this.producto);
+    
+    // .subscribe(
+    //   (response)=>console.log(response),
+    //   (error)=>{
+    //       console.log('error de crear1');
+    //       console.log(error);
+    //   }
+    // )
   }
 
 

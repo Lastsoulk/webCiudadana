@@ -23,6 +23,24 @@
   }
   #messages-card-container {
     text-align: right;
+    background-color: #E5AD84;
+    margin: 0 auto;
+    width: 100%;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
   }
   #messages-card {
@@ -207,6 +225,7 @@
   border-radius: 5px;
   padding: 10px;
   display: grid;
+
 }
 .darker {
   border-color: #ccc;
@@ -215,7 +234,8 @@
 .menssage-right {
   float: right;
   border: 2px solid #dedede;
-  background-color: #f1f1f1;
+  background-color: #dcfcc4;
+  margin-left: 1.5%;
   border-radius: 5px;
   padding: 10px;
 }
@@ -229,7 +249,12 @@
 .time-right {
   float: right;
   color: #aaa;
-  padding-left: 2px;
+  padding-left: 1px;
+}
+
+.time-left{
+  float: right;
+  color: #aaa;
 }
 
 .envio {
@@ -238,4 +263,21 @@
 
 .mensaje{
   margin-right: 10px;
+}
+
+
+
+
+#spanUser{
+  padding: 7px;
+}
+
+#spanAdmin{
+  padding: 7px;
+}
+
+#submit{
+  align-self: center;
+  align-items: flex-start;
+
 }

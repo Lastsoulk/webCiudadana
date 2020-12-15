@@ -31,7 +31,7 @@
     width: 95%;
     justify-content: center;
     align-content: center;
-    height: 75%;
+    height: 70%;
     
     /* margin-left: 7.5%; */
     
@@ -54,10 +54,60 @@
 #divChat{
     display: flex; 
     margin: 0 auto;
-    margin-top: 1%;
+    margin-top: 0.5%;
 }
-#botonChat{
+
+#chat{
     margin: 0 auto;
+    align-items: center;
+
+    width: 100%;
+}
+
+#divBotonNegar{
+    margin: 0 auto;
+    margin-bottom: 1.5%;
+    margin-left: 42.5%;
+}
+
+#botonOcultar{
+    color:black !important;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 0.5em 1.2em;
+    background: rgba(0,0,0,0);
+    border: 2px solid;
+    border-color: #318aac;
+    transition: all 1s ease;
+    margin: 0 auto;
+    margin-bottom: 1%;
+}
+
+#botonOcultar:hover {
+    background: #318aac;
+    color:black !important;
+  }
+
+#botonChat {
+    color:black !important;
+    font-size: 25px;
+    font-weight: 500;
+    padding: 0.5em 1.2em;
+    background: rgba(0,0,0,0);
+    border: 2px solid;
+    border-color: #318aac;
+    transition: all 1s ease;
+    position: relative;
+    margin: 0 auto;
+  }
+#botonChat:hover {
+    background: #318aac;
+    color:black !important;
+  }
+
+#mensajeria{
+    width: 100%;
+    margin-bottom: 2.5%;
 }
 /* 
 

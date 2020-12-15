@@ -62,13 +62,20 @@ export class FireBaseService {
     console.log('holita')
     console.log(campaigns)
 
-    let body = JSON.stringify(campaigns);
+    let body = JSON.stringify(campaigns[0]);
     let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
     console.log('no');
     console.log(body)
-    return this.http.post('https://us-central1-test-cd786.cloudfunctions.net/CreateCampaign/posts.json',body,{headers}).pipe(map(res=>{
+
+    let producto = [{description:'campanita de prueba',name:'hola'}];
+    console.log(producto[0])
+    
+
+    return this.firestore.collection("feed").add(producto[0]);
+
+    return this.http.post('https://us-central1-test-cd786.cloudfunctions.net/CreateCampaign',body,{headers}).pipe(map(res=>{
       console.log('hola aqui');
       console.log(res);
       return res;

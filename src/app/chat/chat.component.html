@@ -11,17 +11,19 @@
   
 
   <ng-container >
-    <div #scrollMe *ngIf="conversaciones.length!=0;else elsechat" style="width: 100%;min-height:10px;max-height: 300px; overflow-y: scroll;">
+    <div #scrollMe *ngIf="conversaciones.length!=0;else elsechat" style="width: 100%;min-height:10px;max-height: 250px; overflow-y: scroll;">
       <div class="container darker">
         <div #messageContainer *ngFor="let mensaje of conversaciones">
           <div *ngIf="mensaje.sender_user=='admin';else elsemensaje">
-              <div class="menssage-left">{{mensaje.message}}
-                <span class="time-left">{{mensaje.timestamp*1000 | date: 'HH:mm'}}</span>
+              <div class="menssage-left">
+                <span id='spanAdmin'>{{mensaje.message}}</span>
+                <span class="time-left" >{{mensaje.timestamp*1000 | date: 'HH:mm'}}</span>
               </div>
           </div>
           <ng-template #elsemensaje>
             <div  *ngIf="mensaje.sender_user=='user'">
-              <div class="menssage-right">{{mensaje.message}}
+              <div class="menssage-right">
+                <span id='spanUser'>{{mensaje.message}}</span>
                 <span class="time-right">{{mensaje.timestamp*1000 | date: 'HH:mm'}}</span>
               </div>
             </div>
@@ -42,9 +44,7 @@
     <!-- Messages container -->
     <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--12-col-desktop">
        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-      <div id="messages">
-        </div>
-        
+
         <form id="message-form" action="#">
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input  *ngIf="status" #message [(value)]="mensaje" (keyup)="toogle_buton($event)" (change)="toogle_buton($event)"  class="mdl-textfield__input" type="text" id="message" autocomplete="off">
