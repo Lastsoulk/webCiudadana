@@ -54,12 +54,17 @@ export class DetalleCampana {
   getRouteParams(): void {
     console.log('aca');
     this.route.queryParams.subscribe(params => {
-      this.params = params
+      this.params = params;
+
+
+      this.campaignId = this.params.camp.replace("\"", "");
+      this.campaignId = this.campaignId.toString().substring(0, this.campaignId.length - 1);
+
+      this.miCampanaNegada = (this.params.estadoCampana=='true');
+      
     });
 
-    this.campaignId = this.params.camp.replace("\"", "");
-    this.campaignId = this.campaignId.toString().substring(0, this.campaignId.length - 1);
-    this.miCampanaNegada = this.params.estadoCampana;
+    
     // this.misCampanas = this.params.misCampanas;
     //console.log("detalle campana hola: ",this.miCampanaNegada);
     // this.campaignUpdateId = this.params.upd;
