@@ -110,7 +110,6 @@ import { eventosComponent } from './eventos/eventos.component';
     ChatComponent,
     misCampanas,
     Nosotros,
-    Eventos,
     DetalleEvento,
     RegistrarUsuario,
     // EventDetailComponent
@@ -119,6 +118,7 @@ import { eventosComponent } from './eventos/eventos.component';
     ContactComponent,
     DialogContentExampleDialog,
     misCampanas,
+    Eventos,
     ChatComponent
   ],
   imports: [

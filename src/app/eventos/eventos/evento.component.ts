@@ -15,56 +15,56 @@ import { MatTableDataSource } from '@angular/material/table';
 
 
 interface Ciudad {
-    value: string;
-    viewValue: string;
+  value: string;
+  viewValue: string;
 }
 
 @Component({
-    selector: 'events',
-    templateUrl: './evento.component.html',
-    styleUrls: ['./evento.component.css'],
+  selector: 'events',
+  templateUrl: './evento.component.html',
+  styleUrls: ['./evento.component.css'],
 })
 export class Eventos {
-    images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
-    public events = [];
-    public categories = [];
+  public events = [];
+  public categories = [];
 
-    constructor(
-        private firestore: AngularFirestore,
-        private firestoreService: FireBaseService,
-        public router: Router,
-    ) {
+  constructor(
+    private firestore: AngularFirestore,
+    private firestoreService: FireBaseService,
+    public router: Router,
+  ) {
 
-    }
+  }
 
 
-    redirectEventDetail(value){
+  redirectEventDetail(value) {
     let eventId = value.eventId;
 
 
 
     let navigationExtras: NavigationExtras = {
-    queryParams: {
-      "eventId": JSON.stringify(eventId),
+      queryParams: {
+        "eventId": JSON.stringify(eventId),
 
-      // "estadoNegado": bandera,
-      
-                }
+        // "estadoNegado": bandera,
+
+      }
     };
-    this.router.navigate(["detalleEvento"],  navigationExtras);
-    }
+    this.router.navigate(["detalleEvento"], navigationExtras);
+  }
 
- 
-    getEvents(): void {
-        this.firestoreService.getEvents().subscribe((eventsSnapshot) => {
-        this.events = [];
-        this.categories = [];
-        eventsSnapshot.forEach((event: any) => {
+
+  getEvents(): void {
+    this.firestoreService.getEvents().subscribe((eventsSnapshot) => {
+      this.events = [];
+      this.categories = [];
+      eventsSnapshot.forEach((event: any) => {
         this.events.push({
           name: event.payload.doc.data().name,
           address: event.payload.doc.data().address,
-          description : event.payload.doc.data().description,
+          description: event.payload.doc.data().description,
           eventId: event.payload.doc.id,
           eventPic: event.payload.doc.data().eventPic,
           state: event.payload.doc.data().state,
@@ -73,24 +73,24 @@ export class Eventos {
         });
       });
       console.log("this.events", this.events);
-     // this.dataSource.data = this.campaigns as Campaign[];
+      // this.dataSource.data = this.campaigns as Campaign[];
     }, (error) => {
       console.log("Error al cargar los eventos", error)
     });
   }
 
 
-    ngOnInit(): void {
- 
+  ngOnInit(): void {
 
-        this.getEvents();
+
+    this.getEvents();
 
 
   }
 
-    
 
 
 
-  
+
+
 }
