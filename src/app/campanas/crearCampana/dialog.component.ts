@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import {
     bounceAnimation,
 } from 'angular-animations';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
     selector: 'dialog-content',
@@ -20,11 +21,24 @@ export class DialogContentExampleDialog implements AfterViewInit {
         this.animationState = !this.animationState;
     }
 
-    constructor() {
+    constructor(public router: Router) {
     }
 
     ngAfterViewInit() {
         this.animate();
+    }
+
+    cambiarPestana(pestana) {
+        //     let campaignId = value.campaignId;
+        //   //  let campaignUpdateId = value.campaignUpdateId;
+        //     let data = {'camp':campaignId}//'upd':campaignUpdateId}
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+                pestana: pestana,
+                //   "upd" : JSON.stringify(campaignUpdateId)
+            }
+        };
+        this.router.navigate([pestana], navigationExtras);
     }
 
 

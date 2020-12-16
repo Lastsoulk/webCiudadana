@@ -8,7 +8,7 @@
 
 #campanaFoto{
 
-    width: 32%;
+    width: 45%;
     height: 550px;
     border-radius: 7.5%;
     margin-top: 1.5%;
@@ -50,6 +50,7 @@
 
 #descripcion{
     text-align: left;
+    width: 55%;
 }
 #divChat{
     display: flex; 

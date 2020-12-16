@@ -38,7 +38,7 @@ export class FireBaseService {
   getCampanasActivas(){
     console.log('luis');
     console.log(this.firestore.collection("campaigns").snapshotChanges());
-    return this.firestore.collection("campaigns").snapshotChanges();
+    return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
   }
 
   getCampañasUsuario(id:String="",userId:String="") {
@@ -62,7 +62,7 @@ export class FireBaseService {
     return this.firestore.collection("authorities").snapshotChanges();
   }
 
-  crearCampaña(campaigns:any[]){
+  crearCampaña(campaigns:any){
 
 
     let body = JSON.stringify(campaigns[0]);
@@ -72,16 +72,17 @@ export class FireBaseService {
 
 
     let producto = [{description:'campanita de prueba',name:'hola'}];
-    console.log(producto[0])
+    console.log('llegamos aca');
+    console.log(campaigns)
     
 
-    return this.firestore.collection("feed").add(producto[0]);
+    return this.firestore.collection("campaigns").add(campaigns);
 
-    return this.http.post('https://us-central1-test-cd786.cloudfunctions.net/CreateCampaign',body,{headers}).pipe(map(res=>{
-      console.log('hola aqui');
-      console.log(res);
-      return res;
-    })) //.subscribe()
+    // return this.http.post('https://us-central1-test-cd786.cloudfunctions.net/CreateCampaign',body,{headers}).pipe(map(res=>{
+    //   console.log('hola aqui');
+    //   console.log(res);
+    //   return res;
+    // })) //.subscribe()
 
   }
 

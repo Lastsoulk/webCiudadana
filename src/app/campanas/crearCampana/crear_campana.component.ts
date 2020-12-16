@@ -81,10 +81,15 @@ export class CrearCampana {
             name: form.value.personal.contact.nameCampaign,
             promoter: { name: this.usuario.name, id: this.user.uid },
             numFollowers: 0,
+            state: {finished: false, rejected: false, running: false, waiting: true},
+            description: form.value.health.symptoms.descriptionCampaign,
 
         }
         console.log(data);
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
+
+        this.firestoreService.crearCampaña(data);
+       // crearCampaña(campaigns:any[])
 
     }
 

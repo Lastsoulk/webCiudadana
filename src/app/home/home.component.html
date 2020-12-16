@@ -8,7 +8,7 @@
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                 <mat-card-title>{{myArray[2].promoter.name}}</mat-card-title>
-                <mat-card-subtitle>Ubicación: {{myArray[2].zone.name}} </mat-card-subtitle>
+                <!-- <mat-card-subtitle>Ubicación: {{myArray[2].zone.name}} </mat-card-subtitle> -->
             </mat-card-header>
             <div class="container" style="margin-top: 0;padding-left: 0;padding-right: 0;text-align: center;">
                 <img mat-card-image src={{myArray[2].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
@@ -30,15 +30,15 @@
         <mat-card style="margin-right: 2em;" class="example-card">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady.jpg);"></div>
-                <mat-card-title>{{myArray[0].promoter.name}}</mat-card-title>
-                <mat-card-subtitle>Ubicación: {{myArray[0].zone.name}}</mat-card-subtitle>
+                <mat-card-title>{{myArray[1].promoter.name}}</mat-card-title>
+                <!-- <mat-card-subtitle>Ubicación: {{myArray[1].zone.name}}</mat-card-subtitle> -->
             </mat-card-header>
             <div (click)='moveToSelectedTab("detalleCampana")' class="container" style="margin-top: 0;padding-left: 0;padding-right: 0;text-align: center;">
                 <img mat-card-image src={{myArray[0].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                 <div class="content">
-                  <h4>{{myArray[0].name}}</h4>
-                  <p style="font-size: 12px;">{{myArray[0].description}}</p>
-                  <p style="color:#13CE66;">{{myArray[0].numFollowers}}   followers</p>
+                  <h4>{{myArray[1].name}}</h4>
+                  <p style="font-size: 12px;">{{myArray[1].description}}</p>
+                  <p style="color:#13CE66;">{{myArray[1].numFollowers}}   followers</p>
                 </div>
                 <div class="content2">
                     <button style="position: absolute;top: 0;left: 20;" mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
