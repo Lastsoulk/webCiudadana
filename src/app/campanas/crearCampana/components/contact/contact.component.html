@@ -13,9 +13,9 @@
             <mat-label>Autoridad</mat-label>
             <mat-select required [(value)]="selectedProfile">
                 <ng-container *ngFor="let autoridad of autoridades">
-                    <mat-option required  [value]="autoridad.viewValue" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
-                        <span>{{autoridad.viewValue}}<br /></span> 
-                        <small class="text-grey">  {{autoridad.posicion}}</small>
+                    <mat-option required  [value]="autoridad.name" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
+                        <span>{{autoridad.name}}<br /></span> 
+                        <small class="text-grey">  {{autoridad.email}}</small>
                     </mat-option>
                 </ng-container>
             </mat-select>

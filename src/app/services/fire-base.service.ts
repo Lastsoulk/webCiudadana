@@ -58,16 +58,18 @@ export class FireBaseService {
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
 
+  getAutoridades(){
+    return this.firestore.collection("authorities").snapshotChanges();
+  }
+
   crearCampaña(campaigns:any[]){
-    console.log('holita')
-    console.log(campaigns)
+
 
     let body = JSON.stringify(campaigns[0]);
     let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
-    console.log('no');
-    console.log(body)
+
 
     let producto = [{description:'campanita de prueba',name:'hola'}];
     console.log(producto[0])

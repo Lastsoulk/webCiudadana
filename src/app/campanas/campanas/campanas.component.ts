@@ -36,7 +36,7 @@ export class Campana {
   public campaigns2 = [];
   public categories = [];
 
-  public producto = [{name:'campana adam',numFollowers:2}];
+ // public producto = [{name:'campana adam',numFollowers:2}];
 
   constructor(
     private firestore: AngularFirestore,
@@ -89,7 +89,7 @@ export class Campana {
 
 
     this.getCampaigns();
-    this.crearCampaign();
+    //this.crearCampaign();
 
  
 
@@ -97,19 +97,19 @@ export class Campana {
   }
 
 
-    crearCampaign(){
-    console.log('Aqui llamaremos')
-    console.log(this.producto)
-    this.firestoreService.crearCampaña(this.producto);
+  //   crearCampaign(){
+  //   console.log('Aqui llamaremos')
+  //   console.log(this.producto)
+  //   this.firestoreService.crearCampaña(this.producto);
     
-    // .subscribe(
-    //   (response)=>console.log(response),
-    //   (error)=>{
-    //       console.log('error de crear1');
-    //       console.log(error);
-    //   }
-    // )
-  }
+  //   // .subscribe(
+  //   //   (response)=>console.log(response),
+  //   //   (error)=>{
+  //   //       console.log('error de crear1');
+  //   //       console.log(error);
+  //   //   }
+  //   // )
+  // }
 
 
   redirectCampaignDetail(value) {
