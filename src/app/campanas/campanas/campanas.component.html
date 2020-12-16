@@ -98,7 +98,7 @@
                 <img mat-card-image src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                 <div class="content">
                   <h4>{{key.name}}</h4>
-                  <p style="font-size: 17.2px;">{{key.description}}</p>
+                  <p style="font-size: 17.2px;">{{key.description | slice:0:50}}</p>
                   <!-- <p style="color:#13CE66;">4  convocatorias</p> -->
                 </div>
                 <div id="divAbajo">

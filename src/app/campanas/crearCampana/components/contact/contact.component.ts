@@ -18,6 +18,7 @@ interface Autoridad {
     }]
 })
 export class ContactComponent {
+    public selectedProfile;
 
     @Input() modelGroupName: string;
     autoridades: Autoridad[] = [
