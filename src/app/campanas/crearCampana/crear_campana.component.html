@@ -38,7 +38,7 @@
       <mat-vertical-stepper linear>
         <mat-step #personal="ngModelGroup" ngModelGroup="personal" [completed]="personal.valid">
           <ng-template matStepLabel>Datos de la Campaña</ng-template>
-          <app-contact modelGroupName="contact"></app-contact>
+          <app-contact modelGroupName="contact" (messageEvent)="receiveMessage($event)"></app-contact>
         </mat-step>
         <mat-step #health="ngModelGroup" ngModelGroup="health" [completed]="health.valid">
           <ng-template matStepLabel>Descripcion de la Campaña</ng-template>
