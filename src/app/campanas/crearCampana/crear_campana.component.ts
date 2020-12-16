@@ -45,7 +45,7 @@ export class CrearCampana {
 
 
     getDatosUser(userId){
-      this.firestoreService.getDatosUser(userId).subscribe((userSnapshot) => {
+        this.firestoreService.getDatosUser(userId).subscribe((userSnapshot) => {
         this.usuario = userSnapshot.payload.data();
 
         console.log("datos usuario: ", this.usuario);
@@ -72,6 +72,7 @@ export class CrearCampana {
             name: form.value.personal.contact.nameCampaign,
             promoter: {name: this.usuario.name, id: this.user.uid},
             numFollowers: 0,
+            
         }
         console.log(data);
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
