@@ -83,6 +83,7 @@ export class CrearCampana {
             numFollowers: 0,
             state: {finished: false, rejected: false, running: false, waiting: true},
             description: form.value.health.symptoms.descriptionCampaign,
+            authority: {email: this.correoautority, name: this.message}
 
         }
         console.log(data);
