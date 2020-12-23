@@ -121,7 +121,8 @@ export class Campana {
       queryParams: {
         "camp": JSON.stringify(campaignId),
         "misCampanas": false,
-        "estadoCampana":false
+        "estadoCampana":false,
+        "campanaUsuario":false,
         // "estadoNegado": bandera,
 
       }

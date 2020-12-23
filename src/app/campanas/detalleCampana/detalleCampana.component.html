@@ -8,14 +8,28 @@
         <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
     </div>
     <div id="descripcion">
-        <p class="titulos">Detalle de campaña</p>
+        
+        <p class="titulos">Descripcion de la campaña</p>
         <p class="textoDetalle">{{originalCampaign.description}}</p>
         <p class="titulos">Promotor de la campaña</p>
         <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
         <p class="titulos">Numero de seguidores</p>
         <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
+
+            <p  class="titulos">Estado de la campaña</p>
+            <p style="font-size: 17.2px; color:red " *ngIf="originalCampaign.state.rejected and campanaUsuario" >Negada</p>
+            <p style="font-size: 17.2px; color: yellow" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
+            <p style="font-size: 17.2px; color: green" *ngIf="originalCampaign.state.running and campanaUsuario">Aprobada</p>
+        
+
+
         <p class="titulos">Autoridad</p>
-        <p class="textoDetalle">{{originalCampaign.authority.name}}</p>
+        <p class="textoDetalle">{{originalCampaign.authority.name}} </p>
+
+        
+        
+        
+
         <p class="titulos">Inicio-Fin de la campaña</p>
         <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
     

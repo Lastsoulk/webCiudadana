@@ -143,6 +143,7 @@ export class misCampanas {
             queryParams: {
                 "camp": JSON.stringify(campaignId),
                 "estadoCampana": estadoCampana,
+                "campanaUsuario":true,
 
             }
         };

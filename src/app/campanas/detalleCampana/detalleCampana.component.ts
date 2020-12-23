@@ -41,6 +41,7 @@ export class DetalleCampana {
 
 
   public miCampanaNegada: boolean = false;
+  public campanaUsuario: boolean = false;
   public misCampanas: boolean;
 
   constructor(
@@ -61,6 +62,10 @@ export class DetalleCampana {
       this.campaignId = this.campaignId.toString().substring(0, this.campaignId.length - 1);
 
       this.miCampanaNegada = (this.params.estadoCampana=='true');
+      this.campanaUsuario = (this.params.campanaUsuario=='true');
+      console.log('hola')
+      console.log(this.params.campanaUsuario)
+
       
     });
 
