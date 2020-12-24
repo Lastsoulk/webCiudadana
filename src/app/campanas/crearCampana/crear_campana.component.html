@@ -47,7 +47,7 @@
         <mat-step>
           <ng-template matStepLabel>Foto de la Campaña</ng-template>
           <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;padding: 0;">¡Añade una foto a tu campaña!</div>
-          <input type="file" id="img" name="img" accept="image/*">
+          <input type="file" (change)="seleccionadorImagen($event)" accept="image/*">
           <div>
             <button mat-raised-button type="button" (click)="onClick(f)" color="primary">Crear Campaña</button>
             <button matStepperPrevious mat-button color="warn" style="margin-left: 2em;">Anterior</button>
