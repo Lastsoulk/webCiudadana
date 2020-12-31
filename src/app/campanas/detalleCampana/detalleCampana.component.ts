@@ -3,6 +3,8 @@ import { FireBaseService, ICampaña } from '../../services/fire-base.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConversationsService } from 'src/app/services/conversations.service';
 import { firestore } from 'firebase';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogEvent } from './dialogevent.component';
 
 // import {firestore} from "@angular/fire/firestore"
 // import { firestore } from 'firebase';
@@ -22,7 +24,11 @@ import { firestore } from 'firebase';
   styleUrls: ['./detalleCampana.component.css'],
 })
 export class DetalleCampana {
-  images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  nombreconvocatoria: string;
+  descripcion: string;
+  fechaconvocatoria: string;
+  fotoconvocatoria: string;
+  direccion: string;
 
 
   public campaignUpdateId;
@@ -49,8 +55,23 @@ export class DetalleCampana {
     public router: Router,
     public route: ActivatedRoute,
     private conversationsService: ConversationsService,
+    public dialog: MatDialog
     //private firestore: AngularFirestore
   ) { }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogEvent, {
+      width: '800px',
+      //height: '90%',
+      data: { nombreconvocatoria: this.nombreconvocatoria, descripcion: this.descripcion, fechaconvocatoria: this.fechaconvocatoria, fotoconvocatoria: this.fotoconvocatoria, direccion: this.direccion }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      //this.nombreconvocatoria = result;
+      //console.log(result)   //Result es el input
+    });
+  }
 
   getRouteParams(): void {
     console.log('aca');
@@ -61,15 +82,15 @@ export class DetalleCampana {
       this.campaignId = this.params.camp.replace("\"", "");
       this.campaignId = this.campaignId.toString().substring(0, this.campaignId.length - 1);
 
-      this.miCampanaNegada = (this.params.estadoCampana=='true');
-      this.campanaUsuario = (this.params.campanaUsuario=='true');
+      this.miCampanaNegada = (this.params.estadoCampana == 'true');
+      this.campanaUsuario = (this.params.campanaUsuario == 'true');
       console.log('hola')
       console.log(this.params.campanaUsuario)
 
-      
+
     });
 
-    
+
     // this.misCampanas = this.params.misCampanas;
     //console.log("detalle campana hola: ",this.miCampanaNegada);
     // this.campaignUpdateId = this.params.upd;

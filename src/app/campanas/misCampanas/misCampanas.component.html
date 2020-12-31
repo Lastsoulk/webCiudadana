@@ -51,10 +51,9 @@
                 <div id="divAbajo">
                     <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
 
-                    
-                    <p style="font-size: 17.2px; color:red " *ngIf="key.state.rejected" >Estado: Negada</p>
-                    <p style="font-size: 17.2px; color: yellow" *ngIf="key.state.waiting">Estado: Pendiente</p>
-                    <p style="font-size: 17.2px; color: green" *ngIf="key.state.running">Estado: Aprobada</p>
+                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color:red;width: 150px;border-radius: 10%;" *ngIf="key.state.rejected" >Estado: Negada</p>
+                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: yellow;width: 150px;border-radius: 10%;" *ngIf="key.state.waiting">Estado: Pendiente</p>
+                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: green;width: 150px;border-radius: 10%;" *ngIf="key.state.running">Estado: Aprobada</p>
      
                 </div>
             </div>

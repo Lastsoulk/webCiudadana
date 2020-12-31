@@ -1,0 +1,11 @@
+#cdk-overlay-1{
+    bottom: 100px!important;
+}
+
+.margencamera{
+    border-radius: 1rem;
+}
+
+agm-map {
+    height: 300px;
+}

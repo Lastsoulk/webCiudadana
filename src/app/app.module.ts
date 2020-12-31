@@ -88,13 +88,14 @@ import { DialogContentExampleDialog } from './campanas/crearCampana/dialog.compo
 import { AngularImgComponent } from './campanas/crearCampana/components/successicon/success-icon.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { eventosComponent } from './eventos/eventos.component';
-
-
-
-
+import { DialogEvent } from './campanas/detalleCampana/dialogevent.component';
+import { DpDatePickerModule } from 'ng2-date-picker';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule, } from '@angular-material-components/datetime-picker';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
+    DialogEvent,
     eventosComponent,
     AngularImgComponent,
     AppComponent,
@@ -122,6 +123,14 @@ import { eventosComponent } from './eventos/eventos.component';
     ChatComponent
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCcHRv7BzD-FqF28jgT2RJmEu5mfZmmXNs',
+      libraries: ['places']
+    }),
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
+    NgxMatDatetimePickerModule,
+    DpDatePickerModule,
     NoopAnimationsModule,
     MatDialogModule,
     MatMomentDateModule,
@@ -185,7 +194,7 @@ import { eventosComponent } from './eventos/eventos.component';
   exports: [
     MatToolbarModule,
   ],
-  providers: [],//AppService],
+  providers: [MatNativeDateModule],//AppService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
