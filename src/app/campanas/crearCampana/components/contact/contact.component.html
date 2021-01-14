@@ -20,6 +20,42 @@
                 </ng-container>
             </mat-select>
         </mat-form-field>
+        <div class="row" style="margin-left: 0;margin-bottom: 1em;">
+            <div style="margin-right: 4em;">
+                <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;">Fecha y hora de inicio de la campaña</div>
+                <div>
+                    <mat-form-field>
+                    <input matInput #fechainicio [ngxMatDatetimePicker]="picker1" name="fechainicio" ngModel
+                    placeholder="Escoja una fecha">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div>
+                <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;">Fecha y hora fin de la campaña</div>
+                <div>
+                    <mat-form-field>
+                    <input matInput #fechafin [ngxMatDatetimePicker]="picker2" name="fechafin" ngModel
+                    placeholder="Escoja una fecha">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #picker2></ngx-mat-datetime-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;">¿A qué categoria pertenece su campaña?</div>
+        <mat-form-field appearance="fill" style="margin-top: 0.7em;width: 50%;">
+            <mat-label>Cateogoria</mat-label>
+            <mat-select required (selectionChange)="selectedValue2($event)" name="nameAuthority" #nameAuthority>
+                <ng-container *ngFor="let categoria of categorias">
+                    <mat-option required  [value]="categoria" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
+                        <span>{{categoria}}<br /></span> 
+                    </mat-option>
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+        
         <div class="example-button-row">
             <button matStepperNext mat-raised-button style="background-color: #3f51b5;color: white;" (click)="sendMessage()">Siguiente</button>
             <button mat-button color="warn" style="margin-left: 2em;" [routerLink]="'/home'">Cancelar</button>

@@ -90,8 +90,8 @@ export class DialogEvent {
 
     getAddress(latitude, longitude) {
         this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-            console.log(results);
-            console.log(status);
+            //console.log(results);
+            //console.log(status);
             if (status === 'OK') {
                 if (results[0]) {
                     this.zoom = 12;
@@ -142,8 +142,8 @@ export class DialogEvent {
                         console.log("la url foto", resp);
                         this.data.fotoconvocatoria = resp;
                         this.data.direccion = this.address;
-                        console.log(this.data)
-                        console.log(this.address)
+                        console.log('Convocatoria creada ', this.data)
+                        console.log('String direccion ', this.address)
                         this.urlfile = resp;
                     })
                     .catch((err) => {

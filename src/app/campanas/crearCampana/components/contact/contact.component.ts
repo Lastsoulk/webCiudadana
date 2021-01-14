@@ -25,6 +25,8 @@ export class ContactComponent {
     public selectedProfile;
     public autoridades;
     public autoridadnombre;
+    public categoriaselect;
+    categorias = ['Servicio Comunitario', 'Vacunacion de mascotas', 'Minga Barrial', 'Donaciones']
 
     message: string = "";
     email: string;
@@ -39,7 +41,7 @@ export class ContactComponent {
     }
 
     sendMessage() {
-        this.messageEvent.emit(this.message + "/" + this.email);
+        this.messageEvent.emit(this.message + "/" + this.email + " / " + this.categoriaselect);
     }
 
     async ngOnInit() {
@@ -63,6 +65,11 @@ export class ContactComponent {
         this.autoridadnombre = this.selectedProfile.value;
         //console.log(this.autoridadnombre);
         this.message = this.autoridadnombre;
+    }
+
+    selectedValue2(event: MatSelectChange) {
+        //console.log(event.value)
+        this.categoriaselect = event.value
     }
 
     getAutoridades() {

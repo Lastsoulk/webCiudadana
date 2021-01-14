@@ -32,7 +32,7 @@ export class CrearCampana {
     myDate = new Date();
     public imagen: any;
     public urlImagen: any = 'hola';
-    id:string;
+    id: string;
 
     constructor(
         public dialog: MatDialog,
@@ -40,9 +40,9 @@ export class CrearCampana {
         private firestoreService: FireBaseService,
         private firestore: AngularFirestore,
         private datePipe: DatePipe,
-        ) {
+    ) {
 
-       // private imageService: ImageService,
+        // private imageService: ImageService,
         //@Inject(AngularFireStorage) private storage: AngularFireStorage,
         //@Inject(FileService) private fileService: FileService) {
         // this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
@@ -50,10 +50,12 @@ export class CrearCampana {
 
     message: string;
     correoautority: string;
+    categoria: string;
 
     receiveMessage($event) {
         this.message = $event.split("/", 2)[0];
         this.correoautority = $event.split("/", 2)[1];
+        this.categoria = $event.split("/", 3)[2];
     }
 
     async ngOnInit() {
@@ -77,9 +79,9 @@ export class CrearCampana {
         return;
     }
 
-    seleccionadorImagen(event: any){
+    seleccionadorImagen(event: any) {
 
-           if (event.target.files && event.target.files[0]) {
+        if (event.target.files && event.target.files[0]) {
             var reader = new FileReader();
 
             reader.readAsDataURL(event.target.files[0]); // read file as data url
@@ -89,7 +91,7 @@ export class CrearCampana {
                 console.log('llego aca')
             }
             console.log(this.urlImagen);
-    }
+        }
 
 
 
@@ -118,24 +120,24 @@ export class CrearCampana {
         //         // console.log(res)
         //     },
         //     (err) => {
-            
+
         //     })
         // });
 
         // reader.readAsDataURL(file);
-  }
-        // this.imagen = event.target.files[0];
-        // console.log('aca imagen')
-        // console.log(event.target.files[0]);
-        // this.cargarImagen();
+    }
+    // this.imagen = event.target.files[0];
+    // console.log('aca imagen')
+    // console.log(event.target.files[0]);
+    // this.cargarImagen();
 
 
 
-       
 
 
 
-    cargarImagen(){
+
+    cargarImagen() {
 
         //  var nameImagen = this.imagen.name;
         // console.log(this.imagen)
@@ -168,19 +170,19 @@ export class CrearCampana {
     // ).subscribe();
 
 
-//     this.storage.upload(name, this.selectedImage).snapshotChanges().pipe(
-// finalize(() => {
-// fileRef.getDownloadURL().subscribe((url) => {
-// this.url = url;
-// this.fileService.insertImageDetails(this.id,this.url);
-// alert('Upload Successful');
-// })
-// })
-// ).subscribe();
+    //     this.storage.upload(name, this.selectedImage).snapshotChanges().pipe(
+    // finalize(() => {
+    // fileRef.getDownloadURL().subscribe((url) => {
+    // this.url = url;
+    // this.fileService.insertImageDetails(this.id,this.url);
+    // alert('Upload Successful');
+    // })
+    // })
+    // ).subscribe();
 
     onClick(form: NgForm): void {
-        
-       
+
+
 
 
         const json = JSON.stringify(form.value);
@@ -191,24 +193,26 @@ export class CrearCampana {
 
         // console.log('formulario')
         // console.log(form.value)
-        // console.log(form.value.personal.contact.nameCampaign);
+        //console.log(form.value.personal.contact.fechainicio);
 
         let data = {
             name: form.value.personal.contact.nameCampaign,
             promoter: { name: this.usuario.name, id: this.user.uid },
             numFollowers: 0,
-            state: {finished: false, rejected: false, running: false, waiting: true},
+            state: { finished: false, rejected: false, running: false, waiting: true },
             description: form.value.health.symptoms.descriptionCampaign,
-            authority: {email: this.correoautority, name: this.message},
-            campaignPic: this.urlImagen
-
+            authority: { email: this.correoautority, name: this.message },
+            campaignPic: this.urlImagen,
+            categoria: this.categoria,
+            dateStart: form.value.personal.contact.fechainicio,
+            dateEnd: form.value.personal.contact.fechafin,
 
         }
         console.log(data);
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
 
         this.firestoreService.crearCampaña(data);
-       // crearCampaña(campaigns:any[])
+        // crearCampaña(campaigns:any[])
 
     }
 
