@@ -26,7 +26,7 @@ export class ContactComponent {
     public autoridades;
     public autoridadnombre;
     public categoriaselect;
-    categorias = ['Servicio Comunitario', 'Vacunacion de mascotas', 'Minga Barrial', 'Donaciones']
+    categorias : any[] = []
 
     message: string = "";
     email: string;
@@ -41,11 +41,30 @@ export class ContactComponent {
     }
 
     sendMessage() {
-        this.messageEvent.emit(this.message + "/" + this.email + " / " + this.categoriaselect);
+        this.messageEvent.emit(this.message + "/" + this.email + "/" + this.categoriaselect);
     }
 
     async ngOnInit() {
         this.getAutoridades();
+        this.getCategorias();
+    }
+
+    getCategorias(){
+        this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
+        this.categorias = [];
+        campaignsSnapshot.forEach((cat: any) => {
+            this.categorias.push({
+            idCategoria: cat.payload.doc.data(),
+            nombre: cat.payload.doc.data().name,
+
+            });
+        });
+        console.log("this.categorias", this.categorias);
+        // this.dataSource.data = this.campaigns as Campaign[];
+        }), (error) => {
+        console.log("Error al cargar las campañas", error);
+        }
+
     }
 
     selectedValue(event: MatSelectChange) {

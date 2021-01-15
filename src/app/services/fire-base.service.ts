@@ -58,8 +58,23 @@ export class FireBaseService {
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
 
+  getCampañasCategoria(categoria:String="") {
+      if(categoria==""){
+
+        return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
+      }
+     else{
+         return this.firestore.collection("campaigns", ref => ref.where("categoria",'==',categoria).where("state.running",'==',true)).snapshotChanges();
+      }
+    //return this.firestore.collection("campaignUpdates").snapshotChanges();
+  }
+
   getAutoridades(){
     return this.firestore.collection("authorities").snapshotChanges();
+  }
+
+  getCategorias(){
+    return this.firestore.collection("categories").snapshotChanges();
   }
 
   crearCampaña(campaigns:any){

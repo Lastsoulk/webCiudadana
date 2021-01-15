@@ -31,10 +31,12 @@ export class Campana {
   myArray: any[] = []
   public dataSource = new MatTableDataSource<Campana>();
   public dataSource2 = new MatTableDataSource<Campana>();
+  public listaCategorias: any[] = []
 
   public campaigns = [];
   public campaigns2 = [];
   public categories = [];
+  condicioncampanavacia = false;
 
  // public producto = [{name:'campana adam',numFollowers:2}];
 
@@ -50,35 +52,86 @@ export class Campana {
 
 
 
-  getCampaigns(): void {
-    this.firestoreService.getCampanasActivas().subscribe((campaignsSnapshot) => {
+  // getCampaigns(categoria): void {
+  //       this.firestoreService.getCampañasUsuario(estado, this.datosUsuario).subscribe((campaignsSnapshot) => {
+  //           this.campaigns = [];
+  //           this.categories = [];
+  //           campaignsSnapshot.forEach((campaign: any) => {
+  //               this.campaigns.push({
+  //                   campaignInfo: campaign.payload.doc.data(),
+  //                   campaignPic: campaign.payload.doc.data().campaignPic,
+  //                   category: campaign.payload.doc.data().categories,
+  //                   campaignId: campaign.payload.doc.id,
+  //                   //campaignUpdateId: campaign.payload.doc.id,
+  //                   name: campaign.payload.doc.data().name,
+  //                   description: campaign.payload.doc.data().description,
+  //                   promoter: campaign.payload.doc.data().promoter,
+  //                   categories: campaign.payload.doc.data().categories,
+  //                   dateStart: campaign.payload.doc.data().dateStart,
+  //                   numFollowers: campaign.payload.doc.data().numFollowers,
+  //                   state: campaign.payload.doc.data().state,
+  //                   //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
+
+  //               });
+  //           });
+  //           console.log("this.campaigns", this.campaigns);
+  //           console.log(this.campaigns.length);
+  //           console.log("aplicado el filtro");
+  //           if (this.campaigns.length == 0) {
+  //               this.condicioncampanavacia = true;
+  //           } else {
+  //               this.condicioncampanavacia = false;
+  //           }
+  //           // this.dataSource.data = this.campaigns as Campaign[];
+  //       }, (error) => {
+  //           console.log("Error al cargar las campañas", error)
+  //       });
+  //       // });
+
+  //   }
+
+
+
+  getCampaigns(categoria): void {
+    this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
       this.categories = [];
       campaignsSnapshot.forEach((campaign: any) => {
-        this.campaigns.push({
-          campaignInfo: campaign.payload.doc.data(),
-          campaignPic: campaign.payload.doc.data().campaignPic,
-          category: campaign.payload.doc.data().categories,
-          //campaignId: campaign.payload.doc.data().campaignId,
-          //campaignUpdateId: campaign.payload.doc.id,
-          campaignId: campaign.payload.doc.id,
-          name: campaign.payload.doc.data().name,
-          description: campaign.payload.doc.data().description,
-          promoter: campaign.payload.doc.data().promoter,
-          categories: campaign.payload.doc.data().categories,
-          dateStart: campaign.payload.doc.data().dateStart,
-          numFollowers: campaign.payload.doc.data().numFollowers,
-          state: campaign.payload.doc.data().state,
-          //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
+          this.campaigns.push({
+              campaignInfo: campaign.payload.doc.data(),
+              campaignPic: campaign.payload.doc.data().campaignPic,
+              category: campaign.payload.doc.data().categories,
+              campaignId: campaign.payload.doc.id,
+              //campaignUpdateId: campaign.payload.doc.id,
+              name: campaign.payload.doc.data().name,
+              description: campaign.payload.doc.data().description,
+              promoter: campaign.payload.doc.data().promoter,
+              categories: campaign.payload.doc.data().categories,
+              dateStart: campaign.payload.doc.data().dateStart,
+              numFollowers: campaign.payload.doc.data().numFollowers,
+              state: campaign.payload.doc.data().state,
+              categoria: campaign.payload.doc.data().categories,
+              //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
 
-        });
+          });
       });
-      //console.log("this.campaigns", this.campaigns);
+      console.log("this.campaigns", this.campaigns);
+      console.log(this.campaigns.length);
+      console.log("aplicado el filtro");
+      if (this.campaigns.length == 0) {
+          this.condicioncampanavacia = true;
+      } else {
+          this.condicioncampanavacia = false;
+      }
       // this.dataSource.data = this.campaigns as Campaign[];
-    }), (error) => {
-      console.log("Error al cargar las campañas", error);
+  }, (error) => {
+      console.log("Error al cargar las campañas", error)
+  });
+
+    
+
     }
-  }
+  
 
 
   
@@ -88,12 +141,34 @@ export class Campana {
   async ngOnInit() {
 
 
-    this.getCampaigns();
+    this.getCampaigns("");
+    this.getCategorias();
     //this.crearCampaign();
 
  
 
    
+  }
+
+  getCategorias(){
+    this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
+      this.listaCategorias = [];
+      this.listaCategorias.push({idCategoria: '',nombre:'Todas'})
+      campaignsSnapshot.forEach((cat: any) => {
+        console.log(cat)
+        this.listaCategorias.push({
+          idCategoria: cat.payload.doc.data(),
+          nombre: cat.payload.doc.data().name,
+
+        });
+      });
+      
+      console.log("this.categorias", this.listaCategorias);
+      // this.dataSource.data = this.campaigns as Campaign[];
+    }), (error) => {
+      console.log("Error al cargar las campañas", error);
+    }
+
   }
 
 

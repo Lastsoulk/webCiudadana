@@ -49,8 +49,8 @@
             <mat-label>Cateogoria</mat-label>
             <mat-select required (selectionChange)="selectedValue2($event)" name="nameAuthority" #nameAuthority>
                 <ng-container *ngFor="let categoria of categorias">
-                    <mat-option required  [value]="categoria" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
-                        <span>{{categoria}}<br /></span> 
+                    <mat-option required  [value]="categoria.nombre" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
+                        <span>{{categoria.nombre}}<br /></span> 
                     </mat-option>
                 </ng-container>
             </mat-select>

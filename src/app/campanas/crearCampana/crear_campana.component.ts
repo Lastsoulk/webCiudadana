@@ -53,6 +53,8 @@ export class CrearCampana {
     categoria: string;
 
     receiveMessage($event) {
+        console.log('Aqui estamos');
+        console.log($event);
         this.message = $event.split("/", 2)[0];
         this.correoautority = $event.split("/", 2)[1];
         this.categoria = $event.split("/", 3)[2];
