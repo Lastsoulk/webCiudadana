@@ -2,9 +2,16 @@ import { MapsAPILoader, MouseEvent } from "@agm/core";
 import { Component, ElementRef, Inject, NgZone, ViewChild, ViewEncapsulation } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ThemePalette } from "@angular/material/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NavigationExtras, Router } from '@angular/router';
 import { storage } from 'firebase';
 import * as firebase from 'firebase/app';
+import { Observable } from 'rxjs';
+import { FireBaseService } from '../../services/fire-base.service';
+// import firebase from "firebase/app";
+import { AuthService } from '../../services/auth.service';
+//import { DialogContentEvent } from './dialog.component';
+
 
 export interface DialogData {
     nombreconvocatoria: string;
@@ -12,6 +19,7 @@ export interface DialogData {
     fechaconvocatoria: string;
     fotoconvocatoria: string;
     direccion: string;
+    ciudadconvocatoria: string;
 
 }
 
@@ -38,12 +46,26 @@ export class DialogEvent {
     zoom: number;
     address: string;
     private geoCoder;
+    public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
+    public user;
 
     @ViewChild('search')
     public searchElementRef: ElementRef;
 
-    ngOnInit() {
+    constructor(
+        private mapsAPILoader: MapsAPILoader,
+        private ngZone: NgZone,
+       // public dialog: MatDialog,
+        public dialogRef: MatDialogRef<DialogEvent>,
+        private AuthService: AuthService,
+        private router: Router,
+        private firestoreService: FireBaseService,
+        @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+    async ngOnInit() {
         //this.setCurrentLocation();
+        this.user = await this.AuthService.getCurrentUser();
+      
         this.mapsAPILoader.load().then(() => {
             this.setCurrentLocation();
             this.geoCoder = new google.maps.Geocoder;
@@ -63,6 +85,7 @@ export class DialogEvent {
                     this.latitude = place.geometry.location.lat();
                     this.longitude = place.geometry.location.lng();
                     this.zoom = 12;
+                    console.log(place)
                 });
             });
         });
@@ -111,13 +134,9 @@ export class DialogEvent {
         date2: new FormControl(null, [Validators.required])
     })
 
-    constructor(
-        private mapsAPILoader: MapsAPILoader,
-        private ngZone: NgZone,
-        public dialogRef: MatDialogRef<DialogEvent>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    
 
-    onNoClick(): void {
+    cancelar(): void {
         this.dialogRef.close();
     }
 
@@ -152,6 +171,75 @@ export class DialogEvent {
             })
         }
     }
+
+    crearCategoria(){
+
+        // var lista = this.address
+        // var ciudadLista = lista.split(', ')
+        // var ciu = ''
+
+        // if(ciudadLista.length>1){
+        //     var temp = ciudadLista[1].split(' ')
+
+        //    // var agregar = ''
+        //     if(isNaN(temp[temp.length-1])){
+        //         ciu = ciudadLista[1]
+
+        //     }else{
+        //         ciu = temp.slice(0,-1).join(' ')
+    
+
+        //     }
+        
+        //     console.log('ciudad: '+ciu)
+        // }
+
+        var ciu = this.data.ciudadconvocatoria
+
+
+        ciu = ciu.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
+
+    
+
+        let dataEvento = {
+            address: this.address,
+            campaignId: '',
+            city : ciu,
+            dateCreate : '',
+            dateEvent: this.data.fechaconvocatoria,
+
+            name: this.data.nombreconvocatoria,
+            userId: this.user.uid,
+            description: this.data.descripcion,
+            eventPic: this.data.fotoconvocatoria,
+            state: { finished: false, rejected: false, running: false, waiting: true },
+            type: 'convocatoria',
+            numFollowers: 0,
+            env: 'deb'
+            
+            
+            // city : ciu
+
+        }
+
+
+        this.firestoreService.crearEvento(dataEvento);
+        console.log(dataEvento)
+        let dataCiudad = {
+            city: ciu
+        }
+        this.firestoreService.agregarCiudad(dataCiudad);
+        this.dialogRef.close();
+
+        // var datosDireccion = this.data.direccion
+        // console.log(this.address)
+        //const dialogRef1 = this.dialog.open(DialogContentEvent);
+
+
+
+    }
+
+
 
 
 }

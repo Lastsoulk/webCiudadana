@@ -99,16 +99,26 @@ export class FireBaseService {
 
   }
 
-  agregarCiudad(ciudad:any){
-
-
-    let body = JSON.stringify(ciudad[0]);
+  crearEvento(evento:any){
+    let body = JSON.stringify(evento[0]);
     let headers = new HttpHeaders({
       'Content-Type':'application/json'
     });
-    console.log(ciudad)
-    return this.firestore.collection("ciudades").add(ciudad);
 
+    
+    console.log('listo')
+    console.log(evento)
+    console.log('-')
+    return this.firestore.collection("events").add(evento);
+  }
+
+  agregarCiudad(ciudad:any){
+      let body = JSON.stringify(ciudad[0]);
+      let headers = new HttpHeaders({
+        'Content-Type':'application/json'
+      });
+      console.log(ciudad)
+      return this.firestore.collection("ciudades").add(ciudad);
   }
 
 
