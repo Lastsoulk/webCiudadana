@@ -218,6 +218,7 @@ export class CrearCampana {
 
         this.firestoreService.crearCampaña(data);
         
+        
         // crearCampaña(campaigns:any[])
 
     }
