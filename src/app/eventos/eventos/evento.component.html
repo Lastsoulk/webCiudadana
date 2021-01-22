@@ -1,11 +1,46 @@
 
 <div id="campañareciente">Eventos disponibles</div>
-<div style="width:240px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div>
+<div class="row">
+    <div class="example-container" style="display: flex;margin-top: 1em;margin-left: 1.5em;">
+        <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona tipo de evento:</div>
+        <mat-form-field appearance="fill">
+    
+          <mat-select (selectionChange)="getEvents('Todas',$event.value)">
+            <mat-option *ngFor="let tipo of tipoEvento" [value]="tipo">
+                {{tipo}}
+            </mat-option>
+         
+          </mat-select>
+        </mat-form-field>
+    </div>
+    
+    <div class="example-container" style="display: flex;margin-top: 1em;margin-left: 2.5em;" *ngIf="esConvocatoria">
+        <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una ciudad:</div>
+        <mat-form-field appearance="fill">
+    
+          <mat-select (selectionChange)="getEvents($event.value,'Convocatorias')">
+            <mat-option *ngFor="let ciu of ciudades" [value]="ciu">
+                {{ciu}}
+            </mat-option>
+         
+          </mat-select>
+        </mat-form-field>
+    </div>
+
+
+</div>
+
+<div style="width:240px;height:5px; background: #00A6FF;margin-left: 1.5em;margin-bottom: 2.5em;"></div>
 
 
 
+<div style="text-align: center;" *ngIf="condicioneventovacio">
+    <div style="    font-size: xx-large;color: #00A6FF;margin-top: 2em;">Lo sentimos, no hay información para mostrar</div>
+    <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
+</div>
 
-<mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;">
+
+<mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;" *ngIf="!condicioneventovacio">
     <mat-grid-tile *ngFor="let key of events">
         <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectEventDetail({eventId: key.eventId})" >
             <!-- (click)="redirectEventDetail({eventId: key.campaignId})" -->

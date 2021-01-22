@@ -15,9 +15,9 @@
       background-color: #ffb22b;
     }
  
-    color: #fff;
+    /* color: #fff; */
  
-    .mat-card-title {
+    /* .mat-card-title {
       font-size: 15px !important;
       display: flex;
       align-items: center;
@@ -27,7 +27,7 @@
         display: flex;
         align-items: center;
       }
-    }
+    } */
  
  
   .mat-card-actions {

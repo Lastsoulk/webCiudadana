@@ -73,6 +73,12 @@ export class FireBaseService {
     return this.firestore.collection("authorities").snapshotChanges();
   }
 
+  getCiudades(){
+    return this.firestore.collection("ciudades").snapshotChanges();
+  }
+
+
+
   getCategorias(){
     return this.firestore.collection("categories").snapshotChanges();
   }
@@ -87,17 +93,21 @@ export class FireBaseService {
 
 
     let producto = [{description:'campanita de prueba',name:'hola'}];
-    console.log('llegamos aca');
-    console.log(campaigns)
     
 
     return this.firestore.collection("campaigns").add(campaigns);
 
-    // return this.http.post('https://us-central1-test-cd786.cloudfunctions.net/CreateCampaign',body,{headers}).pipe(map(res=>{
-    //   console.log('hola aqui');
-    //   console.log(res);
-    //   return res;
-    // })) //.subscribe()
+  }
+
+  agregarCiudad(ciudad:any){
+
+
+    let body = JSON.stringify(ciudad[0]);
+    let headers = new HttpHeaders({
+      'Content-Type':'application/json'
+    });
+    console.log(ciudad)
+    return this.firestore.collection("ciudades").add(ciudad);
 
   }
 
@@ -128,9 +138,22 @@ export class FireBaseService {
     //return this.firestore.collection("events", ref => ref.where("campaignId",'==',event_id)).snapshotChanges();
   }
 
-    public getEvents() {
-
+  public getEvents(ciudad: any,tipo: any) {
+    if(ciudad=="Todas" && tipo == "Todas"){
       return this.firestore.collection("events", ref => ref.where("state.running",'==',true)).snapshotChanges();
+
+    }
+    else if(ciudad=="Todas" && tipo == "Noticias"){
+      return this.firestore.collection("events", ref => ref.where("state.running",'==',true).where("type","==","noticia")).snapshotChanges();
+
+    }else if(ciudad=="Todas" && tipo == "Convocatorias"){
+        return this.firestore.collection("events", ref => ref.where("state.running",'==',true).where("type","==","convocatoria")).snapshotChanges();
+
+    }else if(ciudad!="Todas" && tipo == "Convocatorias"){
+        return this.firestore.collection("events", ref => ref.where("state.running",'==',true).where("type","==","convocatoria").where("city","==",ciudad)).snapshotChanges();
+
+    }
+
 
   }
 

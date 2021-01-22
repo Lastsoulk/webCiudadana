@@ -210,10 +210,14 @@ export class CrearCampana {
             dateEnd: form.value.personal.contact.fechafin,
 
         }
-        console.log(data);
+        
+
+
+        
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
 
         this.firestoreService.crearCampaña(data);
+        
         // crearCampaña(campaigns:any[])
 
     }

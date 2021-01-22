@@ -36,6 +36,7 @@ export class Campana {
   public campaigns = [];
   public campaigns2 = [];
   public categories = [];
+  public ciudades = []
   condicioncampanavacia = false;
 
  // public producto = [{name:'campana adam',numFollowers:2}];
@@ -91,6 +92,66 @@ export class Campana {
   //   }
 
 
+    async ngOnInit() {
+
+
+        this.getCampaigns("");
+        this.getCategorias();
+     
+        //this.crearCampaign();
+
+    
+
+      
+    }
+  
+  getCiudades(){
+
+    
+        
+        this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
+          this.ciudades = [];
+          ciudadesSnapshot.forEach((ciudades: any) => {
+            var elemento = ciudades.payload.doc.data().city
+            if(this.ciudades.includes(elemento)){
+                
+            }else{
+                const add = this.ciudades.push(elemento)
+            }
+            // var lista = evento.payload.doc.data().address
+            // var ciudad = lista.split(', ')
+
+            // if(ciudad.length>1){
+            //   var temp = ciudad[1].split(' ')
+
+            //   var agregar = ''
+            //   if(isNaN(temp[temp.length-1])){
+            //     agregar = ciudad[1]
+
+            //   }else{
+            //     agregar = temp.slice(0,-1).join(' ')
+        
+
+            //   }
+          
+            //   if(this.ciudades.includes(agregar)){
+                
+            //   }else{
+            //     const add = this.ciudades.push(agregar)
+            //   }
+              
+            // }
+           
+      });
+
+      console.log('ciudades--')
+    console.log(this.ciudades)
+    
+    })
+    
+
+  }
+
 
   getCampaigns(categoria): void {
     this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
@@ -115,9 +176,6 @@ export class Campana {
 
           });
       });
-      console.log("this.campaigns", this.campaigns);
-      console.log(this.campaigns.length);
-      console.log("aplicado el filtro");
       if (this.campaigns.length == 0) {
           this.condicioncampanavacia = true;
       } else {
@@ -138,17 +196,7 @@ export class Campana {
 
   
   
-  async ngOnInit() {
-
-
-    this.getCampaigns("");
-    this.getCategorias();
-    //this.crearCampaign();
-
- 
-
-   
-  }
+  
 
   getCategorias(){
     this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
