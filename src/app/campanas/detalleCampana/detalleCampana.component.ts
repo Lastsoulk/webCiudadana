@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ConversationsService } from 'src/app/services/conversations.service';
 import { firestore } from 'firebase';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from '../../services/auth.service';
 import { DialogEvent } from './dialogevent.component';
 
 // import {firestore} from "@angular/fire/firestore"
@@ -30,6 +31,8 @@ export class DetalleCampana {
   fotoconvocatoria: string;
   direccion: string;
 
+  usuario: any;
+  user: any;
 
   public campaignUpdateId;
   public campaignId;
@@ -54,6 +57,7 @@ export class DetalleCampana {
     private firestoreService: FireBaseService,
     public router: Router,
     public route: ActivatedRoute,
+    private AuthService: AuthService,
     private conversationsService: ConversationsService,
     public dialog: MatDialog
     //private firestore: AngularFirestore
@@ -182,7 +186,21 @@ export class DetalleCampana {
   //       console.log(error);
   //     });
   //   }
+  async campanaspersonales() {
+    this.user = await this.AuthService.getCurrentUser();
+    this.getDatosUser(this.user.uid);
+  }
 
+  getDatosUser(userId) {
+    this.firestoreService.getDatosUser(userId).subscribe((userSnapshot) => {
+      this.usuario = userSnapshot.payload.data();
+      //console.log("datos usuario: ", this.usuario);
+
+    }, (error) => {
+      console.log(error)
+    });
+
+  }
 
 
 
