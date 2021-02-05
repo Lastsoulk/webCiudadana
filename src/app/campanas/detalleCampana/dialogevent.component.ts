@@ -193,7 +193,8 @@ export class DialogEvent {
         
         //     console.log('ciudad: '+ciu)
         // }
-
+        
+      
         var ciu = this.data.ciudadconvocatoria
 
 
@@ -203,9 +204,9 @@ export class DialogEvent {
 
         let dataEvento = {
             address: this.address,
-            campaignId: '',
+            campaignId: 'UJymY8ySDSypx5avSivc',
             city : ciu,
-            dateCreate : '',
+            dateCreate : new Date().getTime(),
             dateEvent: this.data.fechaconvocatoria,
 
             name: this.data.nombreconvocatoria,
@@ -221,6 +222,7 @@ export class DialogEvent {
             // city : ciu
 
         }
+        
 
 
         this.firestoreService.crearEvento(dataEvento);
@@ -233,7 +235,7 @@ export class DialogEvent {
 
         // var datosDireccion = this.data.direccion
         // console.log(this.address)
-        //const dialogRef1 = this.dialog.open(DialogContentEvent);
+        // const dialogRef1 = this.dialog.open(DialogContentEvent);
 
 
 

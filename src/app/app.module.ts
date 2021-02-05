@@ -37,6 +37,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { HttpClientModule } from '@angular/common/http';
 import { Eventos } from './eventos/eventos/evento.component';
+import { misEventos } from './eventos/misEventos/misEventos.component';
 import { DetalleEvento } from './eventos/detalleEvento/detalleEvento.component';
 import { RegistrarUsuario } from './cuenta/registrarUsuario/registrarUsuario.component';
 // import { firestore } from 'firebase';
@@ -113,12 +114,12 @@ import { AgmCoreModule } from '@agm/core';
     Nosotros,
     DetalleEvento,
     RegistrarUsuario,
+    misEventos,
     // EventDetailComponent
     SymptomComponent,
     AddressComponent,
     ContactComponent,
     DialogContentExampleDialog,
-    misCampanas,
     Eventos,
     ChatComponent
   ],

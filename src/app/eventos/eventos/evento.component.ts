@@ -79,7 +79,7 @@ export class Eventos {
       console.log('veamos: ', eventsSnapshot.length)
       eventsSnapshot.forEach((event: any) => {
         //console.log('test', event.payload.doc.data())
-        if (new Date(event.payload.doc.data().dateEvent).getTime() < new Date().getTime() && event.payload.doc.data().type === "convocatoria") {
+        if (new Date(event.payload.doc.data().dateEvent).getTime() != new Date().getTime() && event.payload.doc.data().type === "convocatoria") {
           console.log('La fecha del evento es menor al now', new Date(event.payload.doc.data().dateEvent).getTime() > new Date().getTime())
           this.events.push({
             name: event.payload.doc.data().name,
@@ -110,7 +110,8 @@ export class Eventos {
             state: event.payload.doc.data().state,
             dateEvent: event.payload.doc.data().dateEvent,
             city: event.payload.doc.data().city,
-            type: event.payload.doc.data().type
+            type: event.payload.doc.data().type,
+            dateCreate: event.payload.doc.data().dateCreate
           });
 
           //console.log('campanaid', event.payload.doc.data().campaignId)

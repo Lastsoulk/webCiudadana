@@ -58,6 +58,23 @@ export class FireBaseService {
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
 
+  getEventosUsuario(id:String="",userId:String="") {
+      if(id=="todos"){
+        console.log('cargando todas de: ',userId)
+        return this.firestore.collection("events", ref => ref.where("userId",'==',userId)).snapshotChanges();
+      }
+      else if(id=="negadas"){
+        return this.firestore.collection("events", ref => ref.where("userId",'==',userId).where("state.rejected","==",true)).snapshotChanges();
+      }else if(id=="pendientes"){
+        return this.firestore.collection("events", ref => ref.where("userId",'==',userId).where("state.waiting",'==',true)).snapshotChanges();
+      }else if(id=="aprobadas"){
+        return this.firestore.collection("events", ref => ref.where("userId",'==',userId).where("state.running",'==',true)).snapshotChanges();
+      }else{
+         return this.firestore.collection("events", ref => ref.where("userId",'==',userId)).snapshotChanges();
+      }
+    //return this.firestore.collection("campaignUpdates").snapshotChanges();
+  }
+
   getCampañasCategoria(categoria:String="") {
       if(categoria==""){
 
@@ -150,17 +167,17 @@ export class FireBaseService {
 
   public getEvents(ciudad: any,tipo: any) {
     if(ciudad=="Todas" && tipo == "Todas"){
-      return this.firestore.collection("events", ref => ref.where("state.running",'==',true)).snapshotChanges();
+      return this.firestore.collection("events").snapshotChanges(); //, ref => ref.where("state.running",'==',true)).snapshotChanges();
 
     }
     else if(ciudad=="Todas" && tipo == "Noticias"){
-      return this.firestore.collection("events", ref => ref.where("state.running",'==',true).where("type","==","noticia")).snapshotChanges();
+      return this.firestore.collection("events", ref => ref.where("type","==","noticia")).snapshotChanges();
 
     }else if(ciudad=="Todas" && tipo == "Convocatorias"){
-        return this.firestore.collection("events", ref => ref.where("state.running",'==',true).where("type","==","convocatoria")).snapshotChanges();
+        return this.firestore.collection("events", ref => ref.where("type","==","convocatoria")).snapshotChanges();
 
     }else if(ciudad!="Todas" && tipo == "Convocatorias"){
-        return this.firestore.collection("events", ref => ref.where("state.running",'==',true).where("type","==","convocatoria").where("city","==",ciudad)).snapshotChanges();
+        return this.firestore.collection("events", ref => ref.where("type","==","convocatoria").where("city","==",ciudad)).snapshotChanges();
 
     }
 
