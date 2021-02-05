@@ -10,7 +10,7 @@
         <p class="titulos">Descripcion del evento</p>
         <p class="textoDetalle">{{evento.description}}</p>
         <p class="titulos">Dia del evento</p>
-        <p class="textoDetalle">{{evento.dateEvent | date:'yyyy/MM/dd'}}</p>
+        <p class="textoDetalle">{{evento.dateEvent.seconds *1000 | date:'yyyy/MM/dd' | date:'yyyy/MM/dd'}}</p>
         <p class="titulos">Dirección</p>
         <p class="textoDetalle">{{evento.address}}</p>
         <p class="titulos">Ciudad</p>

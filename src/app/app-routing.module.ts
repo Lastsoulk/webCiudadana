@@ -14,6 +14,7 @@ import { Login } from './Login/login.component';
 import { CardFancyExample } from './home/home.component';
 import { RegistrarUsuario } from './cuenta/registrarUsuario/registrarUsuario.component';
 import { eventosComponent } from './eventos/eventos.component';
+import { misEventos } from './eventos/misEventos/misEventos.component';
 
 
 
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'eventos', component: Eventos },
   { path: 'registrarUsuario', component: RegistrarUsuario },
   { path: 'eventos', component: eventosComponent },
+  { path: 'misEventos', component: misEventos },
 
 ];
 
