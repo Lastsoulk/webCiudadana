@@ -80,6 +80,10 @@ export class FireBaseService {
 
         return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
       }
+      else if(categoria.toLowerCase()=="todas"){
+
+        return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
+      }
      else{
          return this.firestore.collection("campaigns", ref => ref.where("categoria",'==',categoria).where("state.running",'==',true)).snapshotChanges();
       }

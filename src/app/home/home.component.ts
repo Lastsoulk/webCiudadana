@@ -102,5 +102,6 @@ export class CardFancyExample implements OnInit {
         this.router.navigate([pestana], navigationExtras);
     }
 
-    
+
+
 }
