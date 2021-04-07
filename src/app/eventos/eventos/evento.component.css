@@ -48,12 +48,12 @@
   }
 
   .tarjeta{
-    border: 2px solid green;
+    
     border-radius: 25px;
   }
 
   #divAbajo{
-    border: 1px solid black;
+  
     border-radius: 15px;
     width: 75%;
     margin: 0 auto;

@@ -1,11 +1,13 @@
 
 <div id="campañareciente">Campañas Cerca de Ti</div>
+<div style="width: 100%; height: 3px; background: #00A6FF; margin-bottom: 3em;"></div>
 
-<div class="example-container" style="display: flex;margin-top: 1em;">
+
+<div style="display: flex;margin-top: 1em;">
     <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una categoria:</div>
     <mat-form-field appearance="fill">
 
-      <mat-select (selectionChange)="getCampaigns($event.value)">
+      <mat-select (selectionChange)="getCampaigns($event.value)" [(ngModel)]="selectedCategory">
         <mat-option *ngFor="let cat of listaCategorias" [value]="cat.nombre">
             {{cat.nombre}}
         </mat-option>
@@ -16,82 +18,72 @@
 </div>
 
 
-
-
-<div style="width:240px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div>
-
 <div style="text-align: center;" *ngIf="condicioncampanavacia">
     <div style="    font-size: xx-large;color: #00A6FF;margin-top: 2em;">Lo sentimos, no hay campañas con esa categoria</div>
     <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
 </div>
 
 
+
+<!--MELANIE-->
+<div *ngIf="!condicioncampanavacia" class="row" style="display: flex;padding-left: 3em;margin-top:2em; margin-right:3em;">
+    <div *ngFor="let key of campaigns" class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">       
+        <mat-sidenav-container class="example-container" >
+            <mat-card class="example-card" >
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                    <mat-card-title>{{key.name}}</mat-card-title>
+                </mat-card-header>
+                <img mat-card-image img-fluid src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+                <mat-card-content> 
+                    <h4>{{key.name}}</h4>
+                    <p style="font-size: medium;  text-align: justify;">{{key.description | slice:0:50}}</p>
+                </mat-card-content>
+                <mat-card-actions class="action-buttons">
+                    <!--button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >Followers:
+                        <mat-icon class="material-icons1" style="color:#f44336">
+                        face</mat-icon> {{key.numFollowers}}</button-->
+					<button mat-button color="primary">
+                            <mat-icon *ngIf="showFirst" style="color:#f44336">favorite_border</mat-icon> 
+                            <mat-icon *ngIf="!showFirst" style="color:#f44336">favorite</mat-icon> {{key.numFollowers}} Followers
+                    </button>
+
+                    <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                    (click)="redirectCampaignDetail({campaignId: key.campaignId})" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                     Ver más</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-sidenav-container>
+    </div>
+
+</div>
+
+<!--MELANIE-->
+<!--
 <mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;" *ngIf="!condicioncampanavacia">
     <mat-grid-tile *ngFor="let key of campaigns">
         <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectCampaignDetail({campaignId: key.campaignId})">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                 <mat-card-title>{{key.name}}</mat-card-title>
-                <!-- <mat-card-subtitle>Promotor Estrella</mat-card-subtitle> -->
+                        
             </mat-card-header>
             <div class="container" style="margin-top: 5%;padding-left: 0;padding-right: 0;text-align: center;">
                 <img mat-card-image src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                 <div class="content">
                   <h4>{{key.name}}</h4>
                   <p style="font-size: 17.2px;">{{key.description | slice:0:50}}</p>
-                  <!-- <p style="color:#13CE66;">4  convocatorias</p> -->
                 </div>
                 <div id="divAbajo">
                     <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
      
-                    <!-- <button style="position: absolute;bottom: 0;color:yellow;" mat-icon-button  aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button> -->
-                    <!-- <button mat-icon-button class="btn btn-primary btn-sm" (click)="redirectCampaignDetail({campaignId: key.campaignId})">
-                        Ver
-                    </button> -->
+                    
                 </div>
                 
             </div>
             
         </mat-card>
     </mat-grid-tile>
-    <!-- <mat-grid-tile>
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady.jpg);"></div>
-                <mat-card-title>Carla Alcivar</mat-card-title>
-                <mat-card-subtitle>Promotora Destacada</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="../../assets/img/493-banner2p-750x600.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                <mat-card-title>Andres Caicedo</mat-card-title>
-                <mat-card-subtitle>Promotor Estrella</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile> -->
-</mat-grid-list>
+
+     
+</mat-grid-list>-->

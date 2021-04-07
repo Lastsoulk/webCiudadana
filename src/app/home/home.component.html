@@ -1,194 +1,15 @@
-<div id="campañareciente">Campañas Recientes</div>
-<div style="width:230px;height:5px; background: #00A6FF;margin-left: 4.5em;"></div>
 
-<div ng-repeat="(key, value) in myArray" style="display: flex;margin-left: 5em;margin-right: 5em;margin-top: 1em;margin-bottom: 1em;">
-    <div class="col-md-4" style="margin-right: 2em;">
-
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                <mat-card-title>{{myArray[2].promoter.name}}</mat-card-title>
-                <!-- <mat-card-subtitle>Ubicación: {{myArray[2].zone.name}} </mat-card-subtitle> -->
-            </mat-card-header>
-            <div class="container" style="margin-top: 0;padding-left: 0;padding-right: 0;text-align: center;">
-                <img mat-card-image src={{myArray[2].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
-                <div class="content">
-                  <h4>{{myArray[2].name}}</h4>
-                  <p style="font-size: 12px;">{{myArray[2].description}}</p>
-                  <p style="color:#13CE66;">{{myArray[2].numFollowers}}  followers</p>
-                </div>
-                <div class="content2">
-                    <button style="position: absolute;top: 0;color:white;" mat-icon-button  aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-            </div>
-            
-        </mat-card>
-    </div>
-    <div class="col-md-4" style="margin-right: 2em;">
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady.jpg);"></div>
-                <mat-card-title>{{myArray[1].promoter.name}}</mat-card-title>
-                <!-- <mat-card-subtitle>Ubicación: {{myArray[1].zone.name}}</mat-card-subtitle> -->
-            </mat-card-header>
-            <div (click)='moveToSelectedTab("detalleCampana")' class="container" style="margin-top: 0;padding-left: 0;padding-right: 0;text-align: center;">
-                <img mat-card-image src={{myArray[0].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
-                <div class="content">
-                  <h4>{{myArray[1].name}}</h4>
-                  <p style="font-size: 12px;">{{myArray[1].description}}</p>
-                  <p style="color:#13CE66;">{{myArray[1].numFollowers}}   followers</p>
-                </div>
-                <div class="content2">
-                    <button style="position: absolute;top: 0;left: 20;" mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-            </div>
-            
-        </mat-card>
-    </div>
-
-    <!-- <div class="col-md-4" style="margin-right: 2em;">
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady.jpg);"></div>
-                <mat-card-title>{{myArray[1].promoter.name}}</mat-card-title>
-                <mat-card-subtitle>Ubicación: {{myArray[1].zone.name}}</mat-card-subtitle>
-            </mat-card-header>
-            <div (click)='moveToSelectedTab("detalleCampana")' class="container" style="margin-top: 0;padding-left: 0;padding-right: 0;text-align: center;">
-                <img mat-card-image src={{myArray[0].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
-                <div class="content">
-                  <h4>{{myArray[1].name}}</h4>
-                  <p style="font-size: 12px;">{{myArray[1].description}}</p>
-                  <p style="color:#13CE66;">{{myArray[1].numFollowers}}   followers</p>
-                </div>
-                <div class="content2">
-                    <button style="position: absolute;top: 0;left: 20;" mat-icon-button color="warn" aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-            </div>
-            
-        </mat-card>
-    </div> -->
-
-    <div>
-        <div style="height: 100%;">
-            <mat-card style="margin-right: 2em; height: 100%;width: 100%;background: darkgrey;" class="example-card">
-                <mat-card-content>
-                    <p style="    font-size: xxx-large; color: white;display: flex;text-align: center;">
-                        ¿Quieres saber que campañas están cerca de ti?
-                    </p>
-                </mat-card-content>
-                <mat-card-actions style="float: none;text-align: center;">
-                    <button style="width: 20em;height: 3em;font-size: medium;" (click)="router.navigate(['/campanas']);" mat-raised-button>Descúbrelo</button>
-                </mat-card-actions>
-            </mat-card>
-        </div>
-    </div>
-    <!-- <div class="col-md-4">
-        <mat-card style="margin-right: 2em; height: 100%;width: 100%;background: darkgrey;" class="example-card">
-            <mat-card-content>
-                <p style="    font-size: xxx-large; color: white;display: flex;text-align: center;">
-                    ¿Quieres crear una Campaña?
-                </p>
-            </mat-card-content>
-            <mat-card-actions style="float: none;text-align: center;">
-                <button style="width: 20em;height: 3em;font-size: medium;" (click)="cambiarPestana('crearCampana')" mat-raised-button>Comienza Aquí</button>
-            </mat-card-actions>
-        </mat-card>
-    </div> -->
-</div>
-
-<div id="campañareciente">Eventos Destacados</div>
-<div style="width:230px;height:5px; background: #00A6FF;margin-left: 4em;margin-bottom: 0.5em;"></div>
-
-<div style="display: flex;padding: 2em;padding-top: 0.5em;">
-    <div>
-        <mat-card style="margin-left: 2em;margin-right: 1em" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/169346.jpg);"></div>
-                <mat-card-title>{{events[0].name}}</mat-card-title>
-                <mat-card-subtitle>{{events[0].type}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="{{events[0].eventPic}}" width="282.400" height="211.800" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    {{events[0].description}}
-                </p>
-            </mat-card-content>
-            <mat-card-actions style="display: flex;">
-                <button mat-button style="color: #00A6FF;margin-right: 8em;">Ver más..</button>
-                <div style="font-size: 25px;">100</div>
-                <div class="content3" style="display: flex;">
-                    <button style="position: absolute;color:#f44336;" mat-icon-button  aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-    <div>
-        <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady2.jpg);"></div>
-                <mat-card-title>{{events[4].name}}</mat-card-title>
-                <mat-card-subtitle>{{events[4].type}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="{{events[4].eventPic}}" width="282.400" height="211.800" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    {{events[4].description}}
-                </p>
-            </mat-card-content>
-            <mat-card-actions style="display: flex;">
-                <button style="color: #00A6FF;margin-right: 8em;" mat-button>Ver más..</button>
-                <div style="font-size: 25px;">300</div>
-                <div class="content3">
-                    <button style="position: absolute;color:#f44336;" mat-icon-button  aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-    <div>
-        <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image"></div>
-                <mat-card-title>{{events[6].name}}</mat-card-title>
-                <mat-card-subtitle>{{events[6].type}}</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="{{events[6].eventPic}}" width="282.400" height="211.800" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    {{events[6].description}}
-                </p>
-            </mat-card-content>
-            <mat-card-actions style="display: flex;">
-                <button style="color: #00A6FF;margin-right: 8em;" mat-button>Ver más..</button>
-                <div style="font-size: 25px;">500</div>
-                <div class="content3">
-                    <button style="position: absolute;color:#f44336;" mat-icon-button  aria-label="Example icon button with a heart icon">
-                        <mat-icon>favorite</mat-icon>
-                    </button>
-                </div>
-            </mat-card-actions>
-        </mat-card>
-    </div>
- 
-</div>
-
-<ngb-carousel *ngIf="images" style="margin-top: 1em;">
+<div ñ>
+    <ngb-carousel *ngIf="images"  >
     <ng-template ngbSlide>
         <div class="picsum-img-wrapper">
             <img [src]="images[0]" alt="Random first slide">
         </div>
-        <div class="carousel-caption">
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        <div class="carousel-caption" >
+            <p style="font-size: xxx-large; color: white;display: block; text-align: center;">
+                ¿Quieres saber que campañas están cerca de ti?
+            </p>
+            <button style="width: 20em;height: 3em;font-size: medium;" (click)="router.navigate(['/campanas']);" mat-raised-button>Descúbrelo</button>
         </div>
     </ng-template>
     <ng-template ngbSlide>
@@ -196,8 +17,10 @@
             <img [src]="images[1]" alt="Random second slide">
         </div>
         <div class="carousel-caption">
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p style="font-size: xxx-large; color: white;display: block; text-align: center;">
+                Mantente informado de nuestros eventos
+            </p>
+            <button style="width: 20em;height: 3em;font-size: medium;" (click)="router.navigate(['/eventos']);" mat-raised-button>Descúbrelo</button>
         </div>
     </ng-template>
     <ng-template ngbSlide>
@@ -205,14 +28,250 @@
             <img [src]="images[2]" alt="Random third slide">
         </div>
         <div class="carousel-caption">
-            <h3>Third slide label</h3>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+            <p style="    font-size: xxx-large; color: white;display: block;text-align: center;">
+               Mantente informado con nuestras noticias
+            </p>
+            <button style="width: 20em;height: 3em;font-size: medium;" (click)="router.navigate(['/eventos']);" mat-raised-button>Descúbrelo</button>
         </div>
     </ng-template>
 </ngb-carousel>
+</div> 
 
-<!--<ul>
-    <li *ngFor='let doc of myArray'>
-        {{doc.promoter.name}}
-    </li>
-</ul>-->
+
+<div id="campañareciente">Campañas Recientes</div>
+<div style="width:290px;height:5px; background: #00A6FF;margin-left: 4.5em;"></div>
+
+<div class="row" ng-repeat="(key, value) in myArray" style=" display: flex;padding-left: 3em; margin-right:5em; margin-top: 2em;">
+<!--<div class="row" *ngFor="let objeto of myArray; let indice=index" style="display: flex;padding-left: 3em; margin-right:5em;">-->
+
+<div class="col-xs-12 col-md-4 col-lg-4" style=" margin-bottom: 2em;">
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                <mat-card-title>{{myArray[1].name}}</mat-card-title>
+                <mat-card-subtitle>{{myArray[1].promoter.name}} </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image  src={{myArray[1].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium; text-align: justify;">{{myArray[1].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary"><mat-icon class="material-icons1" >favorite</mat-icon > {{myArray[2].numFollowers}}</button>
+                <button mat-icon-button style="font-size: medium;" color="primary"(click)="router.navigate(['/campanas'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon> Ver más</button>             
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                <mat-card-title>{{myArray[2].name}}</mat-card-title>
+                <mat-card-subtitle>{{myArray[2].promoter.name}} </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src={{myArray[2].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{myArray[2].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary"><mat-icon class="material-icons1" >favorite</mat-icon > {{myArray[2].numFollowers}}</button>
+                <button mat-icon-button style="font-size: medium;" color="primary"(click)="router.navigate(['/campanas'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon> Ver más</button>             
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+<!--melanie-->
+
+<!--melanie-->
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">
+         
+    <mat-sidenav-container class="example-container">
+
+        <mat-card class="example-card" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                <mat-card-title>{{myArray[1].name}}</mat-card-title>
+                <mat-card-subtitle>{{myArray[1].promoter.name}} </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src={{myArray[1].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{myArray[1].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary"><mat-icon class="material-icons1" >favorite</mat-icon > {{myArray[1].numFollowers}}</button>
+                <button mat-icon-button style="font-size: medium;" color="primary"(click)="router.navigate(['/campanas'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon> Ver más</button>
+                    
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                <mat-card-title>{{myArray[3].name}}</mat-card-title>
+                <mat-card-subtitle>{{myArray[3].promoter.name}} </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src={{myArray[3].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium; text-align: justify;">{{myArray[3].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary" ><mat-icon class="material-icons1" >favorite</mat-icon > {{myArray[3].numFollowers}}</button>
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary" (click)="router.navigate(['/campanas'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon> Ver más</button>
+                    
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                <mat-card-title>{{myArray[3].name}}</mat-card-title>
+                <mat-card-subtitle>{{myArray[3].promoter.name}} </mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image src={{myArray[3].campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium; text-align: justify;">{{myArray[3].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary" ><mat-icon class="material-icons1" >favorite</mat-icon > {{myArray[3].numFollowers}}</button>
+                <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary" (click)="router.navigate(['/campanas'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon> Ver más</button>
+               
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+</div>
+
+
+<div id="campañareciente">Eventos Destacados</div>
+<div style="width:290px;height:5px; background: #00A6FF;margin-left: 4.5em;"></div>
+
+<div class="row" style="display: flex;padding-left: 3em;margin-top:2em; margin-right:3em;">
+
+
+<!-- MELANIE <div class="col-md-4" style="margin-right: 2em;">-->
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">       
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card1" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                <mat-card-title>{{events[0].name}}</mat-card-title>
+                <mat-card-subtitle>{{events[0].type}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image img-fluid src={{events[0].eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{events[0].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >
+                    <mat-icon class="material-icons1" style="color:#f44336">
+                    favorite</mat-icon>100</button>
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                (click)="router.navigate(['/eventos'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                 Ver más</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">       
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card1" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/169346.jpg);"></div>
+                <mat-card-title>{{events[1].name}}</mat-card-title>
+                <mat-card-subtitle>{{events[1].type}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image img-fluid src={{events[1].eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{events[1].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >
+                    <mat-icon class="material-icons1" style="color:#f44336">
+                    favorite</mat-icon>200</button>
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                (click)="router.navigate(['/eventos'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                 Ver más</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">         
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card1" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/169346.jpg);"></div>
+                <mat-card-title>{{events[2].name}}</mat-card-title>
+                <mat-card-subtitle>{{events[2].type}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image img-fluid src={{events[2].eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{events[2].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >
+                    <mat-icon class="material-icons1" style="color:#f44336">
+                    favorite</mat-icon>4500</button>
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                (click)="router.navigate(['/eventos'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                 Ver más</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;"> 
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card1" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>{{events[3].name}}</mat-card-title>
+                <mat-card-subtitle>{{events[3].type}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image img-fluid src={{events[3].eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{events[3].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >
+                    <mat-icon class="material-icons1" style="color:#f44336">
+                    favorite</mat-icon>90</button>
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                (click)="router.navigate(['/eventos'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                 Ver más</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+<div class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">         
+    <mat-sidenav-container class="example-container">
+        <mat-card class="example-card1" >
+            <mat-card-header>
+                <div mat-card-avatar class="example-header-image"></div>
+                <mat-card-title>{{events[4].name}}</mat-card-title>
+                <mat-card-subtitle>{{events[4].type}}</mat-card-subtitle>
+            </mat-card-header>
+            <img mat-card-image img-fluid src={{events[4].eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+            <mat-card-content> 
+                <p style="font-size: medium;  text-align: justify;">{{events[4].description}}</p></mat-card-content>
+            <mat-card-actions class="action-buttons">
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >
+                    <mat-icon class="material-icons1" style="color:#f44336">
+                        favorite</mat-icon>1230</button>
+                <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                (click)="router.navigate(['/eventos'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                 Ver más</button>
+            </mat-card-actions>
+        </mat-card>
+    </mat-sidenav-container>
+</div>
+
+<!--melanie-->
+</div>

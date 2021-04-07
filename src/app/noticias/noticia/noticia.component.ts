@@ -8,7 +8,6 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
 import { MatTableDataSource } from '@angular/material/table';
 import firebase from 'firebase';
-import { AppComponent } from 'src/app/app.component';
 
 /**
  * @title Card with multiple sections
@@ -22,11 +21,11 @@ interface Ciudad {
 }
 
 @Component({
-  selector: 'events',
-  templateUrl: './evento.component.html',
-  styleUrls: ['./evento.component.css'],
+  selector: 'noticia',
+  templateUrl: './noticia.component.html',
+  styleUrls: ['./noticia.component.css'],
 })
-export class Eventos {
+export class Noticias {
   images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
   public events = [];
@@ -154,8 +153,8 @@ export class Eventos {
 
 
     this.getCiudades();
-    this.getEvents("Todas", "Convocatorias");
-    this.esConvocatoria = AppComponent.estoyLogeado;
+    this.getEvents("Todas", "Noticias");
+
   }
 
   getCiudades() {
