@@ -53,7 +53,11 @@ body {
 
 
 .example-card {
+<<<<<<< HEAD
     max-width: 100%;
+=======
+    max-width: 400px;
+>>>>>>> branchbryan
     margin-top: 4px;
   }
   

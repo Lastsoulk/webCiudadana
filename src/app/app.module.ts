@@ -93,6 +93,9 @@ import { DialogEvent } from './campanas/detalleCampana/dialogevent.component';
 import { DpDatePickerModule } from 'ng2-date-picker';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule, } from '@angular-material-components/datetime-picker';
 import { AgmCoreModule } from '@agm/core';
+import { noticiasComponent } from './noticias/noticias.component';
+import { Noticias } from './noticias/noticia/noticia.component';
+import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.component';
 
 @NgModule({
   declarations: [
@@ -121,7 +124,10 @@ import { AgmCoreModule } from '@agm/core';
     ContactComponent,
     DialogContentExampleDialog,
     Eventos,
-    ChatComponent
+    ChatComponent,
+    noticiasComponent,
+    Noticias,
+    DetalleNoticia
   ],
   imports: [
     AgmCoreModule.forRoot({

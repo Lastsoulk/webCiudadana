@@ -7,6 +7,7 @@ import { rejects } from 'assert';
 import { first } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import firebase from 'firebase';
+import { AppComponent } from '../app.component';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,7 @@ export class AuthService {
     const email = res.user.email;
     
     console.log('esto es: ',res.user.uid);
+    AppComponent.estoyLogeado = true;
     this.router.navigate(["/home"])
   }
 
@@ -85,6 +87,7 @@ export class AuthService {
 
   async logout() {
     try {
+      AppComponent.estoyLogeado=false;
       await this.afAuth.signOut();
     }
     catch (error) {

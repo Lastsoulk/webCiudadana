@@ -32,12 +32,17 @@ export class Campana {
   public dataSource = new MatTableDataSource<Campana>();
   public dataSource2 = new MatTableDataSource<Campana>();
   public listaCategorias: any[] = []
+  public selectedCategory;
 
   public campaigns = [];
   public campaigns2 = [];
   public categories = [];
   public ciudades = []
   condicioncampanavacia = false;
+
+
+  isFavorite: boolean[] = [];
+
 
  // public producto = [{name:'campana adam',numFollowers:2}];
 
@@ -154,10 +159,14 @@ export class Campana {
 
 
   getCampaigns(categoria): void {
+    if(categoria=="Todas"){
+      categoria="";
+    }
     this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
       this.categories = [];
       campaignsSnapshot.forEach((campaign: any) => {
+          console.log(campaign.payload.doc.data());
           this.campaigns.push({
               campaignInfo: campaign.payload.doc.data(),
               campaignPic: campaign.payload.doc.data().campaignPic,
@@ -190,12 +199,6 @@ export class Campana {
 
     }
   
-
-
-  
-
-  
-  
   
 
   getCategorias(){
@@ -203,7 +206,6 @@ export class Campana {
       this.listaCategorias = [];
       this.listaCategorias.push({idCategoria: '',nombre:'Todas'})
       campaignsSnapshot.forEach((cat: any) => {
-        console.log(cat)
         this.listaCategorias.push({
           idCategoria: cat.payload.doc.data(),
           nombre: cat.payload.doc.data().name,
@@ -211,28 +213,13 @@ export class Campana {
         });
       });
       
-      console.log("this.categorias", this.listaCategorias);
-      // this.dataSource.data = this.campaigns as Campaign[];
+      this.selectedCategory= this.listaCategorias[0].nombre;
     }), (error) => {
       console.log("Error al cargar las campañas", error);
     }
-
+    
   }
 
-
-  //   crearCampaign(){
-  //   console.log('Aqui llamaremos')
-  //   console.log(this.producto)
-  //   this.firestoreService.crearCampaña(this.producto);
-    
-  //   // .subscribe(
-  //   //   (response)=>console.log(response),
-  //   //   (error)=>{
-  //   //       console.log('error de crear1');
-  //   //       console.log(error);
-  //   //   }
-  //   // )
-  // }
 
 
   redirectCampaignDetail(value) {
@@ -265,4 +252,9 @@ export class Campana {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
  
+  isFavoritee(elem: any) {
+    this.isFavorite[elem] = !this.isFavorite[elem];
+    // Add other code here
+  }
+
 }

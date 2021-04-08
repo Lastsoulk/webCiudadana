@@ -7,7 +7,7 @@
     <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una categoria:</div>
     <mat-form-field appearance="fill">
 
-      <mat-select (selectionChange)="getCampaigns($event.value)">
+      <mat-select (selectionChange)="getCampaigns($event.value)" [(ngModel)]="selectedCategory">
         <mat-option *ngFor="let cat of listaCategorias" [value]="cat.nombre">
             {{cat.nombre}}
         </mat-option>
@@ -28,21 +28,29 @@
 <!--MELANIE-->
 <div *ngIf="!condicioncampanavacia" class="row" style="display: flex;padding-left: 3em;margin-top:2em; margin-right:3em;">
     <div *ngFor="let key of campaigns" class="col-xs-12 col-md-4 col-lg-4" style="margin-bottom: 2em;">       
+
         <mat-sidenav-container class="example-container" (click)="redirectCampaignDetail({campaignId: key.campaignId})">
-            <mat-card class="example-card" >
+           <mat-card class="example-card" >
                 <mat-card-header>
                     <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                     <mat-card-title>{{key.name}}</mat-card-title>
                 </mat-card-header>
-                <img  src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+                     <img mat-card-image img-fluid src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+
                 <mat-card-content> 
                     <h4>{{key.name}}</h4>
                     <p style="font-size: medium;  text-align: justify;">{{key.description | slice:0:50}}</p>
                 </mat-card-content>
                 <mat-card-actions class="action-buttons">
-                    <button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >Followers:
+
+                    <!--button mat-icon-button color="primary" style="font-size: medium; margin-right: 5em;" >Followers:
                         <mat-icon class="material-icons1" style="color:#f44336">
-                        face</mat-icon> {{key.numFollowers}}</button>
+                        face</mat-icon> {{key.numFollowers}}</button-->
+					<button mat-button color="primary">
+                            <mat-icon *ngIf="showFirst" style="color:#f44336">favorite_border</mat-icon> 
+                            <mat-icon *ngIf="!showFirst" style="color:#f44336">favorite</mat-icon> {{key.numFollowers}} Followers
+                    </button>
+
                     <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
                     (click)="redirectCampaignDetail({campaignId: key.campaignId})" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
                      Ver más</button>
@@ -70,8 +78,7 @@
                   <p style="font-size: 17.2px;">{{key.description | slice:0:50}}</p>
                 </div>
                 <div id="divAbajo">
-                    <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
-                </div>
+                    <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>  </div>
             </div>
         </mat-card>
     </mat-grid-tile>

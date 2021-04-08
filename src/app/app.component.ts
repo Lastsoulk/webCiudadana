@@ -9,8 +9,13 @@ import * as firebase from 'firebase/app'; //The core firebase client
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
+
 export class AppComponent {
   title = 'Ayudar App';
+  public estoyLogeado = false;
+  static estoyLogeado: boolean;
 
   constructor(
   

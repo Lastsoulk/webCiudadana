@@ -15,6 +15,9 @@ import { CardFancyExample } from './home/home.component';
 import { RegistrarUsuario } from './cuenta/registrarUsuario/registrarUsuario.component';
 import { eventosComponent } from './eventos/eventos.component';
 import { misEventos } from './eventos/misEventos/misEventos.component';
+import { noticiasComponent } from './noticias/noticias.component';
+import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.component';
+import { Noticias } from './noticias/noticia/noticia.component';
 
 
 
@@ -34,6 +37,10 @@ const routes: Routes = [
   { path: 'eventos', component: eventosComponent },
   { path: 'misEventos', component: misEventos },
 
+  
+  { path: 'noticias', component: Noticias },
+  { path: 'noticias', component: noticiasComponent },
+  { path: 'detalleNoticia', component: DetalleNoticia },
 ];
 
 @NgModule({
