@@ -23,6 +23,8 @@ export class DetalleEvento {
     public detalleEvento = undefined;
     public evento = undefined;
     public eventoId = undefined;
+
+    public promotor = undefined;
     // public lastCampaignUpdate = undefined;
     
     // public categoriesUpdate = [];
@@ -59,17 +61,27 @@ export class DetalleEvento {
         this.getRouteParams();
         this.getEventById(this.eventoId);
         //this.miCampanaNegada = this.misCampanas;
+        
   }
 
   getEventById(eventoId) {
     this.firestoreService.getEventById(eventoId).subscribe((eventSnapshot) => {
     this.evento = eventSnapshot.payload.data();
     console.log('detalle evento: ',this.evento)
+    this.firestoreService.getDatosUser(this.evento.userId).subscribe((eventSnapshot) => {
+      this.promotor = eventSnapshot.payload.data();
+      console.log('usuario: ',this.promotor)
 
+
+    }, (error) => {
+      console.log("Error al cargar el evento", error)
+    });
 
     }, (error) => {
       console.log(error)
     });
+
+    
   }
 
 

@@ -165,9 +165,12 @@ export class Campana {
     this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
       this.categories = [];
+      
       campaignsSnapshot.forEach((campaign: any) => {
           console.log(campaign.payload.doc.data());
-          this.campaigns.push({
+          //console.log(campaign.payload.doc.data().state);
+          if(campaign.payload.doc.data().state.running){
+            this.campaigns.push({
               campaignInfo: campaign.payload.doc.data(),
               campaignPic: campaign.payload.doc.data().campaignPic,
               category: campaign.payload.doc.data().categories,
@@ -183,8 +186,11 @@ export class Campana {
               categoria: campaign.payload.doc.data().categories,
               //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
 
-          });
+            });
+          }
+          
       });
+      console.log(this.campaigns.length);
       if (this.campaigns.length == 0) {
           this.condicioncampanavacia = true;
       } else {

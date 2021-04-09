@@ -15,11 +15,11 @@
         </mat-form-field>
     </div-->
     
-    <div class="example-container" style="display: flex;margin-top: 1em;margin-left: 2.5em;">
+    <div class="example" style="display: flex;margin-top: 1em;margin-left: 2.5em;">
         <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una ciudad:</div>
         <mat-form-field appearance="fill">
     
-          <mat-select (selectionChange)="getEvents($event.value,'Convocatorias')">
+          <mat-select (selectionChange)="getEvents($event.value,'Convocatorias')" [(ngModel)]="selectedCity">
             <mat-option *ngFor="let ciu of ciudades" [value]="ciu">
                 {{ciu}}
             </mat-option>
@@ -72,7 +72,7 @@
                 
                 <mat-card-content> 
                     <p style="font-size: 20px; text-align:center;">{{key.description | slice:0:40}}</p>
-                    <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent | date:'yyyy/MM/dd'}}</p>
+                    <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent | date:'dd/MM/yyyy'}}</p>
                     <p style="font-size: 20px; text-align:center;">Direccion: {{key.address}}</p>
                 </mat-card-content>
                 <mat-card-actions class="action-buttons">

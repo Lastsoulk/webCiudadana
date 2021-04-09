@@ -38,6 +38,7 @@ export class Eventos {
   public esConvocatoria = false;
   public condicioneventovacio = false;
 
+  public selectedCity;
 
   constructor(
     private firestore: AngularFirestore,
@@ -77,7 +78,7 @@ export class Eventos {
       this.events = [];
       this.categories = [];
       let i = 0
-      console.log('veamos: ', eventsSnapshot.length)
+      //console.log('veamos: ', eventsSnapshot.length)
       eventsSnapshot.forEach((event: any) => {
         //console.log('test', event.payload.doc.data())
         if (new Date(event.payload.doc.data().dateEvent).getTime() != new Date().getTime() && event.payload.doc.data().type === "convocatoria") {
@@ -101,6 +102,7 @@ export class Eventos {
             this.events[i]['nombrecampana'] = snapshot.data().name
             i++
           })
+          console.log(this.events);
         } else if (event.payload.doc.data().type == 'noticia') {
           this.events.push({
             name: event.payload.doc.data().name,
@@ -138,7 +140,7 @@ export class Eventos {
     }, (error) => {
       console.log("Error al cargar los eventos", error)
     });
-
+    
 
   }
 
@@ -172,7 +174,7 @@ export class Eventos {
         } else {
           const add = this.ciudades.push(elemento)
         }
-
+        this.selectedCity = this.ciudades[0];
       });
 
 
