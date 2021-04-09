@@ -1,42 +1,40 @@
 <div style="margin-bottom: 50px;" id="titulo"> 
-    <h3>{{originalCampaign.name}}</h3>
+    <h2>{{originalCampaign.name}}</h2>
+    <div style="width: 100%; height: 3px; background: #00A6FF; margin-bottom: 3em;"></div>
 </div>
 <!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
 <div id="mainCampana">
-    <div id="campanaFoto" style="height: 500px;">
-        <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
-    </div>
-    <div id="descripcion">
-        
-        <p class="titulos">Descripcion de la campaña</p>
-        <p class="textoDetalle">{{originalCampaign.description}}</p>
-        <p class="titulos">Promotor de la campaña</p>
-        <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
-        <p class="titulos">Numero de seguidores</p>
-        <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
-
-            <p  class="titulos">Estado de la campaña</p>
-            <p style="font-size: 17.2px; background-color:red; color: black; width: 120px;padding-left: 2%;border-radius: 10%;" *ngIf="originalCampaign.state.rejected and campanaUsuario" >Negada</p>
-            <p style="font-size: 17.2px; background-color: yellow;color: black;width: 120px;padding-left: 2%;border-radius: 10%;" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
-            <p style="font-size: 17.2px; background-color: green;color:black;width: 120px;padding-left: 2%;border-radius: 10%;" *ngIf="originalCampaign.state.running and campanaUsuario">Aprobada</p>
-        
-
-
-        <p class="titulos">Autoridad</p>
-        <p class="textoDetalle">{{originalCampaign.authority.name}} </p>
-
-        <p class="titulos">Categoria</p>
-        <p class="textoDetalle">{{originalCampaign.categoria}} </p>
-
-        
-        
-        
-
-        <p class="titulos">Inicio-Fin de la campaña</p>
-        <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
+    <div class="row ">
+        <div class="col-12 col-lg-12" id="campanaFoto" >
+            <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
+        </div>
     
+        <div class="col-12 col-lg-12" id="descripcion">
+            <p class="titulos">Descripcion de la campaña</p>
+            <p class="textoDetalle">{{originalCampaign.description}}</p>
+            <p class="titulos">Promotor de la campaña</p>
+            <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
+            <p class="titulos">Numero de seguidores</p>
+            <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
+    
+                <p  class="titulos">Estado de la campaña</p>
+                <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.rejected and campanaUsuario" >Negada</p>
+                <p style="font-size: medium; background-color: yellow;color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
+                <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.running and campanaUsuario">Aprobada</p>
+                
+            <p class="titulos">Autoridad</p>
+            <p class="textoDetalle">{{originalCampaign.authority.name}} </p>
+    
+            <p class="titulos">Categoria</p>
+            <p class="textoDetalle">{{originalCampaign.categoria}} </p>
+    
+            <p class="titulos">Inicio-Fin de la campaña</p>
+            <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
+        
+        </div>
     </div>
+    
 </div>
 
 <div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>

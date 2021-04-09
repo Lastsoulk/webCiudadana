@@ -7,19 +7,30 @@
 }
 
 #campanaFoto{
-
-    width: 45%;
+    width: 400;
+    margin-top: 1.5%;
+    margin-right: 2;
+    margin-bottom: 4em;
+    /*
+    width: 32%;
     height: 550px;
     border-radius: 7.5%;
     margin-top: 1.5%;
     
     margin-right: 2;
+    */
 }
 
 #fotoPerfil{
+    width: 400;
+    display:block;
+    margin: auto;
+    /*
     width: 85%;
     height: 85%;
-    border-radius: 7.5%;
+    display:block;
+    margin: auto;
+    */
     
 }
 
@@ -41,16 +52,18 @@
 .titulos{
     align-items: left;
     font-weight: bold;
-    font-size: 19px;
+    font-size: x-large;
 }
 .textoDetalle{
-    font-size: 15px;
-    text-align: left;
+    font-size: medium;
+    text-align: justify;
 }
 
 #descripcion{
-    text-align: left;
+    text-align: justify;
     width: 55%;
+    margin-left: 4em;
+    padding-right: 10em;
 }
 #divChat{
     display: flex; 

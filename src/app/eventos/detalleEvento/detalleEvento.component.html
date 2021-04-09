@@ -1,25 +1,32 @@
 <div id="titulo"> 
-    <h3>{{evento.name}}</h3>
+    <h2>{{evento.name}}</h2>
+    <div style="width: 100%; height: 3px; background: #00A6FF; margin-bottom: 3em;"></div>
 </div>
 
 <div id="mainCampana">
-    <div id="campanaFoto">
-        <img mat-card-image id="fotoPerfil" src={{evento.eventPic}} alt="Photo of a Shiba Inu">
+
+    <div class="row">
+
+        <div class="col-12 col-lg-12" id="campanaFoto">
+            <img mat-card-image id="fotoPerfil" src={{evento.eventPic}} alt="Photo of a Shiba Inu">
+        </div>
+
+        <div class="col-12 col-lg-12" id="descripcion">
+            <p class="titulos">Descripcion del evento</p>
+            <p class="textoDetalle">{{evento.description}}</p>
+            <p class="titulos">Dia del evento</p>
+            <p class="textoDetalle">{{evento.dateEvent.seconds *1000 | date:'yyyy/MM/dd' | date:'yyyy/MM/dd'}}</p>
+            <p class="titulos">Dirección</p>
+            <p class="textoDetalle">{{evento.address}}</p>
+            <p class="titulos">Ciudad</p>
+            <p class="textoDetalle">{{evento.city}}</p>
+            <p class="titulos">Tipo</p>
+            <p class="textoDetalle">{{evento.type}}</p>
+          
+        
+        </div>
     </div>
-    <div id="descripcion">
-        <p class="titulos">Descripcion del evento</p>
-        <p class="textoDetalle">{{evento.description}}</p>
-        <p class="titulos">Dia del evento</p>
-        <p class="textoDetalle">{{evento.dateEvent.seconds *1000 | date:'yyyy/MM/dd' | date:'yyyy/MM/dd'}}</p>
-        <p class="titulos">Dirección</p>
-        <p class="textoDetalle">{{evento.address}}</p>
-        <p class="titulos">Ciudad</p>
-        <p class="textoDetalle">{{evento.city}}</p>
-        <p class="titulos">Tipo</p>
-        <p class="textoDetalle">{{evento.type}}</p>
-      
     
-    </div>
 </div>
 
 
