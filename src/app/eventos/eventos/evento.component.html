@@ -15,7 +15,7 @@
         </mat-form-field>
     </div-->
     
-    <div class="example-container" style="display: flex;margin-top: 1em;margin-left: 2.5em;" *ngIf="esConvocatoria">
+    <div class="example-container" style="display: flex;margin-top: 1em;margin-left: 2.5em;">
         <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una ciudad:</div>
         <mat-form-field appearance="fill">
     
@@ -51,15 +51,21 @@
                     <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                     <mat-card-title>{{key.name}}</mat-card-title>
                     <mat-card-subtitle > 
-                        <div *ngIf="key.type==='noticia'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: steelblue;">{{key.type}}</div>
-                        <div *ngIf="key.type==='convocatoria'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: #dc3545;">{{key.type}}</div>
+                        <!--div *ngIf="key.type==='noticia'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: steelblue;">{{key.type}}</div>
+                        <div *ngIf="key.type==='convocatoria'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: #dc3545;">{{key.type}}</div-->
+                        <div>
+                            Convocatoria de Campaña: <mat-chip style="margin-bottom: 0.5em" color="accent" matTooltip="Campaña"
+                            matTooltipClass="example-tooltip-red"
+                            [matTooltipPosition]="'right'"
+                            selected>{{key.nombrecampana}}</mat-chip>
+                        </div>
                     </mat-card-subtitle>
-                    <mat-chip-list style="margin-bottom: 0.5em ">
+                    <!--mat-chip-list style="margin-bottom: 0.5em ">
                         <mat-chip style="margin-bottom: 0.5em" color="accent" matTooltip="Campaña"
                         matTooltipClass="example-tooltip-red"
                         [matTooltipPosition]="'right'"
                         selected>{{key.nombrecampana}}</mat-chip>
-                    </mat-chip-list>
+                    </mat-chip-list-->
                 </mat-card-header>
                 <img mat-card-image img-fluid style="margin-top: 1em; margin-bottom: 1em;" src={{key.eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                 <button *ngIf="esConvocatoria" mat-raised-button style="background-color:#28a745;color:white;text-align: center;margin:auto;display:block;margin-bottom: 1em;">¡Quiero ir!</button>
