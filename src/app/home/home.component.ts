@@ -15,7 +15,7 @@ import { AngularFirestore } from "@angular/fire/firestore";
     styleUrls: ['./home.component.css'],
 })
 export class CardFancyExample implements OnInit {
-    images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
+    images = ["assets/img/carrusel1.jpg", "assets/img/carrusel2.jpg", "assets/img/carrusel3.jpg"];
 
     myArray: any[] = []
     events: any[] = []

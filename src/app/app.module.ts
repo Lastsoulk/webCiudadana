@@ -96,6 +96,7 @@ import { AgmCoreModule } from '@agm/core';
 import { noticiasComponent } from './noticias/noticias.component';
 import { Noticias } from './noticias/noticia/noticia.component';
 import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +128,8 @@ import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.compone
     ChatComponent,
     noticiasComponent,
     Noticias,
-    DetalleNoticia
+    DetalleNoticia,
+    FooterComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

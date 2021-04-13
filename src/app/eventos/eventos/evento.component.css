@@ -186,6 +186,7 @@ body {
   .mat-card{
     margin-top: 0%;
     height: 100%;
+    padding: 2em;
   }
 
   .container {
@@ -215,4 +216,10 @@ body {
   }
   
   
+  
+#div{
+  margin-top: 200px;
+  margin-left: 4em;
+  margin-right: 5em;
+}
   

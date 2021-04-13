@@ -1,74 +1,78 @@
-<div style="margin-bottom: 50px;" id="titulo"> 
-    <h2>{{originalCampaign.name}}</h2>
-    <div style="width: 100%; height: 3px; background: #00A6FF; margin-bottom: 3em;"></div>
-</div>
-<!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
-<div id="mainCampana">
-    <div class="row ">
-        <div class="col-12 col-lg-12" id="campanaFoto" >
-            <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
-        </div>
-    
-        <div class="col-12 col-lg-12" id="descripcion">
-            <p class="titulos">Descripcion de la campaña</p>
-            <p class="textoDetalle">{{originalCampaign.description}}</p>
-            <p class="titulos">Promotor de la campaña</p>
-            <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
-            <p class="titulos">Numero de seguidores</p>
-            <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
-    
-                <p  class="titulos">Estado de la campaña</p>
-                <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.rejected and campanaUsuario" >Negada</p>
-                <p style="font-size: medium; background-color: yellow;color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
-                <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.running and campanaUsuario">Aprobada</p>
-                
-            <p class="titulos">Autoridad</p>
-            <p class="textoDetalle">{{originalCampaign.authority.name}} </p>
-    
-            <p class="titulos">Categoria</p>
-            <p class="textoDetalle">{{originalCampaign.categoria}} </p>
-    
-            <p class="titulos">Inicio-Fin de la campaña</p>
-            <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
-        
-        </div>
+<div id="div">
+
+    <div style="margin-bottom: 50px;" id="titulo"> 
+        <h2>{{originalCampaign.name}}</h2>
+        <div style="width: 100%; height: 3px; background: #00A6FF; margin-bottom: 3em;"></div>
     </div>
-    
-</div>
+    <!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
-<div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
-
-
-<!-- </div>
-<div id="Info">
-    <h4>Nombre del promotor: {{originalCampaign.promoter.name}}</h4>
-    <h4>Numero de seguidores: {{originalCampaign.numFollowers}}</h4>
-
-    <p class="fecha">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p> -->
-    <!-- <h4>Fecha de inicio: {{originalCampaign.dateStart}}</h4>
-    <h4>Fecha de finalizacion: {{originalCampaign.dateEnd}}</h4> -->
-
-<!-- </div> *ngIf="!status" -->
-
-<div *ngIf="miCampanaNegada" id="divChat">
-    <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
-    <ng-container *ngIf="mostrar_chat">
-
-        <div id="chat">
-
-            <div id="divBotonNegar">
-                <button (click)="mostrar_chat=false" id="botonOcultar">Ocultar Chat</button>
+    <div id="mainCampana">
+        <div class="row ">
+            <div class="col-12 col-lg-12" id="campanaFoto" >
+                <img mat-card-image id="fotoPerfil" src={{originalCampaign.campaignPic}} alt="Photo of a Shiba Inu">
             </div>
-            <div id="mensajeria">
-                <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
+        
+            <div class="col-12 col-lg-12" id="descripcion">
+                <p class="titulos">Descripcion de la campaña</p>
+                <p class="textoDetalle">{{originalCampaign.description}}</p>
+                <p class="titulos">Promotor de la campaña</p>
+                <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
+                <p class="titulos">Numero de seguidores</p>
+                <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
+        
+                    <p  class="titulos">Estado de la campaña</p>
+                    <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.rejected and campanaUsuario" >Negada</p>
+                    <p style="font-size: medium; background-color: yellow;color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
+                    <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.running and campanaUsuario">Aprobada</p>
+                    
+                <p class="titulos">Autoridad</p>
+                <p class="textoDetalle">{{originalCampaign.authority.name}} </p>
+        
+                <p class="titulos">Categoria</p>
+                <p class="textoDetalle">{{originalCampaign.categoria}} </p>
+        
+                <p class="titulos">Inicio-Fin de la campaña</p>
+                <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>
+            
             </div>
-
-
         </div>
         
-        
-           
-</ng-container>
-</div>
+    </div>
 
+    <div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
+
+
+    <!-- </div>
+    <div id="Info">
+        <h4>Nombre del promotor: {{originalCampaign.promoter.name}}</h4>
+        <h4>Numero de seguidores: {{originalCampaign.numFollowers}}</h4>
+
+        <p class="fecha">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p> -->
+        <!-- <h4>Fecha de inicio: {{originalCampaign.dateStart}}</h4>
+        <h4>Fecha de finalizacion: {{originalCampaign.dateEnd}}</h4> -->
+
+    <!-- </div> *ngIf="!status" -->
+
+    <div *ngIf="miCampanaNegada" id="divChat">
+        <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
+        <ng-container *ngIf="mostrar_chat">
+
+            <div id="chat">
+
+                <div id="divBotonNegar">
+                    <button (click)="mostrar_chat=false" id="botonOcultar">Ocultar Chat</button>
+                </div>
+                <div id="mensajeria">
+                    <app-chat  [chat]="conversation"(messageEvent) = "sendMessageToConversation($event)" ></app-chat>
+                </div>
+
+
+            </div>
+            
+            
+            
+    </ng-container>
+    </div>
+
+</div>
