@@ -203,7 +203,7 @@ export class CrearCampana {
         let data = {
             name: form.value.personal.contact.nameCampaign,
             promoter: { name: this.usuario.name, id: this.user.uid },
-            numFollowers: 0,
+            numFollowers: 1,
             state: { finished: false, rejected: false, running: false, waiting: true },
             description: form.value.health.symptoms.descriptionCampaign,
 

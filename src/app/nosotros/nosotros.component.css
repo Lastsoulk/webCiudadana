@@ -6,6 +6,18 @@
   align-content: center;
   margin-top: 2.5%;
   }
+  #gridd{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(600px, 2fr));
+    text-align: center;
+    align-items: center;
+    align-content: center;
+  }
+
+  .textoDetalle{
+    text-align: center;
+    align-items: center;
+  }
   
   #fotoPerfil{
   height: 10%;
@@ -29,7 +41,12 @@
   }
 
   #div{
-    margin-top: 200px;
+    margin-top: 70px;
     margin-left: 4em;
     margin-right: 5em;
   }
+
+  .textoDetalle{
+    font-size: medium;
+    text-align: justify;
+}
