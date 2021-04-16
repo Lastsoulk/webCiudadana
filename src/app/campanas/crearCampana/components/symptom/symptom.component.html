@@ -1,12 +1,38 @@
 <div ngModelGroup="{{modelGroupName}}">
     <div>
-        <div style="color: #2a3eb1;font-size: medium;margin-bottom: 0.2em;">Añada una descripción corta</div>
+        <div style="color: #2a3eb1;font-size: medium;margin-bottom: 0.2em;">¿Cuál es el problema?</div>
         <mat-form-field fxFlex="45" style="width: 50%;">
-            <input matInput #descriptionCampaign placeholder="Descripción" name="descriptionCampaign" required ngModel i18n-placeholder  maxlength="200">
+            <input matInput #descriptionCampaign placeholder="Descripción" name="descriptionCampaign" required ngModel i18n-placeholder  maxlength="500">
             <mat-error *ngIf="descriptionCampaign.value.length==0">
-                Por favor, ingresa un nombre
+                Por favor, ingresa el problema
               </mat-error>
-            <mat-hint align="end">{{descriptionCampaign.value.length}} / 200</mat-hint>
+            <mat-hint align="end">{{descriptionCampaign.value.length}} / 500</mat-hint>
+        </mat-form-field>
+        
+
+    </div>
+
+    <div>
+        <div style="color: #2a3eb1;font-size: medium;margin-bottom: 0.2em;">A quién afecta?</div>
+        <mat-form-field fxFlex="45" style="width: 50%;">
+            <input matInput #questionAffect placeholder="Descripción" name="questionAffect" required ngModel i18n-placeholder  maxlength="500">
+            <mat-error *ngIf="questionAffect.value.length==0">
+                Por favor, ingresa a quien le afecta
+              </mat-error>
+            <mat-hint align="end">{{questionAffect.value.length}} / 500</mat-hint>
+        </mat-form-field>
+        
+
+    </div>
+
+    <div>
+        <div style="color: #2a3eb1;font-size: medium;margin-bottom: 0.2em;">¿Qué esta pidiendo?</div>
+        <mat-form-field fxFlex="45" style="width: 50%;">
+            <input matInput #questionAsking placeholder="Descripción" name="questionAsking" required ngModel i18n-placeholder  maxlength="500">
+            <mat-error *ngIf="questionAsking.value.length==0">
+                Por favor, ingresa que esta pidiendo
+              </mat-error>
+            <mat-hint align="end">{{questionAsking.value.length}} / 500</mat-hint>
         </mat-form-field>
         
         <div class="example-button-row">

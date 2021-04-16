@@ -57,57 +57,13 @@ export class Campana {
   }
 
 
-
-  // getCampaigns(categoria): void {
-  //       this.firestoreService.getCampañasUsuario(estado, this.datosUsuario).subscribe((campaignsSnapshot) => {
-  //           this.campaigns = [];
-  //           this.categories = [];
-  //           campaignsSnapshot.forEach((campaign: any) => {
-  //               this.campaigns.push({
-  //                   campaignInfo: campaign.payload.doc.data(),
-  //                   campaignPic: campaign.payload.doc.data().campaignPic,
-  //                   category: campaign.payload.doc.data().categories,
-  //                   campaignId: campaign.payload.doc.id,
-  //                   //campaignUpdateId: campaign.payload.doc.id,
-  //                   name: campaign.payload.doc.data().name,
-  //                   description: campaign.payload.doc.data().description,
-  //                   promoter: campaign.payload.doc.data().promoter,
-  //                   categories: campaign.payload.doc.data().categories,
-  //                   dateStart: campaign.payload.doc.data().dateStart,
-  //                   numFollowers: campaign.payload.doc.data().numFollowers,
-  //                   state: campaign.payload.doc.data().state,
-  //                   //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
-
-  //               });
-  //           });
-  //           console.log("this.campaigns", this.campaigns);
-  //           console.log(this.campaigns.length);
-  //           console.log("aplicado el filtro");
-  //           if (this.campaigns.length == 0) {
-  //               this.condicioncampanavacia = true;
-  //           } else {
-  //               this.condicioncampanavacia = false;
-  //           }
-  //           // this.dataSource.data = this.campaigns as Campaign[];
-  //       }, (error) => {
-  //           console.log("Error al cargar las campañas", error)
-  //       });
-  //       // });
-
-  //   }
-
-
     async ngOnInit() {
 
 
         this.getCampaigns("");
         this.getCategorias();
-     
+        
         //this.crearCampaign();
-
-    
-
-      
     }
   
   getCiudades(){

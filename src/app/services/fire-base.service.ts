@@ -115,7 +115,7 @@ export class FireBaseService {
 
     let producto = [{description:'campanita de prueba',name:'hola'}];
     
-
+    console.log(campaigns);
     return this.firestore.collection("campaigns").add(campaigns);
 
   }

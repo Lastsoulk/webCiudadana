@@ -51,13 +51,16 @@ export class CrearCampana {
     message: string;
     correoautority: string;
     categoria: string;
+    ciudad: string;
 
     receiveMessage($event) {
         console.log('Aqui estamos');
         console.log($event);
+        
         this.message = $event.split("/", 2)[0];
         this.correoautority = $event.split("/", 2)[1];
         this.categoria = $event.split("/", 3)[2];
+        this.ciudad = $event.split("/", 4)[3];
     }
 
     async ngOnInit() {
@@ -203,9 +206,15 @@ export class CrearCampana {
             numFollowers: 0,
             state: { finished: false, rejected: false, running: false, waiting: true },
             description: form.value.health.symptoms.descriptionCampaign,
+
+            questionAffect: form.value.health.symptoms.questionAffect,//a quien afecta
+            questionAsking: form.value.health.symptoms.questionAsking,//esta pidiendo
+            questionProblem: form.value.health.symptoms.descriptionCampaign,//cual es el problema
+
             authority: { email: this.correoautority, name: this.message },
             campaignPic: this.urlImagen,
             categoria: this.categoria,
+            ciudad:this.ciudad,
             dateStart: form.value.personal.contact.fechainicio,
             dateEnd: form.value.personal.contact.fechafin,
 

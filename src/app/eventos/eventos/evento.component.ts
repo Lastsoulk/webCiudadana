@@ -152,12 +152,17 @@ export class Eventos {
 
 
   ngOnInit(): void {
-
-
-
     this.getCiudades();
     this.getEvents("Todas", "Convocatorias");
-    this.esConvocatoria = AppComponent.estoyLogeado;
+    //this.esConvocatoria = AppComponent.estoyLogeado;
+
+    if(localStorage.getItem('currentUser')!=null){
+      this.esConvocatoria = true;
+    }
+
+    else{
+      this.esConvocatoria = false;
+    }
   }
 
   getCiudades() {
