@@ -181,6 +181,7 @@ export class Eventos {
         }
         this.selectedCity = this.ciudades[0];
       });
+      console.log(this.ciudades);
 
 
     })

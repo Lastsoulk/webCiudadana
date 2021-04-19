@@ -211,12 +211,14 @@ export class CrearCampana {
             questionAsking: form.value.health.symptoms.questionAsking,//esta pidiendo
             questionProblem: form.value.health.symptoms.descriptionCampaign,//cual es el problema
 
+            categories:this.categoria,
             authority: { email: this.correoautority, name: this.message },
             campaignPic: this.urlImagen,
             categoria: this.categoria,
             ciudad:this.ciudad,
             dateStart: form.value.personal.contact.fechainicio,
             dateEnd: form.value.personal.contact.fechafin,
+            dateCreate: this.datePipe.transform(this.myDate, 'yyyy-MM-dd'),
 
         }
         

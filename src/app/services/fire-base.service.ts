@@ -9,6 +9,7 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FireBaseService {
+  
 
   // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
   // public userId;
@@ -113,10 +114,20 @@ export class FireBaseService {
     });
 
 
-    let producto = [{description:'campanita de prueba',name:'hola'}];
+    //let producto = [{description:'campanita de prueba',name:'hola'}];
     
     console.log(campaigns);
-    return this.firestore.collection("campaigns").add(campaigns);
+    this.firestore.collection("campaigns"); 
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("campaigns")
+          .add(campaigns)
+          .then(res => {
+            console.log(res);
+          }, err => reject(err));
+    });
+
+    
 
   }
 
@@ -161,6 +172,24 @@ export class FireBaseService {
 
   public getDatosUser(userId: any){
     return this.firestore.collection("users").doc(userId).snapshotChanges();
+  }
+
+  public updateDatosUser(userID: any, nombre:any, cedula:any, telefono:any) {
+
+
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("users")
+          .doc(userID)
+          .set({name      :   nombre,
+                cedula    :   cedula,
+                telefono  :   telefono
+          }, { merge: true })
+          .then(res => {
+            resolve(res);
+          }, err => reject(err));
+    });
+
   }
 
   public getEventById(event_id: any) {
