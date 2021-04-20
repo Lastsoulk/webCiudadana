@@ -22,7 +22,8 @@
 }
 
 #fotoPerfil{
-    width: 400;
+    width: auto;
+    height: auto;
     display:block;
     margin: auto;
     /*
