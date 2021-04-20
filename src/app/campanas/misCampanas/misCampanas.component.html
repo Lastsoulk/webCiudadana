@@ -1,4 +1,4 @@
-
+<br><br>
 <div id="campañareciente">Mis Campañas</div>
 
 <div class="example-container" style="display: flex;margin-top: 1em;">
@@ -22,9 +22,6 @@
 
 </div>
 
-<div style="width:35%;height:5px; background: #00A6FF;margin-left: 1.5em;"></div>
-
-
 
 
 <div style="text-align: center;" *ngIf="condicioncampanavacia">
@@ -33,32 +30,43 @@
 </div>
 
 
-<mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;"  *ngIf="!condicioncampanavacia">
-    <mat-grid-tile *ngFor="let key of campaigns">
-        <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectCampaignDetail({campaignId: key.campaignId, estadoCampana: key.state.rejected})">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                <mat-card-title>{{key.name}}</mat-card-title>
-                <!-- <mat-card-subtitle>Promotor Estrella</mat-card-subtitle> -->
-            </mat-card-header>
-            <div class="container" style="margin-top: 5%;padding-left: 0;padding-right: 0;text-align: center;">
-                <img mat-card-image src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
-                <div class="content">
-                  <h4>{{key.name}}</h4>
-                  <p style="font-size: 17.2px;">{{key.description}}</p>
-                  <!-- <p style="color:#13CE66;">4  convocatorias</p> -->
-                </div>
-                <div id="divAbajo">
-                    <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
+<div *ngIf="!condicioncampanavacia" class="row" style="display: flex;padding-left: 3em;margin-top:2em; margin-right:3em;">
+        
+    <div *ngFor="let key of campaigns" class="col-xs-12 col-md-12 col-lg-12"  style="margin-bottom: 2em;">       
 
-                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color:red;width: 150px;border-radius: 10%;" *ngIf="key.state.rejected" >Estado: Negada</p>
-                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: yellow;width: 150px;border-radius: 10%;" *ngIf="key.state.waiting">Estado: Pendiente</p>
-                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: green;width: 150px;border-radius: 10%;" *ngIf="key.state.running">Estado: Aprobada</p>
-     
-                </div>
-            </div>
-            
-        </mat-card>
-    </mat-grid-tile>
-  
-</mat-grid-list>
+        <mat-sidenav-container class="example-container" >
+        <mat-card class="home-card" >
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                    <mat-card-title>{{key.name}}</mat-card-title>
+                    <mat-card-subtitle>{{key.promoter.name}} </mat-card-subtitle>
+                </mat-card-header>
+                
+                <mat-card-content class="home-card-content" >
+                    <div class="flex-row" id="carta">
+                        <div class="col-xs-11 col-md-11 col-lg-11">
+                            <img mat-card-image img-fluid style="margin-top: 1em; margin-bottom: 1em;" src={{key.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+                        </div>
+                        <div class="col-xs-12 col-md-12 col-lg-12">
+                        <h4>¿Cuál es el problema?</h4>
+                        <p style="font-size: medium;  text-align: justify;">{{key.description}}...</p>
+                        </div>
+                    </div>
+                </mat-card-content>
+                
+                <mat-card-actions class="action-buttons">
+                    <button mat-button color="primary" style="font-size: medium; margin-right: 2em;" >
+                            <mat-icon class="material-icons1" *ngIf="showFirst" style="color:#f44336">favorite_border</mat-icon> 
+                            <mat-icon class="material-icons1" *ngIf="!showFirst" style="color:#f44336">favorite</mat-icon> {{key.numFollowers}} Followers
+                    </button>
+
+                    <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                    (click)="redirectCampaignDetail({campaignId: key.campaignId})" target="_blank" >
+                    <mat-icon class="material-icons1">visibility</mat-icon>Ver más
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-sidenav-container>
+    </div>
+
+</div>

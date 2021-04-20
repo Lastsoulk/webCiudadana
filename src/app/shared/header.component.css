@@ -1,6 +1,6 @@
 .header{
 
-    height: 70px;
+    height: 71px;
 }
 
 .element{
@@ -16,4 +16,7 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+}
+#navbar{
+    background-color: cyan;
 }

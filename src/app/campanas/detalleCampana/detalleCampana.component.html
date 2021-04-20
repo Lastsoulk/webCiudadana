@@ -14,16 +14,23 @@
             </div>
         
             <div class="col-12 col-lg-12" id="descripcion">
-                <p class="titulos">Descripcion de la campaña</p>
-                <p class="textoDetalle">{{originalCampaign.description}}</p>
                 <p class="titulos">Promotor de la campaña</p>
                 <p class="textoDetalle">{{originalCampaign.promoter.name}}</p>
-                <p class="titulos">Numero de seguidores</p>
+                <p class="titulos">¿Cuál es el problema?</p>
+                <p class="textoDetalle">{{originalCampaign.description}}</p>
+
+                <p class="titulos">¿A quién afecta?</p>
+                <p class="textoDetalle">{{originalCampaign.questionAffect}}</p>
+
+                <p class="titulos">¿Qué esta pidiendo?</p>
+                <p class="textoDetalle">{{originalCampaign.questionAsking}}</p>
+                
+                <p class="titulos">Número de seguidores</p>
                 <p class="textoDetalle">{{originalCampaign.numFollowers}}</p>
         
                     <p  class="titulos">Estado de la campaña</p>
                     <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.rejected and campanaUsuario" >Negada</p>
-                    <p style="font-size: medium; background-color: yellow;color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
+                    <p style="font-size: medium; background-color: rgba(167, 167, 15, 0.507);color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.waiting and campanaUsuario">Pendiente</p>
                     <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="originalCampaign.state.running and campanaUsuario">Aprobada</p>
                     
                 <p class="titulos">Autoridad</p>
@@ -31,6 +38,9 @@
         
                 <p class="titulos">Categoria</p>
                 <p class="textoDetalle">{{originalCampaign.categoria}} </p>
+
+                <p class="titulos">Ciudad</p>
+                <p class="textoDetalle">{{originalCampaign.ciudad}} </p>
         
                 <p class="titulos">Inicio-Fin de la campaña</p>
                 <p class="textoDetalle">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p>

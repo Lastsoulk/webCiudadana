@@ -14,8 +14,6 @@ import * as firebase from 'firebase/app'; //The core firebase client
 
 export class AppComponent {
   title = 'Ayudar App';
-  public estoyLogeado = false;
-  static estoyLogeado: boolean;
 
   constructor(
   

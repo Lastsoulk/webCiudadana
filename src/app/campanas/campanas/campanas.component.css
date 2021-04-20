@@ -16,6 +16,12 @@ body {
   }
 }
 
+
+#carta{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
+}
+
 .example-spacer {
   flex: 1 1 auto;
 }
@@ -102,7 +108,7 @@ body {
   img {
   vertical-align: middle;
   border-style: none;
-  width: 100%;
+  max-width: 100%;
   }
   
   .mat-card>:last-child:not(.mat-card-footer), .mat-card-content>:last-child:not(.mat-card-footer) {

@@ -1,3 +1,63 @@
+element.style {
+  background-image: url(http://127.0.0.1:8000/assets/images/auth/login_1.jpg);
+  background-size: cover;
+}
+.auth {
+  min-height: 100vh;
+}
+.content-wrapper {
+  background: #f3f4fa;
+  padding: 1.5rem 1.7rem;
+  width: 100%;
+  flex-grow: 1;
+}
+.align-items-center, .page-header, .loader-demo-box, .list-wrapper ul li, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item, .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right .nav-item {
+  align-items: center !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+.d-flex, .page-header, .loader-demo-box, .list-wrapper ul li, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item, .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right .nav-item {
+  display: flex !important;
+}
+.align-items-center {
+  align-items: center !important;
+}
+.justify-content-center {
+  justify-content: center !important;
+}
+.d-flex {
+  display: -webkit-box !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+.btn, .btn-group.open .dropdown-toggle, .btn:active, .btn:focus, .btn:hover, .btn:visited, a, a:active, a:checked, a:focus, a:hover, a:visited, body, button, button:active, button:hover, button:visited, div, input, input:active, input:focus, input:hover, input:visited, select, select:active, select:focus, select:visited, textarea, textarea:active, textarea:focus, textarea:hover, textarea:visited {
+  box-shadow: none;
+}
+a, div, h1, h2, h3, h4, h5, p, span {
+  text-shadow: none;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+user agent stylesheet
+div {
+  display: block;
+}
+
+.auth.theme-one .auto-form-wrapper {
+  background: #fff;
+  padding: 40px 40px 10px;
+  border-radius: 4px;
+  box-shadow: 0 -25px 37.7px 11.3px rgb(8 143 220 / 7%);
+}
+
+
+
+
 #tituloBienvenido{
     margin-bottom: 10%;
     color: white;

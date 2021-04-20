@@ -22,10 +22,15 @@ interface Autoridad {
     }]
 })
 export class ContactComponent {
-    public selectedProfile;
+    
     public autoridades;
     public autoridadnombre;
+
+    public ciudades = [];
+
+    public selectedProfile;
     public categoriaselect;
+    public selectedCity;
     categorias : any[] = []
 
     message: string = "";
@@ -41,14 +46,37 @@ export class ContactComponent {
     }
 
     sendMessage() {
-        this.messageEvent.emit(this.message + "/" + this.email + "/" + this.categoriaselect);
+        this.messageEvent.emit(this.message + "/" + this.email + "/" + this.categoriaselect+"/"+this.selectedCity);
     }
 
     async ngOnInit() {
         this.getAutoridades();
         this.getCategorias();
+        this.getCiudades();
     }
 
+    getCiudades() {
+
+
+
+        console.log('Aqui--')
+        this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
+          //  this.ciudades = [];
+          ciudadesSnapshot.forEach((ciudades: any) => {
+            var elemento = ciudades.payload.doc.data().city
+            if (this.ciudades.includes(elemento)) {
+    
+            } else {
+              const add = this.ciudades.push(elemento)
+            }
+            this.selectedCity = this.ciudades[0];
+          });
+    
+    
+        })
+    
+    
+      }
     getCategorias(){
         this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
         this.categorias = [];
@@ -89,6 +117,11 @@ export class ContactComponent {
     selectedValue2(event: MatSelectChange) {
         //console.log(event.value)
         this.categoriaselect = event.value
+    }
+
+    selectedValue3(event: MatSelectChange) {
+        //console.log(event.value)
+        this.selectedCity = event.value
     }
 
     getAutoridades() {

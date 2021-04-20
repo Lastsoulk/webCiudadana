@@ -24,9 +24,13 @@ export class AuthService {
 
   async login(email: string, password: string) {
     try {
-      const result = await this.afAuth.signInWithEmailAndPassword(email, password);
-      this.router.navigate(["/home"])
-      return result;
+      const res = await this.afAuth.signInWithEmailAndPassword(email, password);
+      if (res.user) {
+        localStorage.setItem('currentUser', JSON.stringify(res.user));
+        this.router.navigate(["/home"])
+      } else {
+        localStorage.setItem('currentUser', null);
+      }
     }
     catch (error) {
       console.log(error);
@@ -38,11 +42,14 @@ export class AuthService {
 
   async loginGoogle() {
     const res = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    const email = res.user.email;
     
-    console.log('esto es: ',res.user.uid);
-    AppComponent.estoyLogeado = true;
-    this.router.navigate(["/home"])
+    if (res.user) {
+      localStorage.setItem('currentUser', JSON.stringify(res.user));
+      this.router.navigate(["/home"])
+    } else {
+      localStorage.setItem('currentUser', null);
+    }
+    
   }
 
   async loginFacebook() {
@@ -87,7 +94,8 @@ export class AuthService {
 
   async logout() {
     try {
-      AppComponent.estoyLogeado=false;
+      //AppComponent.estoyLogeado=false;
+      localStorage.setItem('currentUser', null);
       await this.afAuth.signOut();
     }
     catch (error) {
