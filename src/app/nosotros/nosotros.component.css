@@ -46,7 +46,23 @@
     margin-right: 5em;
   }
 
-  .textoDetalle{
-    font-size: medium;
-    text-align: justify;
-}
+  #tituloPrincipal {
+    display: block;
+    font-size: 2.5em;
+    margin-top: 4em;
+    text-align: center;
+  }
+
+  .mision{
+    display: flex;
+    align-items: center;
+  }
+
+  .vision{
+    display: flex;
+    align-items: center;
+  }
+
+  .div{
+    margin-top: 6em;
+  }
