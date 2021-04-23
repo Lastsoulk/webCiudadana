@@ -44,6 +44,7 @@ export class misCampanas {
 
     public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
     public datosUsuario;
+    
 
 
     constructor(
@@ -70,6 +71,7 @@ export class misCampanas {
             this.campaigns = [];
             this.categories = [];
             campaignsSnapshot.forEach((campaign: any) => {
+                console.log(campaign.payload.doc.data());
                 this.campaigns.push({
                     campaignInfo: campaign.payload.doc.data(),
                     campaignPic: campaign.payload.doc.data().campaignPic,
@@ -87,9 +89,7 @@ export class misCampanas {
 
                 });
             });
-            console.log("this.campaigns", this.campaigns);
-            console.log(this.campaigns.length);
-            console.log("aplicado el filtro");
+
             if (this.campaigns.length == 0) {
                 this.condicioncampanavacia = true;
             } else {
@@ -101,7 +101,11 @@ export class misCampanas {
         });
         // });
 
+        
+
     }
+
+    
 
 
     async ngOnInit() {
@@ -113,7 +117,7 @@ export class misCampanas {
         this.datosUsuario = user.uid;
         console.log('user: ', this.datosUsuario)
         this.getCampaigns(this.estadoCampana);
-
+       
         // const user = await this.AuthService.getCurrentUser();
         //     this.user$.subscribe(res=>{
         //     this.usuario = res;
@@ -130,6 +134,7 @@ export class misCampanas {
 
             return dataStr.indexOf(transformedFilter) != -1;
         }
+
     }
 
 

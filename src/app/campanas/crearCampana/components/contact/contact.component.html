@@ -34,6 +34,20 @@
         </mat-form-field>
 
 
+        <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;">¿A qué zona pertenece su campaña?</div>
+        <mat-form-field appearance="fill" style="margin-top: 0.7em;width: 50%;">
+            <mat-label>Zona</mat-label>
+            <mat-select required (selectionChange)="selectedValue4($event)" name="zoneSelected" #zoneSelected>
+                <ng-container *ngFor="let ciu of zones">
+                    <mat-option required  [value]="ciu" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
+                        <span>{{ciu.name}}<br /></span> 
+                    </mat-option>
+
+                </ng-container>
+            </mat-select>
+        </mat-form-field>
+
+
         <div style="color: #2a3eb1;font-size: medium;margin-top: 0.2em;">¿A qué ciudad pertenece su campaña?</div>
         <mat-form-field appearance="fill" style="margin-top: 0.7em;width: 50%;">
             <mat-label>Ciudad</mat-label>

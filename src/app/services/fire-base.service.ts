@@ -99,7 +99,9 @@ export class FireBaseService {
     return this.firestore.collection("ciudades").snapshotChanges();
   }
 
-
+  getZones(){
+    return this.firestore.collection("zones").snapshotChanges();
+  }
 
   getCategorias(){
     return this.firestore.collection("categories").snapshotChanges();

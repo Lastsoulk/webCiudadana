@@ -52,6 +52,8 @@ export class CrearCampana {
     correoautority: string;
     categoria: string;
     ciudad: string;
+    zona: string;
+    zoneName: string;
 
     receiveMessage($event) {
         console.log('Aqui estamos');
@@ -61,6 +63,8 @@ export class CrearCampana {
         this.correoautority = $event.split("/", 2)[1];
         this.categoria = $event.split("/", 3)[2];
         this.ciudad = $event.split("/", 4)[3];
+        this.zona = $event.split("/", 5)[4];
+        this.zoneName = $event.split("/", 6)[5];
     }
 
     async ngOnInit() {
@@ -211,14 +215,18 @@ export class CrearCampana {
             questionAsking: form.value.health.symptoms.questionAsking,//esta pidiendo
             questionProblem: form.value.health.symptoms.descriptionCampaign,//cual es el problema
 
-            categories:this.categoria,
+            categories:[this.categoria],
             authority: { email: this.correoautority, name: this.message },
             campaignPic: this.urlImagen,
             categoria: this.categoria,
-            ciudad:this.ciudad,
+            city:this.ciudad,
             dateStart: form.value.personal.contact.fechainicio,
             dateEnd: form.value.personal.contact.fechafin,
             dateCreate: this.datePipe.transform(this.myDate, 'yyyy-MM-dd'),
+            dateModified: this.datePipe.transform(this.myDate, 'yyyy-MM-dd'),
+            env:"debug",
+            version: 0,
+            zone: {id: this.zona , name: this.zoneName}
 
         }
         
@@ -226,8 +234,8 @@ export class CrearCampana {
 
         
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
-
-        this.firestoreService.crearCampaña(data);
+        console.log(data);
+        //this.firestoreService.crearCampaña(data);
         
         
         // crearCampaña(campaigns:any[])

@@ -26,6 +26,9 @@ export class ContactComponent {
     public autoridades;
     public autoridadnombre;
 
+    public zones = [];
+    public zoneSelected;
+
     public ciudades = [];
 
     public selectedProfile;
@@ -46,13 +49,14 @@ export class ContactComponent {
     }
 
     sendMessage() {
-        this.messageEvent.emit(this.message + "/" + this.email + "/" + this.categoriaselect+"/"+this.selectedCity);
+        this.messageEvent.emit(this.message + "/" + this.email + "/" + this.categoriaselect+"/"+this.selectedCity+"/"+this.zoneSelected.id+"/"+this.zoneSelected.name);
     }
 
     async ngOnInit() {
         this.getAutoridades();
         this.getCategorias();
         this.getCiudades();
+        this.getZones();
     }
 
     getCiudades() {
@@ -124,6 +128,11 @@ export class ContactComponent {
         this.selectedCity = event.value
     }
 
+    selectedValue4(event: MatSelectChange) {
+        //console.log(event.value)
+        this.zoneSelected = event.value
+    }
+
     getAutoridades() {
 
         this.firestoreService.getAutoridades().subscribe((autoridadesSnapshot) => {
@@ -147,6 +156,26 @@ export class ContactComponent {
 
     }
 
+    getZones() {
+        this.firestoreService.getZones().subscribe((zoneSnapshot) => {
+            this.zones = [];
+            zoneSnapshot.forEach((zone: any) => {
+                //console.log(zone.payload.doc.data());
+                this.zones.push({
+                    id: zone.payload.doc.id,
+                    name: zone.payload.doc.data().name,
+                });
+            });
+
+            if (this.zones.length == 0) {
+                console.log("vacia");
+            } 
+            // this.dataSource.data = this.campaigns as Campaign[];
+        }, (error) => {
+            console.log("Error al cargar las zonas", error)
+        });
+
+    }
 
     @Input() modelGroupName: string;
     // autoridades: Autoridad[] = [
