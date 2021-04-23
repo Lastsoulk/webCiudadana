@@ -4,18 +4,24 @@ body {
     background:lightgray;
 }
 
-
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-
-  > div {
-    flex: 50%;
-    padding: 10px;
-  }
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
+.mtxs {
+  margin-top: 10px !important;
+}
+.pts {
+  padding-top: 15px !important;
+}
+
+.row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
 
 #carta{
   display: grid;
@@ -108,7 +114,7 @@ body {
   img {
   vertical-align: middle;
   border-style: none;
-  max-width: 100%;
+  max-width: 90%;
   }
   
   .mat-card>:last-child:not(.mat-card-footer), .mat-card-content>:last-child:not(.mat-card-footer) {

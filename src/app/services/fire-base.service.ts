@@ -172,7 +172,7 @@ export class FireBaseService {
 
 
 
-  public getDatosUser(userId: any){
+  getDatosUser(userId: any){
     return this.firestore.collection("users").doc(userId).snapshotChanges();
   }
 

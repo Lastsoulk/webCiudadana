@@ -114,6 +114,7 @@ export class misCampanas {
 
 
         const user = await this.AuthService.getCurrentUser();
+        console.log(user);
         this.datosUsuario = user.uid;
         console.log('user: ', this.datosUsuario)
         this.getCampaigns(this.estadoCampana);

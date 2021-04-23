@@ -123,30 +123,46 @@ export class Campana {
       this.categories = [];
       
       campaignsSnapshot.forEach((campaign: any) => {
+         
           console.log(campaign.payload.doc.data());
-          //console.log(campaign.payload.doc.data().state);
           if(campaign.payload.doc.data().state.running){
+            //let us = this.getDatosUser(campaign.payload.doc.data().promoter.id);
             this.campaigns.push({
               campaignInfo: campaign.payload.doc.data(),
+              authority: campaign.payload.doc.data().authority,
               campaignPic: campaign.payload.doc.data().campaignPic,
+
+              categoria: campaign.payload.doc.data().categoria,
               category: campaign.payload.doc.data().categories,
+
+              city: campaign.payload.doc.data().city,
+              dateStart: campaign.payload.doc.data().dateStart,
+              dateEnd:campaign.payload.doc.data().dateEnd,
+              env:campaign.payload.doc.data().env,
+              questionAffect:campaign.payload.doc.data().questionAffect,
+              questionAsking:campaign.payload.doc.data().questionAsking,
+              questionProblem:campaign.payload.doc.data().questionProblem,
+              version:campaign.payload.doc.data().version,
+              zone:campaign.payload.doc.data().zone,
+
               campaignId: campaign.payload.doc.id,
               //campaignUpdateId: campaign.payload.doc.id,
               name: campaign.payload.doc.data().name,
               description: campaign.payload.doc.data().description,
               promoter: campaign.payload.doc.data().promoter,
               categories: campaign.payload.doc.data().categories,
-              dateStart: campaign.payload.doc.data().dateStart,
+
               numFollowers: campaign.payload.doc.data().numFollowers,
               state: campaign.payload.doc.data().state,
-              categoria: campaign.payload.doc.data().categories,
+              //profilePic: us,
               //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
+              
 
             });
           }
           
       });
-      console.log(this.campaigns.length);
+      //console.log(this.campaigns);
       if (this.campaigns.length == 0) {
           this.condicioncampanavacia = true;
       } else {
@@ -159,7 +175,18 @@ export class Campana {
 
     
 
-    }
+  }
+
+
+  getDatosUser(dato:any){
+    this.firestoreService.getDatosUser(dato).subscribe((userSnapshot) => {
+      console.log(userSnapshot.payload.data());
+      return(userSnapshot.payload.data());
+
+      }, (error) => {
+        console.log(error)
+      });
+  }
   
   
 
