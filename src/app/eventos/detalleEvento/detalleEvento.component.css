@@ -26,13 +26,10 @@ img {
 }
 
 #fotoPerfil{
-    max-width: 100%;
+    width: auto;
+    height: auto;
     display:block;
     margin: auto;
-    /*width: 85%;
-    height: 85%;
-    display:block;
-    margin: auto;*/
     
 }
 
