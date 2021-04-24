@@ -235,7 +235,7 @@ export class CrearCampana {
         
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
         console.log(data);
-        //this.firestoreService.crearCampaña(data);
+        this.firestoreService.crearCampaña(data);
         
         
         // crearCampaña(campaigns:any[])

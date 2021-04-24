@@ -11,6 +11,16 @@ body {
   width: 100%;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+
+  > div {
+    flex: 50%;
+    padding: 10px;
+  }
+}
+
 .mtxs {
   margin-top: 10px !important;
 }
@@ -115,6 +125,7 @@ body {
   vertical-align: middle;
   border-style: none;
   max-width: 90%;
+  max-height: 350px;
   }
   
   .mat-card>:last-child:not(.mat-card-footer), .mat-card-content>:last-child:not(.mat-card-footer) {
