@@ -10,8 +10,8 @@
         <mat-form-field appearance="fill">
 
         <mat-select (selectionChange)="getCampaigns($event.value)" [(ngModel)]="selectedCategory">
-            <mat-option *ngFor="let cat of listaCategorias" [value]="cat.nombre">
-                {{cat.nombre}}
+            <mat-option *ngFor="let cat of listaCategorias" [value]="cat.name">
+                {{cat.name}}
             </mat-option>
         
         </mat-select>
@@ -35,10 +35,11 @@
             <mat-sidenav-container class="example-container" >
             <mat-card class="home-card" >
                     <mat-card-header>
-                        <!--div *ngIf="key.profilePic==null" mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                        <div mat-card-avatar class="example-header-image" style="background-image: url(key.profilePic);"></div-->
+                        <!--div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div-->
+                        
+                        
                         <mat-card-title><b>{{key.name}}</b></mat-card-title>
-                        <mat-card-subtitle>Autoridad: <b>{{key.authority.name}}</b> </mat-card-subtitle>
+                        <mat-card-subtitle>Autoridad: <b>{{key.autority.name}}</b> </mat-card-subtitle>
                     </mat-card-header>
                     
                     <mat-card-content class="home-card-content" >
@@ -67,8 +68,11 @@
                         <mat-icon class="material-icons1">visibility</mat-icon>Ver más
                         </button>
                     </mat-card-actions>
-                    <mat-card-subtitle>Promotor de la campaña: <b>{{key.promoter.name}}</b> </mat-card-subtitle>
-                    <mat-card-subtitle>{{key.dateStart.seconds *1000 | date:'dd/MM/yyyy'}} - {{key.dateEnd.seconds *1000 | date:'dd/MM/yyyy'}}</mat-card-subtitle>
+                    <div mat-card-avatar class="header-image">
+                        <img mat-card-image img-fluid src={{key.promotore.profilePic}} alt="Photo of a Shiba Inu">
+                    </div>
+                    <mat-card-subtitle>Promotor de la campaña: <b>{{key.promotore.name}}</b> </mat-card-subtitle>
+                    <mat-card-subtitle>{{key.dateStart}} - {{key.dateEnd}}</mat-card-subtitle>
                     
                 </mat-card>
             </mat-sidenav-container>

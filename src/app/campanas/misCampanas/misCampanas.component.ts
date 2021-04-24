@@ -66,7 +66,7 @@ export class misCampanas {
         //     this.estadoCampana = estado;
 
 
-
+        /*
         this.firestoreService.getCampañasUsuario(estado, this.datosUsuario).subscribe((campaignsSnapshot) => {
             this.campaigns = [];
             this.categories = [];
@@ -101,7 +101,7 @@ export class misCampanas {
         });
         // });
 
-        
+        */
 
     }
 

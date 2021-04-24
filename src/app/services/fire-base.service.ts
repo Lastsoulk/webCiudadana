@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 // import { Observable } from 'rxjs';
 // import { AuthService } from '../services/auth.service';
 // import firebase from "firebase/app";
-import {map} from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,6 +43,14 @@ export class FireBaseService {
   }
 
   getCampañasUsuario(id:String="",userId:String="") {
+    
+
+
+
+
+
+
+
       if(id=="todas"){
         console.log('cargando todas de: ',userId)
         return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId)).snapshotChanges();
@@ -77,16 +85,19 @@ export class FireBaseService {
   }
 
   getCampañasCategoria(categoria:String="") {
-      if(categoria==""){
+    
 
-        return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
+   
+
+    if(categoria==""){ 
+       return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
       }
       else if(categoria.toLowerCase()=="todas"){
 
         return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
       }
      else{
-         return this.firestore.collection("campaigns", ref => ref.where("categoria",'==',categoria).where("state.running",'==',true)).snapshotChanges();
+         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("state.running",'==',true)).snapshotChanges();
       }
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
@@ -175,6 +186,9 @@ export class FireBaseService {
   getDatosUser(userId: any){
     return this.firestore.collection("users").doc(userId).snapshotChanges();
   }
+  getAutoridad(autoridad: any){
+    return this.firestore.collection("authorities").doc(autoridad).snapshotChanges();
+  }
 
   public updateDatosUser(userID: any, nombre:any, cedula:any, telefono:any) {
 
@@ -223,14 +237,38 @@ export class FireBaseService {
 }
 
 export interface ICampaña {
-  id?: string;
-  Titulo: string;
-  urlImagen: string;
-  TipoPromotor: string;
-  Promotor: string;
-  Descripcion: string
+  id: string;
+
+  name: string;
+  numFollowers:number;
+  promoter: string;
+  state: any[];
+  campaignPic: any[];
+  dateStart: Date;
+  dateEnd:Date;
+  dateModified:Date;
+  dateCreate:Date;
+  categories: any[];
+  description: string;
+  city: string;
+  questionAffect:string;
+  questionAsking:string;
+  questionProblem:string;
+  authority: string;
+  province:string;
+
+  
 }
 
+
+
 export interface IUser{
-  
+  id: string;
+  categories: any[];
+  cedula:string;
+  email:string;
+  name:string;
+  profilePic:string;
+  role:any[];
+  telefono:any[];
 }

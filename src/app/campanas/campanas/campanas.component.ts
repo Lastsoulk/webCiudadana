@@ -62,14 +62,11 @@ export class Campana {
 
         this.getCampaigns("");
         this.getCategorias();
-        
         //this.crearCampaign();
+        
     }
   
   getCiudades(){
-
-    
-        
         this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
           this.ciudades = [];
           ciudadesSnapshot.forEach((ciudades: any) => {
@@ -115,60 +112,38 @@ export class Campana {
 
 
   getCampaigns(categoria): void {
+    console.log(categoria);
     if(categoria=="Todas"){
       categoria="";
     }
     this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
-      this.categories = [];
+      //this.categories = [];
       
-      campaignsSnapshot.forEach((campaign: any) => {
-         
-          console.log(campaign.payload.doc.data());
-          if(campaign.payload.doc.data().state.running){
-            //let us = this.getDatosUser(campaign.payload.doc.data().promoter.id);
-            this.campaigns.push({
-              campaignInfo: campaign.payload.doc.data(),
-              authority: campaign.payload.doc.data().authority,
-              campaignPic: campaign.payload.doc.data().campaignPic,
-
-              categoria: campaign.payload.doc.data().categoria,
-              category: campaign.payload.doc.data().categories,
-
-              city: campaign.payload.doc.data().city,
-              dateStart: campaign.payload.doc.data().dateStart,
-              dateEnd:campaign.payload.doc.data().dateEnd,
-              env:campaign.payload.doc.data().env,
-              questionAffect:campaign.payload.doc.data().questionAffect,
-              questionAsking:campaign.payload.doc.data().questionAsking,
-              questionProblem:campaign.payload.doc.data().questionProblem,
-              version:campaign.payload.doc.data().version,
-              zone:campaign.payload.doc.data().zone,
-
-              campaignId: campaign.payload.doc.id,
-              //campaignUpdateId: campaign.payload.doc.id,
-              name: campaign.payload.doc.data().name,
-              description: campaign.payload.doc.data().description,
-              promoter: campaign.payload.doc.data().promoter,
-              categories: campaign.payload.doc.data().categories,
-
-              numFollowers: campaign.payload.doc.data().numFollowers,
-              state: campaign.payload.doc.data().state,
-              //profilePic: us,
-              //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
-              
-
-            });
-          }
-          
-      });
-      //console.log(this.campaigns);
-      if (this.campaigns.length == 0) {
-          this.condicioncampanavacia = true;
+      if (campaignsSnapshot.length == 0) {
+        this.condicioncampanavacia = true;
       } else {
           this.condicioncampanavacia = false;
       }
-      // this.dataSource.data = this.campaigns as Campaign[];
+      campaignsSnapshot.forEach(async (campaign: any) => {
+          
+          //console.log(campaign.payload.doc.data());
+          if(campaign.payload.doc.data().state.running){
+            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
+              let temp=userSnapshot.payload.data();
+              //let appObj = { ...campaign.payload.doc.data(), ['promotore']: temp }
+              //this.campaigns.push(appObj);
+              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userSnapshot) => {
+                let tempo=userSnapshot.payload.data();
+                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo }
+                this.campaigns.push(appObj);
+              });
+
+            });
+
+          }
+          console.log(this.campaigns);
+      });
   }, (error) => {
       console.log("Error al cargar las campañas", error)
   });
@@ -180,29 +155,28 @@ export class Campana {
 
   getDatosUser(dato:any){
     this.firestoreService.getDatosUser(dato).subscribe((userSnapshot) => {
-      console.log(userSnapshot.payload.data());
-      return(userSnapshot.payload.data());
 
       }, (error) => {
         console.log(error)
       });
   }
-  
+
   
 
   getCategorias(){
     this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
       this.listaCategorias = [];
-      this.listaCategorias.push({idCategoria: '',nombre:'Todas'})
+      this.listaCategorias.push({idCategoria: '',name:'Todas'})
       campaignsSnapshot.forEach((cat: any) => {
+        //console.log(cat.payload.doc.data());
         this.listaCategorias.push({
           idCategoria: cat.payload.doc.data(),
-          nombre: cat.payload.doc.data().name,
+          name: cat.payload.doc.data().name,
 
         });
       });
       
-      this.selectedCategory= this.listaCategorias[0].nombre;
+      this.selectedCategory= this.listaCategorias[0].name;
     }), (error) => {
       console.log("Error al cargar las campañas", error);
     }
