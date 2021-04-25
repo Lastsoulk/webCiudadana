@@ -7,11 +7,12 @@ import { FireBaseService, ICampaña } from '../../services/fire-base.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
 import { MatTableDataSource } from '@angular/material/table';
-
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import firebase from "firebase/app";
 import { DatePipe } from '@angular/common';
+import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
 
 /**
  * @title Card with multiple sections
@@ -38,8 +39,9 @@ export class misCampanas {
 
     public campaigns = [];
     public categories = [];
-    public estadoCampana = "";
-    public arregloEstados = ["negadas", "aprobadas", "todas"];
+    
+    public arregloEstados = ["Todas", "Aprobadas", "Negadas","Pendientes","Finalizadas"];
+    public estadoCampana = this.arregloEstados[0];
     // public usuario;
     // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
 
@@ -54,7 +56,7 @@ export class misCampanas {
         private firestore: AngularFirestore,
         private firestoreService: FireBaseService,
         public router: Router,
-
+        public dialog: MatDialog,
         private AuthService: AuthService,
         private datePipe: DatePipe,
     ) {
@@ -66,6 +68,7 @@ export class misCampanas {
         //console.log(user);
         this.datosUsuario = user.uid;
         console.log('user: ', this.datosUsuario)
+        
         this.getCampaigns(this.estadoCampana);
         this.dataSource.filterPredicate = (data: misCampanas, filter: string): boolean => {
             const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
@@ -75,7 +78,7 @@ export class misCampanas {
             const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             return dataStr.indexOf(transformedFilter) != -1;
         }
-
+        this.dialog.open(LoadingContentExampleDialog);
     }
 
     getCampaigns(estado): void {
@@ -96,8 +99,9 @@ export class misCampanas {
                     let temp=userSnapshot.payload.data();
                     this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
                       let tempo=userAutoriSnapshot.payload.data();
-                      let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo }
+                      let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
                       this.campaigns.push(appObj);
+                      this.dialog.closeAll();
                     });
       
                   });

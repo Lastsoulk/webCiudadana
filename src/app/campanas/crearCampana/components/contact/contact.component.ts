@@ -55,13 +55,15 @@ export class ContactComponent {
     async ngOnInit() {
         this.getAutoridades();
         this.getCategorias();
-        this.getCiudades();
+        
         this.getProvinces();
     }
 
-    getCiudades() {
-        this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
+    getCiudades(provincia:any) {
+        this.firestoreService.getCiudades(provincia).subscribe((ciudadesSnapshot) => {
             this.ciudades = [];
+            this.selectedCity="";
+            console.log(ciudadesSnapshot.length);
             ciudadesSnapshot.forEach((ciudades: any) => {
                 this.ciudades.push({
                     id: ciudades.payload.doc.id,
@@ -126,8 +128,9 @@ export class ContactComponent {
     }
 
     selectedValue4(event: MatSelectChange) {
-        //console.log(event.value)
-        this.zoneSelected = event.value
+        console.log(event.value)
+        this.zoneSelected = event.value;
+        this.getCiudades(event.value.id);
     }
 
     getAutoridades() {

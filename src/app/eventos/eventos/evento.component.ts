@@ -83,17 +83,7 @@ export class Eventos {
         //console.log('test', event.payload.doc.data())
         if (new Date(event.payload.doc.data().dateEvent).getTime() != new Date().getTime() && event.payload.doc.data().type === "convocatoria") {
           console.log('La fecha del evento es menor al now', new Date(event.payload.doc.data().dateEvent).getTime() > new Date().getTime())
-          this.events.push({
-            name: event.payload.doc.data().name,
-            address: event.payload.doc.data().address,
-            description: event.payload.doc.data().description,
-            eventId: event.payload.doc.id,
-            eventPic: event.payload.doc.data().eventPic,
-            state: event.payload.doc.data().state,
-            dateEvent: event.payload.doc.data().dateEvent,
-            city: event.payload.doc.data().city,
-            type: event.payload.doc.data().type
-          });
+          this.events.push(event.payload.doc.data());
 
           //console.log('campanaid', event.payload.doc.data().campaignId)
           var refproduct = firebase.firestore();
@@ -166,11 +156,7 @@ export class Eventos {
   }
 
   getCiudades() {
-
-
-
-    console.log('Aqui--')
-    this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
+    this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
       //  this.ciudades = [];
       ciudadesSnapshot.forEach((ciudades: any) => {
         var elemento = ciudades.payload.doc.data().city
@@ -182,14 +168,8 @@ export class Eventos {
         this.selectedCity = this.ciudades[0];
       });
       console.log(this.ciudades);
-
-
     })
-
-
   }
-
-
 
 
 }

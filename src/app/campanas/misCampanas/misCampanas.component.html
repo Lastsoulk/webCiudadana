@@ -5,7 +5,7 @@
     <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona un estado de la campaña:</div>
     <mat-form-field appearance="fill">
 
-      <mat-select (selectionChange)="getCampaigns($event.value)">
+      <mat-select (selectionChange)="getCampaigns($event.value)" [(ngModel)]="estadoCampana">
         <mat-option *ngFor="let estado of arregloEstados" [value]="estado">
             {{estado}}
         </mat-option>
@@ -51,6 +51,10 @@
                             <h5>¿Cuál es el problema?</h5>
                             <p style="font-size: 11;  text-align: justify;">{{key.description | slice:0:500}}...</p>
                             <p style="font-size: 11;  text-align: justify;">{{key.questionAsking | slice:0:300}}...</p>
+                            <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="key.state.rejected && !key.state.running && !key.state.finished" >Negada</p>
+                            <p style="font-size: medium; background-color: rgba(167, 167, 15, 0.507);color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="!key.state.running && !key.state.rejected && !key.state.finished">Pendiente</p>
+                            <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="key.state.running">Aprobada</p>
+                            <p style="font-size: medium; background-color: rgba(56, 77, 73, 0.507);color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="key.state.finished">Finalizada</p>
                         </div>
                     </div>
                 </mat-card-content>

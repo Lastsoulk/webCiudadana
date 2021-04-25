@@ -97,6 +97,7 @@ import { noticiasComponent } from './noticias/noticias.component';
 import { Noticias } from './noticias/noticia/noticia.component';
 import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoadingContentExampleDialog } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { FooterComponent } from './footer/footer.component';
     AddressComponent,
     ContactComponent,
     DialogContentExampleDialog,
+    LoadingContentExampleDialog,
     Eventos,
     ChatComponent,
     noticiasComponent,

@@ -162,7 +162,7 @@ export class Noticias {
 
 
     console.log('Aqui--')
-    this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
+    this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
       //  this.ciudades = [];
       ciudadesSnapshot.forEach((ciudades: any) => {
         var elemento = ciudades.payload.doc.data().city

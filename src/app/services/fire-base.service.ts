@@ -27,16 +27,18 @@ export class FireBaseService {
   }
 
   getCampañasUsuario(id:String="",userId:String="") {
-      if(id=="todas"){
+      if(id=="Todas"){
         console.log('cargando todas de: ',userId)
         return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId)).snapshotChanges();
       }
-      else if(id=="negadas"){
+      else if(id=="Negadas"){
         return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.rejected","==",true)).snapshotChanges();
-      }else if(id=="pendientes"){
-        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.waiting",'==',true)).snapshotChanges();
-      }else if(id=="aprobadas"){
+      }else if(id=="Pendientes"){
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.rejected",'!=',true).where("state.running",'!=',true).where("state.finished",'!=',true)).snapshotChanges();
+      }else if(id=="Aprobadas"){
         return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.running",'==',true)).snapshotChanges();
+      }else if(id=="Finalizadas"){
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.finished",'==',true)).snapshotChanges();
       }else{
          return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId)).snapshotChanges();
       }
@@ -78,8 +80,14 @@ export class FireBaseService {
     return this.firestore.collection("authorities").snapshotChanges();
   }
 
-  getCiudades(){
-    return this.firestore.collection("cities").snapshotChanges();
+  getCiudades(idProvince:any){
+    if(idProvince=="todas"){
+      return this.firestore.collection("cities").snapshotChanges();
+    }else{
+      return this.firestore.collection("cities", ref => ref.where("idProvince",'==',idProvince)).snapshotChanges();
+    }
+    
+    
   }
 
   getProvinces(){
@@ -93,12 +101,20 @@ export class FireBaseService {
   crearCampaña(campaigns:any){    
     console.log(campaigns);
 
-    return new Promise<any>((resolve, reject) =>{
+    new Promise<any>((resolve, reject) =>{
       this.firestore
           .collection("campaigns")
           .add(campaigns)
           .then(res => {
+
             console.log(res);
+            let addfollo = {
+              date : campaigns.dateCreate,
+              idCampaign : res.id,
+              idUser : campaigns.promoter,
+          }
+          this.addFollow(addfollo);
+
           }, err => reject(err));
     });
   }

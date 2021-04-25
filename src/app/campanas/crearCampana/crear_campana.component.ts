@@ -13,6 +13,9 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { FileService } from '../../services/file.service';
 import { ImageService } from '../../services/image.service';
+import { Router } from '@angular/router';
+import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
+
 /**
  * @title Card with multiple sections
  */
@@ -34,6 +37,8 @@ export class CrearCampana {
     public urlImagen: any = '';
     id: string;
 
+    dialogRef;
+
     n = Date.now();
     filePath = `campaignImages/${this.n}`;
     fileRef;
@@ -49,7 +54,8 @@ export class CrearCampana {
         private firestoreService: FireBaseService,
         private firestore: AngularFirestore,
         private datePipe: DatePipe,
-        private storage: AngularFireStorage
+        private storage: AngularFireStorage,
+        public router: Router,
     ) {
 
 
@@ -106,12 +112,8 @@ export class CrearCampana {
 
 
     onClick(form: NgForm): void {
+        this.dialogRef = this.dialog.open(LoadingContentExampleDialog);
         const json = JSON.stringify(form.value);
-        
-
-        
-
-
         const task = this.storage.upload(`campaignImages/${this.n}`, this.file);
         task
         .snapshotChanges()
@@ -145,7 +147,9 @@ export class CrearCampana {
                 }
                 this.firestoreService.crearCampaña(data);
                 console.log(data);
-
+                this.dialog.closeAll();
+                this.dialogRef = this.dialog.open(DialogContentExampleDialog);
+                
             });
             })
         )
@@ -157,7 +161,7 @@ export class CrearCampana {
             }
         });
         
-        const dialogRef = this.dialog.open(DialogContentExampleDialog);
+        
         
         
         

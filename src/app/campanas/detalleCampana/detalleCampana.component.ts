@@ -6,6 +6,8 @@ import { firestore } from 'firebase';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { DialogEvent } from './dialogevent.component';
+import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
+
 
 // import {firestore} from "@angular/fire/firestore"
 // import { firestore } from 'firebase';
@@ -37,6 +39,7 @@ export class DetalleCampana {
   public campaignUpdateId;
   public campaignId;
 
+  public originalCampaignInfo = undefined;
   public originalCampaign = undefined;
   public lastCampaignUpdate = undefined;
 
@@ -112,13 +115,26 @@ export class DetalleCampana {
     // this.getLastCampaignUpdateById(JSON.parse(this.params.upd));
     this.getOriginalCampaignById(JSON.parse(this.params.camp));
     //this.miCampanaNegada = this.misCampanas;
+    this.dialog.open(LoadingContentExampleDialog);
   }
 
   getOriginalCampaignById(campaignId) {
     this.firestoreService.getOriginalCampaignById(campaignId).subscribe((campaignSnapshot) => {
-      this.originalCampaign = campaignSnapshot.payload.data();
 
-      console.log("this.originalCampaign", this.originalCampaign);
+      this.originalCampaignInfo = campaignSnapshot.payload.data();
+      
+      this.firestoreService.getDatosUser(this.originalCampaignInfo.promoter).subscribe((userSnapshot) => {
+        let temp=userSnapshot.payload.data();
+        this.firestoreService.getAutoridad(this.originalCampaignInfo.authority).subscribe((userAutoriSnapshot) => {
+          let tempo=userAutoriSnapshot.payload.data();
+          let appObj = { ...this.originalCampaignInfo,['promotore']: temp, ['autority']: tempo ,campaignId: campaignSnapshot.payload.id}
+          this.originalCampaign=appObj;
+          this.dialog.closeAll();
+        });
+
+      });
+
+      //console.log("this.originalCampaign", this.originalCampaign);
 
     }, (error) => {
       console.log(error)

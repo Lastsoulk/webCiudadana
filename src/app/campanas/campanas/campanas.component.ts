@@ -8,7 +8,8 @@ import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../services/auth.service';
-
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
 /**
  * @title Card with multiple sections
  */
@@ -51,7 +52,7 @@ export class Campana {
     private firestoreService: FireBaseService,
     public router: Router,
     private AuthService: AuthService,
-
+    public dialog: MatDialog,
   ) {
 
   }
@@ -67,7 +68,7 @@ export class Campana {
     }
   
   getCiudades(){
-        this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
+        this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
           this.ciudades = [];
           ciudadesSnapshot.forEach((ciudades: any) => {
             var elemento = ciudades.payload.doc.data().city
@@ -76,29 +77,6 @@ export class Campana {
             }else{
                 const add = this.ciudades.push(elemento)
             }
-            // var lista = evento.payload.doc.data().address
-            // var ciudad = lista.split(', ')
-
-            // if(ciudad.length>1){
-            //   var temp = ciudad[1].split(' ')
-
-            //   var agregar = ''
-            //   if(isNaN(temp[temp.length-1])){
-            //     agregar = ciudad[1]
-
-            //   }else{
-            //     agregar = temp.slice(0,-1).join(' ')
-        
-
-            //   }
-          
-            //   if(this.ciudades.includes(agregar)){
-                
-            //   }else{
-            //     const add = this.ciudades.push(agregar)
-            //   }
-              
-            // }
            
       });
 
@@ -112,6 +90,7 @@ export class Campana {
 
 
   getCampaigns(categoria): void {
+    this.dialog.open(LoadingContentExampleDialog);
     console.log(categoria);
     if(categoria=="Todas"){
       categoria="";
@@ -119,7 +98,7 @@ export class Campana {
     this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
       //this.categories = [];
-      
+      this.dialog.closeAll();
       if (campaignsSnapshot.length == 0) {
         this.condicioncampanavacia = true;
       } else {
@@ -133,8 +112,9 @@ export class Campana {
               let temp=userSnapshot.payload.data();
               this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
                 let tempo=userAutoriSnapshot.payload.data();
-                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo }
+                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
                 this.campaigns.push(appObj);
+                
               });
 
             });
@@ -185,6 +165,7 @@ export class Campana {
 
   redirectCampaignDetail(value) {
     let campaignId = value.campaignId;
+    console.log(campaignId);
     //  console.log("aqui abajo",bandera)
 
 
