@@ -13,7 +13,7 @@
             <mat-label>Autoridad</mat-label>
             <mat-select required (selectionChange)="selectedValue($event)" name="nameAuthority" #nameAuthority>
                 <ng-container *ngFor="let autoridad of autoridades">
-                    <mat-option required  [value]="autoridad.name" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
+                    <mat-option required  [value]="autoridad.id" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
                         <span>{{autoridad.name}}<br /></span> 
                         <small class="text-grey">  {{autoridad.position}}</small>
                     </mat-option>
@@ -54,7 +54,7 @@
             <mat-select required (selectionChange)="selectedValue3($event)" name="selectedCity" #selectedCity>
                 <ng-container *ngFor="let ciu of ciudades">
                     <mat-option required  [value]="ciu" style="min-height: 48px; line-height: normal; height: auto; padding: 10px 20px;">
-                        <span>{{ciu}}<br /></span> 
+                        <span>{{ciu.name}}<br /></span> 
                     </mat-option>
 
                 </ng-container>

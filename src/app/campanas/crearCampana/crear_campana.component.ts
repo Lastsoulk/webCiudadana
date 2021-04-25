@@ -31,8 +31,17 @@ export class CrearCampana {
     images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
     myDate = new Date();
     public imagen: any;
-    public urlImagen: any = 'hola';
+    public urlImagen: any = '';
     id: string;
+
+    n = Date.now();
+    filePath = `campaignImages/${this.n}`;
+    fileRef;
+    file;
+    
+    selectedFile: File = null;
+    fb;
+    downloadURL: Observable<string>;
 
     constructor(
         public dialog: MatDialog,
@@ -40,16 +49,14 @@ export class CrearCampana {
         private firestoreService: FireBaseService,
         private firestore: AngularFirestore,
         private datePipe: DatePipe,
+        private storage: AngularFireStorage
     ) {
 
-        // private imageService: ImageService,
-        //@Inject(AngularFireStorage) private storage: AngularFireStorage,
-        //@Inject(FileService) private fileService: FileService) {
-        // this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+
     }
 
     message: string;
-    correoautority: string;
+    //correoautority: string;
     categoria: string;
     ciudad: string;
     zona: string;
@@ -59,12 +66,12 @@ export class CrearCampana {
         console.log('Aqui estamos');
         console.log($event);
         
-        this.message = $event.split("/", 2)[0];
-        this.correoautority = $event.split("/", 2)[1];
-        this.categoria = $event.split("/", 3)[2];
+        this.message = $event.split("/", 1)[0];
+        //this.correoautority = $event.split("/", 2)[1];
+        this.categoria = $event.split("/", 2)[1];
+        this.zona = $event.split("/", 3)[2];
         this.ciudad = $event.split("/", 4)[3];
-        this.zona = $event.split("/", 5)[4];
-        this.zoneName = $event.split("/", 6)[5];
+        
     }
 
     async ngOnInit() {
@@ -89,169 +96,72 @@ export class CrearCampana {
     }
 
     seleccionadorImagen(event: any) {
-
-        if (event.target.files && event.target.files[0]) {
-            var reader = new FileReader();
-
-            reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-            reader.onload = (event) => { // called once readAsDataURL is completed
-                this.urlImagen = event.target.result;
-                console.log('llego aca')
-            }
-            console.log(this.urlImagen);
-        }
-
-
-
-        // if (event.target.files && event.target.files[0]) {
-        // var reader = new FileReader();
-        // console.log('holaaa')
-        // reader.readAsDataURL(event.target.files[0]); // read file as data url
-
-        // reader.onload = (event) => { // called once readAsDataURL is completed
-        //     this.urlImagen = event.target.result;
-        // }
-        // console.log(this.urlImagen)
-        // console.log(event.target.result)
-        // }
-
-        // const file: File = event.target.files[0];
-        // const reader = new FileReader();
-
-        // reader.addEventListener('load', (event: any) => {
-
-        // this.imagen = new ImageSnippet(event.target.result, file);
-
-        // this.imageService.uploadImage(this.imagen.file).subscribe(
-        //     (res) => {
-        //         // console.log('bien'),
-        //         // console.log(res)
-        //     },
-        //     (err) => {
-
-        //     })
-        // });
-
-        // reader.readAsDataURL(file);
-    }
-    // this.imagen = event.target.files[0];
-    // console.log('aca imagen')
-    // console.log(event.target.files[0]);
-    // this.cargarImagen();
-
-
-
-
-
-
-
-    cargarImagen() {
-
-        //  var nameImagen = this.imagen.name;
-        // console.log(this.imagen)
-        // const fileRef = this.storage.ref(nameImagen);
-        // console.log('url')
-        // this.storage.upload(this.id, this.imagen).snapshotChanges().pipe(
-        //     finalize(() => {
-        //     fileRef.getDownloadURL().subscribe((url) => {
-        //         console.log('ola url');
-        //         console.log(url)
-        //     this.urlImagen = url;
-        //    // this.firestoreService.insertImageDetails(this.id,this.url);
-        //     alert('Upload Successful');
-        //     })
-        //     })
-        //     ).subscribe();
-        // console.log(this.urlImagen)
+        
+        this.file = event.target.files[0];
+        
+        this.fileRef = this.storage.ref(this.filePath);
+        
 
     }
 
-    // save() {    var name = this.selectedImage.name;
-    // const fileRef = this.storage.ref(name);    this.storage.upload(name, this.selectedImage).snapshotChanges().pipe(
-    //   finalize(() => {
-    //     fileRef.getDownloadURL().subscribe((url) => {
-    //       this.url = url;
-    //       this.fileService.insertImageDetails(this.id,this.url);
-    //       alert('Upload Successful');
-    //     })
-    //   })
-    // ).subscribe();
-
-
-    //     this.storage.upload(name, this.selectedImage).snapshotChanges().pipe(
-    // finalize(() => {
-    // fileRef.getDownloadURL().subscribe((url) => {
-    // this.url = url;
-    // this.fileService.insertImageDetails(this.id,this.url);
-    // alert('Upload Successful');
-    // })
-    // })
-    // ).subscribe();
 
     onClick(form: NgForm): void {
-
-
-
-
         const json = JSON.stringify(form.value);
-        // console.log(this.usuario);
+        
 
-        // console.log(this.message);              //Nombre de la autoridad
-        // console.log(this.correoautority);       //Correo de autoridad
-
-        // console.log('formulario')
-        // console.log(form.value)
-        //console.log(form.value.personal.contact.fechainicio);
-
-        let data = {
-            name: form.value.personal.contact.nameCampaign,
-            promoter: { name: this.usuario.name, id: this.user.uid },
-            numFollowers: 1,
-            state: { finished: false, rejected: false, running: false, waiting: true },
-            description: form.value.health.symptoms.descriptionCampaign,
-
-            questionAffect: form.value.health.symptoms.questionAffect,//a quien afecta
-            questionAsking: form.value.health.symptoms.questionAsking,//esta pidiendo
-            questionProblem: form.value.health.symptoms.descriptionCampaign,//cual es el problema
-
-            categories:[this.categoria],
-            authority: { email: this.correoautority, name: this.message },
-            campaignPic: this.urlImagen,
-            categoria: this.categoria,
-            city:this.ciudad,
-            dateStart: form.value.personal.contact.fechainicio,
-            dateEnd: form.value.personal.contact.fechafin,
-            dateCreate: this.datePipe.transform(this.myDate, 'yyyy-MM-dd'),
-            dateModified: this.datePipe.transform(this.myDate, 'yyyy-MM-dd'),
-            env:"debug",
-            version: 0,
-            zone: {id: this.zona , name: this.zoneName}
-
-        }
         
 
 
+        const task = this.storage.upload(`campaignImages/${this.n}`, this.file);
+        task
+        .snapshotChanges()
+        .pipe(
+            finalize(() => {
+            this.downloadURL = this.fileRef.getDownloadURL();
+            this.downloadURL.subscribe(url => {
+                if (url) {
+                this.fb = url;
+                }
+                console.log(this.fb);
+                let data = {
+                    name: form.value.personal.contact.nameCampaign,
+                    numFollowers: 1,
+                    promoter: this.user.uid ,
+                    state: { finished: false, rejected: false, running: false },
+                    campaignPic: [this.fb],
+                    dateEnd: this.datePipe.transform(form.value.personal.contact.fechafin, 'd/M/yyyy, HH:mm'),
+                    dateStart: this.datePipe.transform(form.value.personal.contact.fechainicio, 'd/M/yyyy, HH:mm'),
+                    dateModified: this.datePipe.transform(this.myDate, 'd/M/yyyy, HH:mm'),
+                    dateCreate: this.datePipe.transform(this.myDate, 'd/M/yyyy, HH:mm'),
+                    categories:[this.categoria],
+                    description: form.value.health.symptoms.descriptionCampaign,
+                    city:this.ciudad,
+                    questionAffect: form.value.health.symptoms.questionAffect,//a quien afecta
+                    questionAsking: form.value.health.symptoms.questionAsking,//esta pidiendo
+                    questionProblem: form.value.health.symptoms.descriptionCampaign,//cual es el problema
+                    authority: this.message,
+                    province: this.zona,
+        
+                }
+                this.firestoreService.crearCampaña(data);
+                console.log(data);
+
+            });
+            })
+        )
+        .subscribe(url => {
+            if (url) {
+                this.urlImagen=url;
+                console.log(url);
+                
+            }
+        });
         
         const dialogRef = this.dialog.open(DialogContentExampleDialog);
-        console.log(data);
-        this.firestoreService.crearCampaña(data);
         
         
-        // crearCampaña(campaigns:any[])
-
+        
     }
-
-
-
-
-
-    crearCampana(form) {
-
-
-    }
-
-
 
 
 

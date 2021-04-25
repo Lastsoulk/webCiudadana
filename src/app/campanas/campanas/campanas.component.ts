@@ -131,10 +131,8 @@ export class Campana {
           if(campaign.payload.doc.data().state.running){
             this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
               let temp=userSnapshot.payload.data();
-              //let appObj = { ...campaign.payload.doc.data(), ['promotore']: temp }
-              //this.campaigns.push(appObj);
-              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userSnapshot) => {
-                let tempo=userSnapshot.payload.data();
+              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+                let tempo=userAutoriSnapshot.payload.data();
                 let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo }
                 this.campaigns.push(appObj);
               });

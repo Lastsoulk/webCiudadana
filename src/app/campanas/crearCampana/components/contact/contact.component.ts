@@ -49,36 +49,33 @@ export class ContactComponent {
     }
 
     sendMessage() {
-        this.messageEvent.emit(this.message + "/" + this.email + "/" + this.categoriaselect+"/"+this.selectedCity+"/"+this.zoneSelected.id+"/"+this.zoneSelected.name);
+        this.messageEvent.emit(this.message + "/" + this.categoriaselect+"/"+this.zoneSelected.id+"/"+this.selectedCity.id);
     }
 
     async ngOnInit() {
         this.getAutoridades();
         this.getCategorias();
         this.getCiudades();
-        this.getZones();
+        this.getProvinces();
     }
 
     getCiudades() {
-
-
-
-        console.log('Aqui--')
         this.firestoreService.getCiudades().subscribe((ciudadesSnapshot) => {
-          //  this.ciudades = [];
-          ciudadesSnapshot.forEach((ciudades: any) => {
-            var elemento = ciudades.payload.doc.data().city
-            if (this.ciudades.includes(elemento)) {
-    
-            } else {
-              const add = this.ciudades.push(elemento)
-            }
-            this.selectedCity = this.ciudades[0];
-          });
-    
-    
-        })
-    
+            this.ciudades = [];
+            ciudadesSnapshot.forEach((ciudades: any) => {
+                this.ciudades.push({
+                    id: ciudades.payload.doc.id,
+                    name: ciudades.payload.doc.data().name,
+                });
+            });
+
+            if (this.ciudades.length == 0) {
+                console.log("vacia");
+            } 
+            // this.dataSource.data = this.campaigns as Campaign[];
+        }, (error) => {
+            console.log("Error al cargar las ciudades", error)
+        });
     
       }
     getCategorias(){
@@ -156,11 +153,10 @@ export class ContactComponent {
 
     }
 
-    getZones() {
-        this.firestoreService.getZones().subscribe((zoneSnapshot) => {
+    getProvinces() {
+        this.firestoreService.getProvinces().subscribe((zoneSnapshot) => {
             this.zones = [];
             zoneSnapshot.forEach((zone: any) => {
-                //console.log(zone.payload.doc.data());
                 this.zones.push({
                     id: zone.payload.doc.id,
                     name: zone.payload.doc.data().name,

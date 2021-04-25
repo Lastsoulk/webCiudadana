@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import firebase from "firebase/app";
+import { DatePipe } from '@angular/common';
 
 /**
  * @title Card with multiple sections
@@ -27,6 +28,7 @@ interface Ciudad {
     selector: 'mis-campanas',
     templateUrl: './misCampanas.component.html',
     styleUrls: ['./misCampanas.component.css'],
+    providers: [DatePipe]
 })
 export class misCampanas {
     condicioncampanavacia = false;
@@ -37,7 +39,7 @@ export class misCampanas {
     public campaigns = [];
     public categories = [];
     public estadoCampana = "";
-    public arregloEstados = ["negadas", "pendientes", "aprobadas", "todas"];
+    public arregloEstados = ["negadas", "aprobadas", "todas"];
     // public usuario;
     // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
 
@@ -45,6 +47,7 @@ export class misCampanas {
     public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
     public datosUsuario;
     
+    myDate = new Date();
 
 
     constructor(
@@ -53,90 +56,68 @@ export class misCampanas {
         public router: Router,
 
         private AuthService: AuthService,
-
+        private datePipe: DatePipe,
     ) {
+
+    }   
+
+    async ngOnInit() {
+        const user = await this.AuthService.getCurrentUser();
+        //console.log(user);
+        this.datosUsuario = user.uid;
+        console.log('user: ', this.datosUsuario)
+        this.getCampaigns(this.estadoCampana);
+        this.dataSource.filterPredicate = (data: misCampanas, filter: string): boolean => {
+            const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
+                console.log((data as { [key: string]: any })[key]);
+                return (currentTerm + (data as { [key: string]: any })[key]);
+            }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            return dataStr.indexOf(transformedFilter) != -1;
+        }
 
     }
 
-
     getCampaigns(estado): void {
 
-        // estado.subscribe(res=>{
-
-        //     this.estadoCampana = estado;
-
-
-        /*
         this.firestoreService.getCampañasUsuario(estado, this.datosUsuario).subscribe((campaignsSnapshot) => {
             this.campaigns = [];
             this.categories = [];
+            if (campaignsSnapshot.length == 0) {
+                this.condicioncampanavacia = true;
+              } else {
+                  this.condicioncampanavacia = false;
+              }
+
+            
             campaignsSnapshot.forEach((campaign: any) => {
                 console.log(campaign.payload.doc.data());
-                this.campaigns.push({
-                    campaignInfo: campaign.payload.doc.data(),
-                    campaignPic: campaign.payload.doc.data().campaignPic,
-                    category: campaign.payload.doc.data().categories,
-                    campaignId: campaign.payload.doc.id,
-                    //campaignUpdateId: campaign.payload.doc.id,
-                    name: campaign.payload.doc.data().name,
-                    description: campaign.payload.doc.data().description,
-                    promoter: campaign.payload.doc.data().promoter,
-                    categories: campaign.payload.doc.data().categories,
-                    dateStart: campaign.payload.doc.data().dateStart,
-                    numFollowers: campaign.payload.doc.data().numFollowers,
-                    state: campaign.payload.doc.data().state,
-                    //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
+                this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
+                    let temp=userSnapshot.payload.data();
+                    this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+                      let tempo=userAutoriSnapshot.payload.data();
+                      let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo }
+                      this.campaigns.push(appObj);
+                    });
+      
+                  });
+                
 
-                });
             });
 
-            if (this.campaigns.length == 0) {
-                this.condicioncampanavacia = true;
-            } else {
-                this.condicioncampanavacia = false;
-            }
-            // this.dataSource.data = this.campaigns as Campaign[];
         }, (error) => {
             console.log("Error al cargar las campañas", error)
         });
         // });
 
-        */
+        
 
     }
 
     
 
 
-    async ngOnInit() {
-
-
-
-
-        const user = await this.AuthService.getCurrentUser();
-        console.log(user);
-        this.datosUsuario = user.uid;
-        console.log('user: ', this.datosUsuario)
-        this.getCampaigns(this.estadoCampana);
-       
-        // const user = await this.AuthService.getCurrentUser();
-        //     this.user$.subscribe(res=>{
-        //     this.usuario = res;
-        //     }
-        //)
-
-        this.dataSource.filterPredicate = (data: misCampanas, filter: string): boolean => {
-            const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
-                console.log((data as { [key: string]: any })[key]);
-                return (currentTerm + (data as { [key: string]: any })[key]);
-            }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-            const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-
-            return dataStr.indexOf(transformedFilter) != -1;
-        }
-
-    }
+    
 
 
     redirectCampaignDetail(value) {

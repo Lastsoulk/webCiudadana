@@ -9,31 +9,15 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   providedIn: 'root'
 })
 export class FireBaseService {
-  
-
-  // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
-  // public userId;
-  // public datosUsuario;
-
 
   constructor(
-    //private AuthService: AuthService,
-   // private firestoreService: FireBaseService,
+
     private firestore: AngularFirestore,
     private http: HttpClient
   ) { }
 
-  // getCampañas() {
-  //   return this.firestore.collection("Campañas").snapshotChanges();
-  // }
 
   async ngOnInit() {
-    // const user = await this.AuthService.getCurrentUser();
-    // this.userId = await this.AuthService.getCurrentUser();
-    // console.log('aqui: ',this.userId.uid)
-    //this.getDatosUser(user.uid);
-   // console.log(user.displayName);
-
   }
 
   getCampanasActivas(){
@@ -43,26 +27,18 @@ export class FireBaseService {
   }
 
   getCampañasUsuario(id:String="",userId:String="") {
-    
-
-
-
-
-
-
-
       if(id=="todas"){
         console.log('cargando todas de: ',userId)
-        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId)).snapshotChanges();
       }
       else if(id=="negadas"){
-        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId).where("state.rejected","==",true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.rejected","==",true)).snapshotChanges();
       }else if(id=="pendientes"){
-        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId).where("state.waiting",'==',true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.waiting",'==',true)).snapshotChanges();
       }else if(id=="aprobadas"){
-        return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId).where("state.running",'==',true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.running",'==',true)).snapshotChanges();
       }else{
-         return this.firestore.collection("campaigns", ref => ref.where("promoter.id",'==',userId)).snapshotChanges();
+         return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId)).snapshotChanges();
       }
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
@@ -85,10 +61,6 @@ export class FireBaseService {
   }
 
   getCampañasCategoria(categoria:String="") {
-    
-
-   
-
     if(categoria==""){ 
        return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
       }
@@ -107,30 +79,20 @@ export class FireBaseService {
   }
 
   getCiudades(){
-    return this.firestore.collection("ciudades").snapshotChanges();
+    return this.firestore.collection("cities").snapshotChanges();
   }
 
-  getZones(){
-    return this.firestore.collection("zones").snapshotChanges();
+  getProvinces(){
+    return this.firestore.collection("provinces").snapshotChanges();
   }
 
   getCategorias(){
     return this.firestore.collection("categories").snapshotChanges();
   }
 
-  crearCampaña(campaigns:any){
-
-
-    let body = JSON.stringify(campaigns[0]);
-    let headers = new HttpHeaders({
-      'Content-Type':'application/json'
-    });
-
-
-    //let producto = [{description:'campanita de prueba',name:'hola'}];
-    
+  crearCampaña(campaigns:any){    
     console.log(campaigns);
-    this.firestore.collection("campaigns"); 
+
     return new Promise<any>((resolve, reject) =>{
       this.firestore
           .collection("campaigns")
@@ -139,9 +101,6 @@ export class FireBaseService {
             console.log(res);
           }, err => reject(err));
     });
-
-    
-
   }
 
   crearEvento(evento:any){
@@ -172,16 +131,6 @@ export class FireBaseService {
     return this.firestore.collection("campaigns").doc(campaign_id).snapshotChanges();
   }
 
-// const racesCollection: AngularFirestoreCollection<Race>;
-// return racesCollection.snapshotChanges().map(actions => {       
-//   return actions.map(a => {
-//     const data = a.payload.doc.data() as Race;
-//     data.id = a.payload.doc.id;
-//     return data;
-//   });
-// });
-
-
 
   getDatosUser(userId: any){
     return this.firestore.collection("users").doc(userId).snapshotChanges();
@@ -191,8 +140,6 @@ export class FireBaseService {
   }
 
   public updateDatosUser(userID: any, nombre:any, cedula:any, telefono:any) {
-
-
     return new Promise<any>((resolve, reject) =>{
       this.firestore
           .collection("users")
@@ -200,18 +147,20 @@ export class FireBaseService {
           .set({name      :   nombre,
                 cedula    :   cedula,
                 telefono  :   telefono
-          }, { merge: true })
+          }
+          , { merge: true })
+          
           .then(res => {
             resolve(res);
+            window.location.reload();
           }, err => reject(err));
     });
+    
 
   }
 
   public getEventById(event_id: any) {
-    //console.log(this.firestore.collection("events").doc(event_id).snapshotChanges());
     return this.firestore.collection("events").doc(event_id).snapshotChanges();
-    //return this.firestore.collection("events", ref => ref.where("campaignId",'==',event_id)).snapshotChanges();
   }
 
   public getEvents(ciudad: any,tipo: any) {
@@ -227,14 +176,27 @@ export class FireBaseService {
 
     }else if(ciudad!="Todas" && tipo == "Convocatorias"){
         return this.firestore.collection("events", ref => ref.where("type","==","convocatoria").where("city","==",ciudad)).snapshotChanges();
-
     }
+  }
 
+  public addFollow(data:any){
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("followers")
+          .add(data)
+          .then(res => {
+            console.log(res);
+          }, err => reject(err));
+    });
 
   }
 
 
 }
+
+
+
+
 
 export interface ICampaña {
   id: string;

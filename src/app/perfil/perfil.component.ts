@@ -66,7 +66,6 @@ export class Perfil {
     try {
         this.firestoreService.updateDatosUser(this.user.uid,fname,cedula,telefono);
         //this.router.navigate(['/perfil']);
-        window.location.reload();
     } catch (error) {
         console.log(error);
     }
