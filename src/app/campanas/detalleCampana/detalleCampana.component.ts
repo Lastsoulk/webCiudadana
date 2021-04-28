@@ -70,18 +70,24 @@ export class DetalleCampana {
     const dialogRef = this.dialog.open(DialogEvent, {
       width: '800px',
       //height: '90%',
-      data: { nombreconvocatoria: this.nombreconvocatoria, descripcion: this.descripcion, fechaconvocatoria: this.fechaconvocatoria, fotoconvocatoria: this.fotoconvocatoria, direccion: this.direccion }
+      data: { nombreconvocatoria: this.nombreconvocatoria, 
+        descripcion: this.descripcion, 
+        fechaconvocatoria: this.fechaconvocatoria, 
+        fotoconvocatoria: this.fotoconvocatoria, 
+        direccion: this.direccion,
+        campaignId : this.originalCampaign.campaignId,
+        city : this.originalCampaign.ciudad.name
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       //this.nombreconvocatoria = result;
-      //console.log(result)   //Result es el input
+      console.log(result)   //Result es el input
     });
   }
 
   getRouteParams(): void {
-    console.log('aca');
     this.route.queryParams.subscribe(params => {
       this.params = params;
 
@@ -91,31 +97,28 @@ export class DetalleCampana {
 
       this.miCampanaNegada = (this.params.estadoCampana == 'true');
       this.campanaUsuario = (this.params.campanaUsuario == 'true');
-      console.log('hola')
-      console.log(this.params.campanaUsuario)
-
-
     });
-
-
-    // this.misCampanas = this.params.misCampanas;
-    //console.log("detalle campana hola: ",this.miCampanaNegada);
-    // this.campaignUpdateId = this.params.upd;
-    //  this.campaignUpdateId = this.params.upd.replace("\"","");   
-    //  this.campaignUpdateId = this.campaignUpdateId.toString().substring(0,this.campaignUpdateId.length-1)
-
-    console.log("this.campaignId", this.campaignId);
-    console.log("estamos con el valor de aca: ", this.miCampanaNegada);
+    //console.log("this.campaignId", this.campaignId);
   }
 
   async ngOnInit() {
-    console.log('aqui');
     this.getRouteParams();
     this.datosconversations();
-    // this.getLastCampaignUpdateById(JSON.parse(this.params.upd));
+    
     this.getOriginalCampaignById(JSON.parse(this.params.camp));
-    //this.miCampanaNegada = this.misCampanas;
+    
+    this.getEventsById(JSON.parse(this.params.camp));
     this.dialog.open(LoadingContentExampleDialog);
+  }
+
+  getEventsById(campaignId){
+    this.firestoreService.getEventsByCampaign(campaignId).subscribe((snp) => {
+      snp.forEach(async (obj: any) => {
+        console.log(obj.payload.doc.data());
+      });
+    }, (error) => {
+      console.log(error)
+    });
   }
 
   getOriginalCampaignById(campaignId) {
@@ -127,9 +130,13 @@ export class DetalleCampana {
         let temp=userSnapshot.payload.data();
         this.firestoreService.getAutoridad(this.originalCampaignInfo.authority).subscribe((userAutoriSnapshot) => {
           let tempo=userAutoriSnapshot.payload.data();
-          let appObj = { ...this.originalCampaignInfo,['promotore']: temp, ['autority']: tempo ,campaignId: campaignSnapshot.payload.id}
-          this.originalCampaign=appObj;
-          this.dialog.closeAll();
+          this.firestoreService.getCiudadById(this.originalCampaignInfo.city).subscribe((citysnp) => {
+            let ciudad = citysnp.payload.data();
+            let appObj = { ...this.originalCampaignInfo,['promotore']: temp, ['autority']: tempo ,['ciudad']: ciudad ,campaignId: campaignSnapshot.payload.id}
+            this.originalCampaign=appObj;
+            this.dialog.closeAll();
+          });
+          
         });
 
       });
@@ -190,18 +197,7 @@ export class DetalleCampana {
     }
   }
 
-  //   getLastCampaignUpdateById(campaignUpdateId) {
-  //     this.firestoreService.getLastCampaignUpdateById(campaignUpdateId).subscribe((campaignUpdateSnapshot) => {
-  //     this.lastCampaignUpdate = campaignUpdateSnapshot.payload.data();
-  //     this.categoriesUpdate = campaignUpdateSnapshot.payload.data()['categories']
 
-  //     console.log("this.lastCampaignUpdate", this.lastCampaignUpdate)
-  //     console.log("this.categoriesUpdate", this.categoriesUpdate)
-
-  //     }, (error) => {
-  //       console.log(error);
-  //     });
-  //   }
   async campanaspersonales() {
     this.user = await this.AuthService.getCurrentUser();
     this.getDatosUser(this.user.uid);

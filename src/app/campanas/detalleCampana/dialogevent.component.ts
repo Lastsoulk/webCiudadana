@@ -10,10 +10,13 @@ import { Observable } from 'rxjs';
 import { FireBaseService } from '../../services/fire-base.service';
 // import firebase from "firebase/app";
 import { AuthService } from '../../services/auth.service';
+import { DatePipe } from "@angular/common";
 //import { DialogContentEvent } from './dialog.component';
 
 
 export interface DialogData {
+    city: any;
+    campaignId: any;
     nombreconvocatoria: string;
     descripcion: string;
     fechaconvocatoria: string;
@@ -32,6 +35,7 @@ interface HtmlInputEvent extends Event {
     selector: 'dialogevent',
     templateUrl: 'dialogevent.component.html',
     styleUrls: ['./dialogevent.component.css'],
+    providers: [DatePipe],
     encapsulation: ViewEncapsulation.None,
 })
 export class DialogEvent {
@@ -56,6 +60,7 @@ export class DialogEvent {
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
        // public dialog: MatDialog,
+       private datePipe: DatePipe,
         public dialogRef: MatDialogRef<DialogEvent>,
         private AuthService: AuthService,
         private router: Router,
@@ -144,15 +149,18 @@ export class DialogEvent {
         if (event.target.files && event.target.files[0]) {
             this.file = <File>event.target.files[0];
 
-            //image preview
             const reader = new FileReader();
             reader.onload = e => this.photoSelected = reader.result;
             reader.readAsDataURL(this.file);
+            
+        }
+    }
 
-            //cuando selecciona carga la foto y recupera la url
-            const filename = Math.floor(Date.now() / 1000);
-            var nameImage = 'eventImages/' + filename;
-            const pictures = storage().ref(nameImage);
+    crearConvocatoria(){
+        //this.dialogRef = this.dialog.open(LoadingContentExampleDialog);
+        const filename = Math.floor(Date.now() / 1000);
+        var nameImage = 'eventImages/' + filename;
+        const pictures = storage().ref(nameImage);
             pictures.put(this.file).then((resp) => {
                 var storage = firebase.storage();
                 var storageRef = storage.ref();
@@ -164,75 +172,47 @@ export class DialogEvent {
                         console.log('Convocatoria creada ', this.data)
                         console.log('String direccion ', this.address)
                         this.urlfile = resp;
+
+                        let dataEvento = {
+                            name: this.data.nombreconvocatoria,
+                            address: this.address,
+                            idCampaign: this.data.campaignId,
+                            idUser: this.user.uid,
+                            dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                            dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                            dateEvent: this.datePipe.transform(this.data.fechaconvocatoria, 'dd/MM/yyyy, HH:mm'),
+                            denyReason:"",
+                            description: this.data.descripcion,
+                            eventPic: [this.data.fotoconvocatoria],
+                            city : this.data.city,
+                            lat : this.latitude,
+                            long: this.longitude,
+                            numFollowers: 0,
+                            type: 'Convocatoria',
+                            state: { finished: false, rejected: false, running: false},
+                        }
+                        
+                
+                
+                        this.firestoreService.crearEvento(dataEvento);
+                        console.log(dataEvento)
+                
+                        this.dialogRef.close();
+                
                     })
                     .catch((err) => {
                         console.log("error al obtener", "=>", err);
                     })
             })
-        }
-    }
 
-    crearCategoria(){
-
-        // var lista = this.address
-        // var ciudadLista = lista.split(', ')
-        // var ciu = ''
-
-        // if(ciudadLista.length>1){
-        //     var temp = ciudadLista[1].split(' ')
-
-        //    // var agregar = ''
-        //     if(isNaN(temp[temp.length-1])){
-        //         ciu = ciudadLista[1]
-
-        //     }else{
-        //         ciu = temp.slice(0,-1).join(' ')
-    
-
-        //     }
-        
-        //     console.log('ciudad: '+ciu)
-        // }
-        
-      
-        var ciu = this.data.ciudadconvocatoria
+        //var ciu = this.data.ciudadconvocatoria
 
 
-        ciu = ciu.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
+        //ciu = ciu.split(' ').map(w => w[0].toUpperCase() + w.substr(1).toLowerCase()).join(' ')
 
     
 
-        let dataEvento = {
-            address: this.address,
-            campaignId: 'UJymY8ySDSypx5avSivc',
-            city : ciu,
-            dateCreate : new Date().getTime(),
-            dateEvent: this.data.fechaconvocatoria,
-
-            name: this.data.nombreconvocatoria,
-            userId: this.user.uid,
-            description: this.data.descripcion,
-            eventPic: this.data.fotoconvocatoria,
-            state: { finished: false, rejected: false, running: false, waiting: true },
-            type: 'convocatoria',
-            numFollowers: 0,
-            env: 'deb'
-            
-            
-            // city : ciu
-
-        }
         
-
-
-        this.firestoreService.crearEvento(dataEvento);
-        console.log(dataEvento)
-        let dataCiudad = {
-            city: ciu
-        }
-        this.firestoreService.agregarCiudad(dataCiudad);
-        this.dialogRef.close();
-
         // var datosDireccion = this.data.direccion
         // console.log(this.address)
         // const dialogRef1 = this.dialog.open(DialogContentEvent);

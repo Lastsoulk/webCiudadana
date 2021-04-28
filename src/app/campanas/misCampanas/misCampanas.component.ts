@@ -100,7 +100,9 @@ export class misCampanas {
                     this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
                       let tempo=userAutoriSnapshot.payload.data();
                       let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
-                      this.campaigns.push(appObj);
+                      if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
+                        this.campaigns.push(appObj);
+                      }
                       this.dialog.closeAll();
                     });
       

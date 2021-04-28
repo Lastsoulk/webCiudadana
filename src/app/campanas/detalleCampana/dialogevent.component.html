@@ -53,11 +53,11 @@
   <!--<div>Latitude: {{latitude}}</div>
   <div>Longitude: {{longitude}}</div>-->
 
-  <div style="color: #1976d2;margin-top: 0.5em;">Ciudad de la convocatoria</div>
+  <!--div style="color: #1976d2;margin-top: 0.5em;">Ciudad de la convocatoria</div>
   <mat-form-field style="width: 400px;">
     <mat-label>Ingrese la ciudad de tu convocatoria</mat-label>
     <input name="someUnusualName" autocomplete="off" matInput [(ngModel)]="data.ciudadconvocatoria">
-  </mat-form-field>
+  </mat-form-field-->
   
 </div>
 
@@ -65,7 +65,7 @@
 
 <div style="justify-content: center;" mat-dialog-actions>
     <button mat-button (click)="cancelar()" style="background-color: #e42222;">Cancelar</button>
-    <button mat-button (click)="crearCategoria()" cdkFocusInitial style="background-color: #4caf50;">Crear Convocatoria</button>
+    <button mat-button (click)="crearConvocatoria()" cdkFocusInitial style="background-color: #4caf50;">Crear Convocatoria</button>
 </div>
 
 <!-- [mat-dialog-close]="data"  -->

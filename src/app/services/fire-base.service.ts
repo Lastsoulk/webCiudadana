@@ -86,8 +86,10 @@ export class FireBaseService {
     }else{
       return this.firestore.collection("cities", ref => ref.where("idProvince",'==',idProvince)).snapshotChanges();
     }
-    
-    
+  }
+
+  getCiudadById(idCiudad:any){
+    return this.firestore.collection("cities").doc(idCiudad).snapshotChanges();
   }
 
   getProvinces(){
@@ -120,16 +122,26 @@ export class FireBaseService {
   }
 
   crearEvento(evento:any){
-    let body = JSON.stringify(evento[0]);
-    let headers = new HttpHeaders({
-      'Content-Type':'application/json'
-    });
+    console.log(evento);
 
-    
-    console.log('listo')
-    console.log(evento)
-    console.log('-')
-    return this.firestore.collection("events").add(evento);
+    new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("events")
+          .add(evento)
+          .then(res => {
+
+            console.log(res);
+            let addfollow = {
+              date : evento.dateCreate,
+              assistance: true,
+              idCampaign : evento.idCampaign,
+              idEvent: res.id,
+              idUser : evento.idUser,
+          }
+          this.addFollowEvent(addfollow);
+
+          }, err => reject(err));
+    });
   }
 
   agregarCiudad(ciudad:any){
@@ -205,6 +217,23 @@ export class FireBaseService {
           }, err => reject(err));
     });
 
+  }
+
+  public addFollowEvent(data:any){
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("followers-events")
+          .add(data)
+          .then(res => {
+            console.log(res);
+          }, err => reject(err));
+    });
+
+  }
+
+  public getEventsByCampaign(campaign_id){
+
+    return this.firestore.collection("events", ref => ref.where("idCampaign",'==',campaign_id)).snapshotChanges();
   }
 
 

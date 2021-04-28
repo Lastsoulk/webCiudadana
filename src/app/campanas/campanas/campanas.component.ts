@@ -111,17 +111,21 @@ export class Campana {
             this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
               let temp=userSnapshot.payload.data();
               this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+                
                 let tempo=userAutoriSnapshot.payload.data();
                 let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
-                this.campaigns.push(appObj);
-                
+                //console.log(appObj);
+                if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
+                  this.campaigns.push(appObj);
+                }
               });
 
             });
 
           }
-          console.log(this.campaigns);
+          
       });
+      console.log(this.campaigns);
   }, (error) => {
       console.log("Error al cargar las campañas", error)
   });
