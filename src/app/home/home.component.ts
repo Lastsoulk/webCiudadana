@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FireBaseService, ICampaña } from '../services/fire-base.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
+import { DatePipe } from '@angular/common';
 
 /**
  * @title Card with multiple sections
@@ -19,65 +20,90 @@ export class CardFancyExample implements OnInit {
 
     myArray: any[] = []
     events: any[] = []
+    
 
     constructor(
         private firestore: AngularFirestore,
         public router: Router,
         private firestoreService: FireBaseService,
     ) {
-
     }
 
     ngOnInit(): void {
-
+        
         this.firestoreService.getCampanasActivas().subscribe((campaignsSnapshot) => {
-        campaignsSnapshot.forEach((campaign: any) => {
-        this.myArray.push({
-          campaignInfo: campaign.payload.doc.data(),
-          campaignPic: campaign.payload.doc.data().campaignPic,
-          category: campaign.payload.doc.data().categories,
-          //campaignId: campaign.payload.doc.data().campaignId,
-          //campaignUpdateId: campaign.payload.doc.id,
-          campaignId: campaign.payload.doc.id,
-          name: campaign.payload.doc.data().name,
-          description: campaign.payload.doc.data().description,
-          promoter: campaign.payload.doc.data().promoter,
-          categories: campaign.payload.doc.data().categories,
-          dateStart: campaign.payload.doc.data().dateStart,
-          numFollowers: campaign.payload.doc.data().numFollowers,
-          state: campaign.payload.doc.data().state,
-          //state: this.stateToStringGlobal(campaign.payload.doc.data().state),
+            var i=0;
+                campaignsSnapshot.forEach((campaign: any) => {
 
-            });
-        });
-        //console.log("this.campaigns", this.campaigns);
-        // this.dataSource.data = this.campaigns as Campaign[];
+                    if(i<=6){
+                        let fechaActual = new Date();
+                        var fechaInicio=this.formatoFecha(campaign.payload.doc.data().dateStart.split(',')[0]);
+                        var fechaFin= this.formatoFecha(campaign.payload.doc.data().dateEnd.split(',')[0]);
+                    
+                        if (fechaActual>=fechaInicio && fechaActual<=fechaFin){
+                            this.myArray.push({
+                                name: campaign.payload.doc.data().name,
+                                promoter: campaign.payload.doc.data().promoter,
+                                campaignPic: campaign.payload.doc.data().campaignPic,
+                                numFollowers: campaign.payload.doc.data().numFollowers,
+                            
+                            });
+                        }
+                    }
+                    i++;
+                });
+             
         }), (error) => {
         console.log("Error al cargar las campañas", error);
         }
 
         console.log('aqui estamos en home');
+        console.log('----CAMPANAS------');
         console.log(this.myArray)
 
-        // this.firestore
-        //     .collection("campaigns")
-        //     .get()
-        //     .subscribe((ss) => {
-        //         ss.docs.forEach((doc) => {
-        //             this.myArray.push(doc.data());
-        //         });
-        //     });
-        this.firestore
-            .collection("events")
-            .get()
-            .subscribe((ss) => {
-                ss.docs.forEach((doc) => {
-                    this.events.push(doc.data());
-                });
+        this.firestoreService.getEvents("Todas","Todas").subscribe((eventSnapshot) => {
+            var i=0;
+            eventSnapshot.forEach((event: any) => {
+                if(i<=6){
+                    let fechaActual = new Date();
+                    var fechaEvento=this.formatoFecha(event.payload.doc.data().dateEvent.split(',')[0]);
+
+                    if (fechaActual<= fechaEvento ){
+                        this.events.push({
+                            name: event.payload.doc.data().name,
+                            type: event.payload.doc.data().type,
+                            eventPic: event.payload.doc.data().eventPic,
+                            numFollowers: event.payload.doc.data().numFollowers,
+                            
+                        });
+                    }
+                }
+                i++;
             });
+            this.events.sort(function (a, b) {
+                if (a.numFollowers > b.numFollowers) {
+                  return 1;
+                }
+                if (a.numFollowers < b.numFollowers) {
+                  return -1;
+                }
+                // a must be equal to b
+                return 0;
+              });
+        }), (error) => {
+        console.log("Error al cargar las campañas", error);
+        }
+        console.log('---EVENTOS---');
+        console.log(this.events);
+       
     }
 
 
+    formatoFecha(fecha:string){
+        fecha = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
+        return new Date(Date.parse(fecha));
+        
+    }
 
     moveToSelectedTab(tabName: string) {
         for (let i = 0; i < document.querySelectorAll('.mat-tab-label-content').length; i++) {

@@ -98,6 +98,7 @@ import { Noticias } from './noticias/noticia/noticia.component';
 import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoadingContentExampleDialog } from './loading/loading.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { LoadingContentExampleDialog } from './loading/loading.component';
     noticiasComponent,
     Noticias,
     DetalleNoticia,
-    FooterComponent
+    FooterComponent,
+     
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -200,12 +202,14 @@ import { LoadingContentExampleDialog } from './loading/loading.component';
     OverlayModule,
     PortalModule,
     ScrollingModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+   
   ],
   exports: [
     MatToolbarModule,
   ],
-  providers: [MatNativeDateModule],//AppService],
+  providers: [MatNativeDateModule,
+  DatePipe,],//AppService],
 
   bootstrap: [AppComponent]
 })
