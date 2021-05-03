@@ -52,10 +52,14 @@
                 <mat-card-header>
                     <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                     <mat-card-title>{{campaign.name}}</mat-card-title>
-                    <mat-card-subtitle>{{campaign.promoter}} </mat-card-subtitle>
+                    <mat-card-subtitle>{{campaign.promotore.name}} </mat-card-subtitle>
                 </mat-card-header>
                 <img mat-card-image  src={{campaign.campaignPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
-                
+                <div style="margin-top: 1em;">
+                    <mat-card-subtitle>Autoridad: {{campaign.autority.name}}</mat-card-subtitle>
+                    <mat-card-subtitle>{{campaign.dateStart}} - {{campaign.dateEnd}}</mat-card-subtitle>
+                    
+                </div>
                 <mat-card-actions class="action-buttons">
                     <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary">Seguidores: {{campaign.numFollowers}}  <mat-icon class="material-icons1" >face</mat-icon >  </button>
                     <!--<button mat-icon-button style="font-size: medium;" color="primary"(click)="router.navigate(['/campanas'])" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon> Ver más</button> -->         

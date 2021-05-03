@@ -4,7 +4,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FireBaseService, ICampaña } from '../services/fire-base.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { AngularFirestore } from "@angular/fire/firestore";
-import { DatePipe } from '@angular/common';
+import { Observable, combineLatest, of } from 'rxjs'
+import { map, switchMap } from 'rxjs/operators'
+import { uniq, flatten } from 'lodash'
+import { Campana } from '../campanas/campanas/campanas.component';
+
 
 /**
  * @title Card with multiple sections
@@ -20,7 +24,8 @@ export class CardFancyExample implements OnInit {
 
     myArray: any[] = []
     events: any[] = []
-    
+    joined$: Observable<any>
+
 
     constructor(
         private firestore: AngularFirestore,
@@ -40,17 +45,24 @@ export class CardFancyExample implements OnInit {
                         var fechaInicio=this.formatoFecha(campaign.payload.doc.data().dateStart.split(',')[0]);
                         var fechaFin= this.formatoFecha(campaign.payload.doc.data().dateEnd.split(',')[0]);
                     
-                        if (fechaActual>=fechaInicio && fechaActual<=fechaFin){
-                            this.myArray.push({
-                                name: campaign.payload.doc.data().name,
-                                promoter: campaign.payload.doc.data().promoter,
-                                campaignPic: campaign.payload.doc.data().campaignPic,
-                                numFollowers: campaign.payload.doc.data().numFollowers,
+                        if (fechaActual>=fechaInicio && fechaActual<=fechaFin && campaign.payload.doc.data().state.running){
                             
-                            });
+                            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
+                                let temp=userSnapshot.payload.data();
+                                this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+                                  
+                                  let tempo=userAutoriSnapshot.payload.data();
+                                  let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
+                                  //console.log(appObj);
+                                  if(!this.myArray.some((item) => item.campaignId == appObj.campaignId)){
+                                    this.myArray.push(appObj);
+                                  }
+                                });
+                  
+                              });
                         }
+                        i++;
                     }
-                    i++;
                 });
              
         }), (error) => {
@@ -95,10 +107,7 @@ export class CardFancyExample implements OnInit {
         }
         console.log('---EVENTOS---');
         console.log(this.events);
-       
-    }
-
-
+    }    
     formatoFecha(fecha:string){
         fecha = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
         return new Date(Date.parse(fecha));
