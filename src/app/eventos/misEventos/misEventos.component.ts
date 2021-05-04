@@ -36,7 +36,7 @@ export class misEventos {
 
     public eventos = [];
     public categories = [];
-    public estadoCampana = "";
+    public estadoCampana = "todos";
     public arregloEstados = ["negadas", "pendientes", "aprobadas", "todos"];
     // public usuario;
     // public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
@@ -72,22 +72,11 @@ export class misEventos {
             this.eventos = [];
             this.categories = [];
             campaignsSnapshot.forEach((event: any) => {
-                this.eventos.push({
-                  name: event.payload.doc.data().name,
-                    address: event.payload.doc.data().address,
-                    description: event.payload.doc.data().description,
-                    eventId: event.payload.doc.id,
-                    eventPic: event.payload.doc.data().eventPic,
-                    state: event.payload.doc.data().state,
-                    dateEvent: event.payload.doc.data().dateEvent,
-                    city: event.payload.doc.data().city,
-                    type: event.payload.doc.data().type
-
-                });
+                this.eventos.push(event.payload.doc.data());
             });
-            console.log("this.campaigns", this.eventos);
+            console.log("this.eventos", this.eventos);
             console.log(this.eventos.length);
-            console.log("aplicado el filtro");
+           
             if (this.eventos.length == 0) {
                 this.condicioncampanavacia = true;
             } else {

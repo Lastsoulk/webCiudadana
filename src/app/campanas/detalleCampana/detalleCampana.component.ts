@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth.service';
 import { DialogEvent } from './dialogevent.component';
 import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
+import { MapsAPILoader } from '@agm/core';
 
 
 // import {firestore} from "@angular/fire/firestore"
@@ -56,12 +57,22 @@ export class DetalleCampana {
   public campanaUsuario: boolean = false;
   public misCampanas: boolean;
 
+  condicionNoEventos:boolean = true;
+  public events = [];
+
+  latitude: number;
+  longitude: number;
+  zoom: number;
+
+  i = 0;
+
   constructor(
     private firestoreService: FireBaseService,
     public router: Router,
     public route: ActivatedRoute,
     private AuthService: AuthService,
     private conversationsService: ConversationsService,
+    private mapsAPILoader: MapsAPILoader,
     public dialog: MatDialog
     //private firestore: AngularFirestore
   ) { }
@@ -109,16 +120,47 @@ export class DetalleCampana {
     
     this.getEventsById(JSON.parse(this.params.camp));
     this.dialog.open(LoadingContentExampleDialog);
+    
+
+
   }
+
+
+
 
   getEventsById(campaignId){
     this.firestoreService.getEventsByCampaign(campaignId).subscribe((snp) => {
+      this.events = [];
+      if (snp.length == 0) {
+        this.condicionNoEventos = true;
+      } else {
+          this.condicionNoEventos = false;
+      }
       snp.forEach(async (obj: any) => {
         console.log(obj.payload.doc.data());
+        this.events.push(obj.payload.doc.data());
+        
       });
+       
+      this.setMap(this.events[0].lat,this.events[0].long);
     }, (error) => {
       console.log(error)
     });
+  }
+
+  selectValue(event){
+    this.i = event;
+    this.setMap(this.events[this.i].lat,this.events[this.i].long);
+  }
+
+
+  setMap(lat, long){
+    this.latitude=lat;
+    this.longitude=long;
+    this.zoom = 16;
+    console.log(this.latitude);
+    console.log(this.longitude);
+    this.mapsAPILoader.load();
   }
 
   getOriginalCampaignById(campaignId) {

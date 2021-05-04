@@ -80,42 +80,8 @@ export class Eventos {
       let i = 0
       //console.log('veamos: ', eventsSnapshot.length)
       eventsSnapshot.forEach((event: any) => {
-        //console.log('test', event.payload.doc.data())
-        if (new Date(event.payload.doc.data().dateEvent).getTime() != new Date().getTime() && event.payload.doc.data().type === "convocatoria") {
-          console.log('La fecha del evento es menor al now', new Date(event.payload.doc.data().dateEvent).getTime() > new Date().getTime())
-          this.events.push(event.payload.doc.data());
-
-          //console.log('campanaid', event.payload.doc.data().campaignId)
-          var refproduct = firebase.firestore();
-          refproduct.collection('campaigns').doc(event.payload.doc.data().campaignId).get().then(snapshot => {
-            //console.log('campana', snapshot.data().name)
-            this.events[i]['nombrecampana'] = snapshot.data().name
-            i++
-          })
-          console.log(this.events);
-        } else if (event.payload.doc.data().type == 'noticia') {
-          this.events.push({
-            name: event.payload.doc.data().name,
-            address: event.payload.doc.data().address,
-            description: event.payload.doc.data().description,
-            eventId: event.payload.doc.id,
-            eventPic: event.payload.doc.data().eventPic,
-            state: event.payload.doc.data().state,
-            dateEvent: event.payload.doc.data().dateEvent,
-            city: event.payload.doc.data().city,
-            type: event.payload.doc.data().type,
-            dateCreate: event.payload.doc.data().dateCreate
-          });
-
-          //console.log('campanaid', event.payload.doc.data().campaignId)
-          var refproduct = firebase.firestore();
-          refproduct.collection('campaigns').doc(event.payload.doc.data().campaignId).get().then(snapshot => {
-            //console.log('campana', snapshot.data().name)
-            this.events[i]['nombrecampana'] = snapshot.data().name
-            i++
-          })
-
-        }
+        let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
+        this.events.push(appObj);
       });
       console.log("this.events", this.events);
       this.events.sort(this.sortFunction);

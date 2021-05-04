@@ -9,6 +9,38 @@
 img {
     max-width: 100%;
 }
+
+agm-map {
+    height: 300px;
+}
+
+.button {
+    float: left;
+  padding: 15px 20px;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #3e8e41;
+
+  border-radius: 15px;
+  box-shadow: 0 6px #999;
+  transition-duration: 0.4s;
+}
+.button:hover {
+    background-color: #3e8e41;
+    color: white;
+}
+
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 3px #666;
+    transform: translateY(4px);
+  }
+
 .center {
     margin: auto;
     width: 50%;

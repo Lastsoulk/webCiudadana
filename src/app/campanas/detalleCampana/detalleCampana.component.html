@@ -74,18 +74,71 @@
 
     <div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
 
+    <div style="text-align: center;" *ngIf="condicionNoEventos">
+        <div style="    font-size: xx-large;color: #f05454;margin-top: 2em;">Lo sentimos, no hay eventos para esta campaña.</div>
+        <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
+    </div>
 
-    <!-- </div>
-    <div id="Info">
-        <h4>Nombre del promotor: {{originalCampaign.promoter.name}}</h4>
-        <h4>Numero de seguidores: {{originalCampaign.numFollowers}}</h4>
+    
+    <div *ngIf="!condicionNoEventos" class="row" style="display: flex;padding-left: 3em;margin-top:4em; margin-right:3em;">
+        
+        <div  [attr.data-index]="i"  class="col-xs-12 col-md-12 col-lg-12"  style="margin-bottom: 2em; margin-right: 4em;">     
+            <h1 style="margin-bottom: 1%;margin-top: 1%;color: #1976d2;font-weight: bold;" mat-dialog-title>Convocatorias</h1>
+            <br>
+            <div *ngFor="let in of events ;let x = index">
+                <button [value]="x" (click)="selectValue(x)" class="button">{{events[x].name}}</button>
+                
+            </div>
+            <br><br><br>
+            <div mat-dialog-content>
+                <div style="color: #1976d2;">Nombre de la convocatoria</div>
+                <mat-label style="width: 400px;">{{events[i].name}}</mat-label>
+            
+                <div style="color: #1976d2;">Descripcion</div>
+                <mat-label>Cuéntenos por qué organizaste esta reunión</mat-label>
+                <mat-label>{{events[i].description}}</mat-label>
+                <div style="color: #1976d2;">Fecha y hora de la convocatoria</div>
 
-        <p class="fecha">{{originalCampaign.dateStart.seconds *1000 | date:'yyyy/MM/dd'}} - {{originalCampaign.dateEnd.seconds *1000 | date:'yyyy/MM/dd'}}</p> -->
-        <!-- <h4>Fecha de inicio: {{originalCampaign.dateStart}}</h4>
-        <h4>Fecha de finalizacion: {{originalCampaign.dateEnd}}</h4> -->
+                <p class="textoDetalle">{{events[i].dateEvent}}</p>
+                <div style="color: #1976d2;">Foto de la convocatoria</div>
 
-    <!-- </div> *ngIf="!status" -->
+                <div class="form-row" style="margin-bottom: 2%;">
+                    <div class="col col" style="text-align: center">
+                    <div class="border margencamera">
+                        <div class="center">
+                            <div id="carouselCont" >
+                                <ngb-carousel [showNavigationArrows]="true" [showNavigationIndicators]="true">
+                                    <ng-template ngbSlide class="imageSlider" *ngFor="let image of events[i].eventPic">
+                                        <div class="picsum-img-wrapper">
+                                            <img id="bgimage" [src]="image" alt="Random second slide" style="min-height:450px; max-height:450px;  margin:0 auto;">
+                                        </div>
+                                    </ng-template>
+                                </ngb-carousel>
+                            </div>   
+                        </div>
+                    </div>
+                    </div>
+                </div>
 
+                <div style="color: #1976d2;">Dirección de la convocatoria</div>
+                
+                <div class="form-group" style="width: 400px;">
+                    <p class="textoDetalle">{{events[i].address}}</p>
+                </div>
+                <agm-map 
+                    [latitude]="latitude" 
+                    [longitude]="longitude" 
+                    [zoom]="zoom" >
+                        <agm-marker 
+                        [latitude]="latitude" 
+                        [longitude]="longitude" [markerDraggable]="false"> 
+                    </agm-marker>
+                </agm-map>               
+                </div>
+        </div>
+    </div>
+
+    
     <div *ngIf="miCampanaNegada" id="divChat">
         <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
         <ng-container *ngIf="mostrar_chat">
