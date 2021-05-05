@@ -112,6 +112,7 @@ export class CrearCampana {
 
 
     onClick(form: NgForm): void {
+        
         this.dialogRef = this.dialog.open(LoadingContentExampleDialog);
         const json = JSON.stringify(form.value);
         const task = this.storage.upload(`campaignImages/${this.n}`, this.file);

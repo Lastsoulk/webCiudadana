@@ -68,7 +68,7 @@ export class DetalleEvento {
     this.firestoreService.getEventById(eventoId).subscribe((eventSnapshot) => {
     this.evento = eventSnapshot.payload.data();
     console.log('detalle evento: ',this.evento)
-    this.firestoreService.getDatosUser(this.evento.userId).subscribe((eventSnapshot) => {
+    this.firestoreService.getDatosUser(this.evento.idUser).subscribe((eventSnapshot) => {
       this.promotor = eventSnapshot.payload.data();
       console.log('usuario: ',this.promotor)
 

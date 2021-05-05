@@ -103,14 +103,14 @@ export class misCampanas {
                       if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
                         this.campaigns.push(appObj);
                       }
-                      this.dialog.closeAll();
+                      
                     });
       
                   });
                 
 
             });
-
+            this.dialog.closeAll();
         }, (error) => {
             console.log("Error al cargar las campañas", error)
         });

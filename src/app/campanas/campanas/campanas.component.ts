@@ -42,6 +42,9 @@ export class Campana {
   condicioncampanavacia = false;
 
 
+  public selectedCity;
+  public selectedState;
+
   isFavorite: boolean[] = [];
 
 
@@ -61,17 +64,18 @@ export class Campana {
     async ngOnInit() {
 
 
-        this.getCampaigns("");
+        this.getCampaigns("","","");
         this.getCategorias();
         //this.crearCampaign();
-        
+        this.getCiudades();
     }
   
   getCiudades(){
         this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
           this.ciudades = [];
           ciudadesSnapshot.forEach((ciudades: any) => {
-            var elemento = ciudades.payload.doc.data().city
+            
+            var elemento = ciudades.payload.doc.data()
             if(this.ciudades.includes(elemento)){
                 
             }else{
@@ -89,9 +93,12 @@ export class Campana {
   }
 
 
-  getCampaigns(categoria): void {
+  getCampaigns(categoria,ciudad,estadoTiempo): void {
+
+    
     this.dialog.open(LoadingContentExampleDialog);
-    console.log(categoria);
+    console.log(categoria,ciudad,estadoTiempo);
+
     if(categoria=="Todas"){
       categoria="";
     }
@@ -104,17 +111,23 @@ export class Campana {
       } else {
           this.condicioncampanavacia = false;
       }
+      console.log(campaignsSnapshot.length);
       campaignsSnapshot.forEach(async (campaign: any) => {
-          
+          /*let fechaActual = new Date();
+          var fechaInicio=this.formatoFecha(campaign.payload.doc.data().dateStart.split(',')[0]);
+          var fechaFin= this.formatoFecha(campaign.payload.doc.data().dateEnd.split(',')[0]);*/
+
           //console.log(campaign.payload.doc.data());
+          //fechaActual>=fechaInicio && fechaActual<=fechaFin &&
           if(campaign.payload.doc.data().state.running){
             this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
               let temp=userSnapshot.payload.data();
+              console.log(temp);
               this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
                 
                 let tempo=userAutoriSnapshot.payload.data();
                 let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
-                //console.log(appObj);
+                
                 if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
                   this.campaigns.push(appObj);
                 }
@@ -133,6 +146,14 @@ export class Campana {
     
 
   }
+
+
+  formatoFecha(fecha:string){
+    fecha = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
+    return new Date(Date.parse(fecha));
+    
+}
+
 
 
   getDatosUser(dato:any){
@@ -189,6 +210,25 @@ export class Campana {
 
 
   }
+
+
+
+  selectCategory(event){
+    this.selectCategory= event.value;
+    this.getCampaigns(this.selectCategory,this.selectedCity,this.selectedState);
+  }
+
+  selectCity(event){
+    this.selectedCity= event.value;
+    this.getCampaigns(this.selectCategory,this.selectedCity,this.selectedState);
+  }
+
+  selectState(event){
+    this.selectedState= event.value;
+    this.getCampaigns(this.selectCategory,this.selectedCity,this.selectedState);
+  }
+
+
 
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
