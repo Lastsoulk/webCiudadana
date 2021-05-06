@@ -33,6 +33,7 @@ export class ContactComponent {
 
     public selectedProfile;
     public categoriaselect;
+    public categories :[];
     public selectedCity;
     categorias : any[] = []
 

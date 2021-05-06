@@ -23,6 +23,10 @@ export class Perfil {
   public user;
   public editMode:boolean =false;
 
+  fname = '';
+  cedula = '';
+  telefono = '';
+
   constructor(
     private AuthService: AuthService,
     private firestoreService: FireBaseService,
@@ -32,7 +36,9 @@ export class Perfil {
   }
 
   Form = new FormGroup({
-    
+    fname: new FormControl(this.fname, [Validators.required, Validators.minLength(5)]),
+    cedula: new FormControl(this.cedula, [Validators.required, Validators.minLength(5)]),
+    telefono: new FormControl(this.fname, [Validators.required, Validators.minLength(5)]),
   });
 
 
@@ -47,8 +53,11 @@ export class Perfil {
   getDatosUser(userId){
       this.firestoreService.getDatosUser(userId).subscribe((userSnapshot) => {
         this.datosUsuario = userSnapshot.payload.data();
-
+        this.fname= this.datosUsuario.name;
+        this.cedula=this.datosUsuario.cedula;
+        this.telefono= this.datosUsuario.telefono;
         console.log("datos usuario: ", this.datosUsuario);
+        console.log(this.fname);
 
         }, (error) => {
           console.log(error)
@@ -60,12 +69,17 @@ export class Perfil {
   }
 
   async changeData(event: any) {
-    let fname = event.target.fname.value;
-    let cedula = event.target.cedula.value;
-    let telefono = event.target.telefono.value;
+    this.fname = event.target.fname.value;
+    this.cedula = event.target.cedula.value;
+    this.telefono = event.target.telefono.value;
     try {
-        this.firestoreService.updateDatosUser(this.user.uid,fname,cedula,telefono);
-        //this.router.navigate(['/perfil']);
+        let datos = {
+          nombre:this.fname,
+          cedula:this.cedula,
+          telefono:this.telefono
+        }
+        console.log(datos);
+        this.firestoreService.updateDatosUser(this.user.uid,datos);
     } catch (error) {
         console.log(error);
     }

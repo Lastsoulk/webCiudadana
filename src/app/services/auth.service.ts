@@ -57,40 +57,50 @@ export class AuthService {
     const email = res.user.email;
   }
 
-  /*  async register(email: string, password: string, payloadObject: any) {
+  async register(email: string, password: string, payloadObject: any) {
       this.afAuth.createUserWithEmailAndPassword(email, password).then(
         (user) => {
           if (user) {
             this.updateUserData(user, payloadObject)
             Swal.fire("Registro exitoso","Se ha guardado correctamente el registro","success")
-  
-            this.router.navigate(['/login']);
+            this.router.navigate(['/home']);
   
           }
         }).catch(
           (err) => {
-            Swal.fire("Error", err.message, "error")
+            
+            if(err.code=="auth/email-already-in-use"){
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al crear el usuario... el correo ya esta registrado',
+              })
+            }else{
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error',
+              })
+            }
             console.log(err);
           })
     }
-  */
-  // async updateUserData(userCredential: firebase.auth.UserCredential, payloadObject: any) {
-  //   //console.log(userCredential.user.uid)
-  //     if(userCredential.user.uid){
-  //       this.delay(1000);
-  //       const user = await this.firestore.collection('users').doc(userCredential.user.uid).snapshotChanges().subscribe(
-  //         (resp:any)=>{
-  //           this.firestore.doc(`users/${userCredential.user.uid}`).update(payloadObject);
-  //           console.log('success')
+  
+  async updateUserData(userCredential: firebase.auth.UserCredential, payloadObject: any) {
+      if(userCredential.user.uid){
+        this.delay(2000);
+        const user = await this.firestore.collection('users').doc(userCredential.user.uid).snapshotChanges().subscribe(
+           (resp:any)=>{
+             this.firestore.doc(`users/${userCredential.user.uid}`).update(payloadObject);
 
-  //         }, (error) => {
-  //           console.log(error)
-  //         }
-  //         )
+           }, (error) => {
+           console.log(error)
+           }
+           )
 
-  //     }
+       }
 
-  // }
+   }
 
   async logout() {
     try {

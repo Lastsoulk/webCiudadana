@@ -16,7 +16,7 @@
                     <label class="form-text">Nombre</label>
                     <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.name}}" readonly>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="fname" formControlName="fname" placeholder="Nombre del usuario" *ngIf= "editMode" value="{{datosUsuario.name}}">
+                        <input type="text" class="form-control" id="fname"  placeholder="Nombre del usuario" *ngIf= "editMode" value="{{datosUsuario.name}}">
                     </div>
                 </div>
         
@@ -24,7 +24,7 @@
                     <label class="infoUsuario">Cédula</label>
                     <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.cedula}}" readonly>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="cedula" formControlName="cedula" placeholder="Cedula del usuario" *ngIf= "editMode" value="{{datosUsuario.cedula}}">
+                        <input type="text" class="form-control" id="cedula"  placeholder="Cedula del usuario" *ngIf= "editMode" value="{{datosUsuario.cedula}}">
                     </div>
                 </div>
         
@@ -35,7 +35,7 @@
                     <label class="infoUsuario">Teléfono</label>
                     <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.telefono}}" readonly>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="telefono" formControlName="telefono" placeholder="Teléfono del usuario" *ngIf= "editMode" value="{{datosUsuario.telefono}}">
+                        <input type="text" class="form-control" id="telefono"  placeholder="Teléfono del usuario" *ngIf= "editMode" value="{{datosUsuario.telefono}}">
                     </div>
                 </div>
                 <label class="infoUsuario">Correo</label>
@@ -49,6 +49,8 @@
         <div>
             <h4 class="infoUsuario" *ngIf= "!editMode">Rol</h4>
             <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.citizen">Citizen</h6>
+            <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.admin">Admin</h6>
+            <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.superadmin">SuperAdmin</h6>
         </div>
         <br>
         

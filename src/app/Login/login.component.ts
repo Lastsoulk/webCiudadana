@@ -75,7 +75,6 @@ async loginFacebook(){
 async onLogin() {
     const { email, password } = this.loginForm.value;
 
-    console.log('holi');
     try {
         const user = await this.AuthService.login(email, password);
       //  localStorage.setItem('usuarioLogeado',user);

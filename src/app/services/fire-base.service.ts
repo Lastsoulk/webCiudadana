@@ -167,14 +167,14 @@ export class FireBaseService {
     return this.firestore.collection("authorities").doc(autoridad).snapshotChanges();
   }
 
-  public updateDatosUser(userID: any, nombre:any, cedula:any, telefono:any) {
+  public updateDatosUser(userID: any, datos:any) {
     return new Promise<any>((resolve, reject) =>{
       this.firestore
           .collection("users")
           .doc(userID)
-          .set({name      :   nombre,
-                cedula    :   cedula,
-                telefono  :   telefono
+          .set({name      :   datos.nombre,
+                cedula    :   datos.cedula,
+                telefono  :   datos.telefono
           }
           , { merge: true })
           

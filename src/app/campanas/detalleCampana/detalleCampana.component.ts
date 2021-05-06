@@ -87,7 +87,7 @@ export class DetalleCampana {
         fotoconvocatoria: this.fotoconvocatoria, 
         direccion: this.direccion,
         campaignId : this.originalCampaign.campaignId,
-        city : this.originalCampaign.ciudad.name
+        city : this.originalCampaign.city
       }
     });
 

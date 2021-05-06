@@ -1,34 +1,45 @@
 
-<h3 id="titulo">Registrar Usuario</h3>
+<br><h3 id="titulo">Registrar Usuario</h3>
 <div>
-    <form>
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
 
-        <label class='text' for="fname">Usuario</label>
-      <input type="text" id="fname" name="firstname" placeholder="Usuario">
+      <div>
+        <label class='text' for="email">Email <sub style='color:red;'>(Obligatorio)</sub></label>
+        <input type="email" class="mail" id="email" name="email" placeholder="Email" ngModel required #email="ngModel" (ngModelChange)="validateEmail($event)">
+        <label *ngIf='!isEmail' class='text' style="float:right;"><sub style='color:rgb(128, 35, 35);'>Email con formato incorrecto</sub></label>
+        
+      </div>
+      
+      <div>
+        <label class='text' for="password">Contraseña <sub style='color:red;'>(Obligatorio)</sub> </label>
+        <input type="password" id="password" name="password" placeholder="Contraseña del usuario" minlength="6" ngModel required #password="ngModel" (ngModelChange)="validatePassword($event)">
+        <label *ngIf='!isPassword' class='text' style="float:right;"><sub style='color:rgb(128, 35, 35);'>Contraseña debe tener al menos 6 caracteres.</sub></label>
+      </div>
 
+      <div>
+        <label class='text' for="fname">Nombre Completo <sub style='color:red;'>(Obligatorio)</sub></label>
+        <input type="text" id="fname" name="fname" placeholder="Nombre del usuario" ngModel required #fname="ngModel" (ngModelChange)="validateName($event)">
+        <label *ngIf='!isName' class='text' style="float:right;"><sub style='color:rgb(128, 35, 35);'>Debe escribir el nombre.</sub></label>
+      </div>
 
-
-      <label class='text' for="fname">Contraseña</label>
-      <input type="text" id="fname" name="firstname" placeholder="Contraseña del usuario">
-
-
-      <label class='text' for="fname">Nombre</label>
-      <input type="text" id="fname" name="firstname" placeholder="Nombre del usuario">
+      <div>
+        <label class='text' for="number">Teléfono</label>
+        <input type="text" id="number" name="number" placeholder="Teléfono del usuario" ngModel #number="ngModel" (ngModelChange)="validateNumber($event)">
+        <label *ngIf='!isNumber' class='text' style="float:right;"><sub style='color:rgb(128, 35, 35);'>Debe escribir 10 números.</sub></label>
+      </div>
+      
+      <div>
+        <label class='text' for="cedula">Cédula</label>
+        <input type="text" id="cedula" name="cedula" placeholder="Cédula del usuario" ngModel #cedula="ngModel" (ngModelChange)="validateNumber2($event)">
+        <label *ngIf='!isNumberCed' class='text' style="float:right;"><sub style='color:rgb(128, 35, 35);'>Debe escribir 10 números.</sub></label>
+      </div>
   
-      <label class='text' for="lname">Apellido</label>
-      <input type="text" id="lname" name="lastname" placeholder="Apellido del usuario">
+      
 
-      <label class='text' for="lname">Direccion</label>
-      <input type="text" id="lname" name="lastname" placeholder="Direccion del usaurio">
-  
-      <label class='text' for="country">Telefono</label>
-      <input type="text" id="lname" name="lastname" placeholder="Telefono del usuario">
+      
     
-      <label class='text' for="img">Seleccionar imagen</label>
-      <input type="file" id="img" name="img" accept="image/*">
-
       <div id="boton">
-        <input type="submit"  value="Registrar Usuario">
+        <button (click)="onClick(f)" color="primary">Registrar Usuario</button>
       </div>
       
     </form>
