@@ -128,14 +128,14 @@ export class CrearCampana {
                 console.log(this.fb);
                 let data = {
                     name: form.value.personal.contact.nameCampaign,
-                    numFollowers: 1,
+                    numFollowers: 0,
                     promoter: this.user.uid ,
                     state: { finished: false, rejected: false, running: false },
                     campaignPic: [this.fb],
-                    dateEnd: this.datePipe.transform(form.value.personal.contact.fechafin, 'd/M/yyyy, HH:mm'),
-                    dateStart: this.datePipe.transform(form.value.personal.contact.fechainicio, 'd/M/yyyy, HH:mm'),
-                    dateModified: this.datePipe.transform(this.myDate, 'd/M/yyyy, HH:mm'),
-                    dateCreate: this.datePipe.transform(this.myDate, 'd/M/yyyy, HH:mm'),
+                    dateEnd: this.datePipe.transform(form.value.personal.contact.fechafin, 'dd/MM/yyyy, HH:mm'),
+                    dateStart: this.datePipe.transform(form.value.personal.contact.fechainicio, 'dd/MM/yyyy, HH:mm'),
+                    dateModified: this.datePipe.transform(this.myDate, 'dd/MM/yyyy, HH:mm'),
+                    dateCreate: this.datePipe.transform(this.myDate, 'dd/MM/yyyy, HH:mm'),
                     categories:[this.categoria],
                     description: form.value.health.symptoms.descriptionCampaign,
                     city:this.ciudad,
@@ -147,8 +147,9 @@ export class CrearCampana {
         
                 }
                 this.firestoreService.crearCampaña(data);
-                console.log(data);
                 this.dialog.closeAll();
+                console.log(data);
+                
                 this.dialogRef = this.dialog.open(DialogContentExampleDialog);
                 
             });

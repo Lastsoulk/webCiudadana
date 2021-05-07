@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { variable } from '@angular/compiler/src/output/output_ast';
 // import { Observable } from 'rxjs';
 // import { AuthService } from '../services/auth.service';
 // import firebase from "firebase/app";
@@ -110,12 +111,12 @@ export class FireBaseService {
           .then(res => {
 
             console.log(res);
-            let addfollo = {
+            let addfollow = {
               date : campaigns.dateCreate,
               idCampaign : res.id,
               idUser : campaigns.promoter,
           }
-          this.addFollow(addfollo);
+          this.addFollow(addfollow);
 
           }, err => reject(err));
     });
@@ -172,9 +173,9 @@ export class FireBaseService {
       this.firestore
           .collection("users")
           .doc(userID)
-          .set({name      :   datos.nombre,
-                cedula    :   datos.cedula,
-                telefono  :   datos.telefono
+          .set({displayName    :   datos.nombre,
+                cedula         :   datos.cedula,
+                phoneNumber    :   datos.telefono
           }
           , { merge: true })
           
@@ -217,6 +218,35 @@ export class FireBaseService {
           }, err => reject(err));
     });
 
+  }
+
+  public quitarFollow(id){
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore.collection('followers').doc(id).delete()
+          .then(res => {
+            console.log(res);
+          }, err => reject(err));
+    });
+
+  }
+
+  public updateFollowers(variable:any,campaignID){
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("campaigns")
+          .doc(campaignID)
+          .set({numFollowers    :   variable
+          }
+          , { merge: true })
+          
+          .then(res => {
+            resolve(res);
+          }, err => reject(err));
+    });
+  }
+
+  public checkFollow(idUser,idCampaign){
+    return this.firestore.collection("followers", ref => ref.where("idUser",'==',idUser).where("idCampaign",'==',idCampaign)).snapshotChanges();
   }
 
   public addFollowEvent(data:any){

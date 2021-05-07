@@ -71,7 +71,8 @@
                     </button>
                 </mat-card-actions>
                 <div mat-card-avatar class="header-image">
-                    <img avatar src={{key.promotore.profilePic}} alt="Photo of a Shiba Inu" align="left">
+                    <img mat-card-image img-fluid src={{key.promotore.photoURL}} *ngIf="key.promotore.photoURL!=null" alt="Photo of a Shiba Inu">
+                    <img mat-card-image img-fluid src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyUguex7RmISnFFKWSbxE3lHHD5r9IljJAbA&usqp=CAU" *ngIf="key.promotore.photoURL==null" alt="Photo of a Shiba Inu">
                 </div>
                 <mat-card-subtitle><b>{{key.promotore.name}}</b> </mat-card-subtitle>
                 <mat-card-subtitle>{{key.dateStart}} - {{key.dateEnd}}</mat-card-subtitle>

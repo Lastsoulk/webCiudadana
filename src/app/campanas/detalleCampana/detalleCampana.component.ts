@@ -8,6 +8,8 @@ import { AuthService } from '../../services/auth.service';
 import { DialogEvent } from './dialogevent.component';
 import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
 import { MapsAPILoader } from '@agm/core';
+import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 
 // import {firestore} from "@angular/fire/firestore"
@@ -39,6 +41,8 @@ export class DetalleCampana {
 
   public campaignUpdateId;
   public campaignId;
+  public followedCampaign = false;
+  private followCampaignID;
 
   public originalCampaignInfo = undefined;
   public originalCampaign = undefined;
@@ -73,7 +77,8 @@ export class DetalleCampana {
     private AuthService: AuthService,
     private conversationsService: ConversationsService,
     private mapsAPILoader: MapsAPILoader,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private datePipe: DatePipe,
     //private firestore: AngularFirestore
   ) { }
 
@@ -113,19 +118,29 @@ export class DetalleCampana {
   }
 
   async ngOnInit() {
+    this.dialog.open(LoadingContentExampleDialog);
     this.getRouteParams();
     this.datosconversations();
     
     this.getOriginalCampaignById(JSON.parse(this.params.camp));
     
     this.getEventsById(JSON.parse(this.params.camp));
-    this.dialog.open(LoadingContentExampleDialog);
     
-
-
   }
 
+  async getLoggedUser(){
+      this.user = await this.AuthService.getCurrentUser();
+      this.firestoreService.getDatosUser(this.user.uid).subscribe((userSnapshot) => {
+      this.usuario = userSnapshot.payload.data();
+      this.firestoreService.checkFollow(this.user.uid,this.campaignId).subscribe((snp) => {
+        this.followCampaignID= snp[0].payload.doc.id;
+        this.followedCampaign=true;
+      });
 
+    }, (error) => {
+      console.log(error)
+    });
+  }
 
 
   getEventsById(campaignId){
@@ -183,6 +198,8 @@ export class DetalleCampana {
 
       });
 
+      this.getLoggedUser();
+
       //console.log("this.originalCampaign", this.originalCampaign);
 
     }, (error) => {
@@ -239,22 +256,126 @@ export class DetalleCampana {
     }
   }
 
-
+/*
   async campanaspersonales() {
     this.user = await this.AuthService.getCurrentUser();
     this.getDatosUser(this.user.uid);
   }
+*/
+  async firmarCampana(){
+      if(this.usuario.cedula!=""){
+          Swal.fire({
+            title: 'Desea firmar la campaña?',
+            text: this.originalCampaign.name,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Firmar!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              let addfollow = {
+                date : this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                idCampaign : this.originalCampaign.campaignId,
+                idUser : this.user.uid,
+              }
+              console.log(this.firestoreService.addFollow(addfollow));
+              this.followedCampaign=true;
+              console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
+              
+              Swal.fire(
+                'Firmada!',
+                'La campaña ha sido firmada!',
+                'success'
+              )
+              this.getLoggedUser();
+            }
+          })
 
-  getDatosUser(userId) {
-    this.firestoreService.getDatosUser(userId).subscribe((userSnapshot) => {
-      this.usuario = userSnapshot.payload.data();
-      //console.log("datos usuario: ", this.usuario);
+      }
+      if(this.usuario.cedula==""){
+        console.log("no puede firmar");
+        Swal.fire({
+          icon: 'warning',
+          title: 'No tiene registrado su cédula.',
+          text: 'Digité su cédula',
+          input: 'text',
+          inputAttributes: {
+            autocapitalize: 'off'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Registrar',
+          showLoaderOnConfirm: true,
+          allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log(result.value);
+            let datos={
+              nombre:this.usuario.displayName, cedula:result.value,telefono:this.usuario.phoneNumber
+            }
+            this.firestoreService.updateDatosUser(this.user.uid, datos);
 
-    }, (error) => {
-      console.log(error)
-    });
 
+            let timerInterval
+            Swal.fire({
+              title: 'Procesando!',
+              html: 'Se recargara la página',
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  const content = Swal.getContent()
+                  if (content) {
+                    const b = content.querySelector('b')
+                    if (b) {
+                      b.textContent = Swal.getTimerLeft()
+                    }
+                  }
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              /* Read more about handling dismissals below */
+              if (result.dismiss === Swal.DismissReason.timer) {
+                console.log('I was closed by the timer')
+
+              }
+            })
+          }
+        })
+
+      }
+      
+    
   }
+
+  async quitarFirma(){
+        Swal.fire({
+          title: 'Desea quitar la firma de la campaña?',
+          text: this.originalCampaign.name,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Quitar firma!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            console.log(this.firestoreService.quitarFollow(this.followCampaignID));
+            this.followedCampaign=false;
+            console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers-1,this.originalCampaign.campaignId));
+            
+            Swal.fire(
+              'Confirmado!',
+              'Se ha eliminado la firma de la campaña!',
+              'success'
+            )
+          }
+        })
+}
 
 
 

@@ -22,7 +22,7 @@
                         </ng-template>
                     </ngb-carousel>
                 </div>   
-                <p style="font-size: 11;  text-align: justify;"><b>{{originalCampaign.promotore.name}}</b> empezó esta campaña hacia <b>{{originalCampaign.autority.name}}</b></p>
+                <p style="font-size: 11;  text-align: justify;"><b>{{originalCampaign.promotore.displayName}}</b> empezó esta campaña hacia <b>{{originalCampaign.autority.name}}</b></p>
                 <p style="font-size: 5;  text-align: justify;"><i>{{originalCampaign.numFollowers}} persona han seguido esta campaña</i></p>
                 
             </div>
@@ -73,7 +73,9 @@
     </div>
 
     <div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
-
+    <div *ngIf="!campanaUsuario&&!followedCampaign" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar campaña</button></div>
+    <div *ngIf="!campanaUsuario&&followedCampaign" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: rgb(138, 19, 19);" mat-raised-button (click)="quitarFirma()">Quitar firma</button></div>
+    
     <div style="text-align: center;" *ngIf="condicionNoEventos">
         <div style="    font-size: xx-large;color: #f05454;margin-top: 2em;">Lo sentimos, no hay eventos para esta campaña.</div>
         <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">

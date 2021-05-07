@@ -14,9 +14,9 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="form-text">Nombre</label>
-                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.name}}" readonly>
+                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.displayName}}" readonly>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="fname"  placeholder="Nombre del usuario" *ngIf= "editMode" value="{{datosUsuario.name}}">
+                        <input type="text" class="form-control" id="fname"  placeholder="Nombre del usuario" *ngIf= "editMode" value="{{datosUsuario.displayName}}">
                     </div>
                 </div>
         
@@ -33,9 +33,9 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="infoUsuario">Teléfono</label>
-                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.telefono}}" readonly>
+                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.phoneNumber}}" readonly>
                     <div class="input-group">
-                        <input type="text" class="form-control" id="telefono"  placeholder="Teléfono del usuario" *ngIf= "editMode" value="{{datosUsuario.telefono}}">
+                        <input type="text" class="form-control" id="telefono"  placeholder="Teléfono del usuario" *ngIf= "editMode" value="{{datosUsuario.phoneNumber}}">
                     </div>
                 </div>
                 <label class="infoUsuario">Correo</label>

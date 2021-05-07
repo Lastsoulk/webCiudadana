@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import { FireBaseService, ICampaña } from '../services/fire-base.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 /**
  * @title Card with multiple sections
@@ -45,22 +46,24 @@ export class Perfil {
   async ngOnInit() {
     this.user = await this.AuthService.getCurrentUser();
     this.getDatosUser(this.user.uid);
-   // console.log(user.displayName);
-
   }
 
 
   getDatosUser(userId){
       this.firestoreService.getDatosUser(userId).subscribe((userSnapshot) => {
         this.datosUsuario = userSnapshot.payload.data();
-        this.fname= this.datosUsuario.name;
+        this.fname= this.datosUsuario.displayName;
         this.cedula=this.datosUsuario.cedula;
-        this.telefono= this.datosUsuario.telefono;
+        this.telefono= this.datosUsuario.phoneNumber;
         console.log("datos usuario: ", this.datosUsuario);
-        console.log(this.fname);
 
         }, (error) => {
           console.log(error)
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo obtener los datos del usuario.',
+          })
         });
 
   }
