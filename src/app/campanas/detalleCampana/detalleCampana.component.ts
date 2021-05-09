@@ -329,7 +329,7 @@ export class DetalleCampana {
                   if (content) {
                     const b = content.querySelector('b')
                     if (b) {
-                      b.textContent = Swal.getTimerLeft()
+                      b.textContent = Swal.getTimerLeft().toString();
                     }
                   }
                 }, 100)

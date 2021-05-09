@@ -68,7 +68,7 @@ export class misCampanas {
         //console.log(user);
         this.datosUsuario = user.uid;
         console.log('user: ', this.datosUsuario)
-        
+        console.log("mis campanas"+this.estadoCampana)
         this.getCampaigns(this.estadoCampana);
         this.dataSource.filterPredicate = (data: misCampanas, filter: string): boolean => {
             const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {

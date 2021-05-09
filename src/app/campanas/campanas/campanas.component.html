@@ -4,9 +4,16 @@
     <div id="campañareciente">Campañas Cerca de Ti</div>
     <div style="width: 100%; height: 3px; background: #f05454; margin-bottom: 3em; margin-top:1em;"></div>
 
+    <!--<div style="display: flex;margin-top: 1em;">
+        <button type="button" class="btn btn-primary" style="background-color: #3b5998"
+        onclick="btnCiudad==true">Ciudades</button>
+        <button type="button" class="btn btn-primary" style="background-color: #ac2bac" >Estados</button>
+        <button type="button" class="btn btn-primary" style="background-color: #ffac44">Provincias</button>
+    </div>-->
+
 
     <div style="display: flex;margin-top: 1em;">
-        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una categoria:</div>
+        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Categoria:</div>
         <mat-form-field appearance="fill">
 
         <mat-select (selectionChange)="selectCategory($event)" [(ngModel)]="selectedCategory">
@@ -16,11 +23,11 @@
         </mat-select>
         </mat-form-field>
         
-        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una ciudad:</div>
+        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Ciudad:</div>
         <mat-form-field appearance="fill">
 
-        <mat-select (selectionChange)="selectCity($event)" [(ngModel)]="selectedCategory">
-            <mat-option *ngFor="let cat of ciudades" [value]="cat.name">
+        <mat-select (selectionChange)="selectCity($event)" [(ngModel)]="selectedCity">
+            <mat-option *ngFor="let cat of ciudades" [value]="cat.id">
                 {{cat.name}}
             </mat-option>
         </mat-select>
@@ -30,13 +37,14 @@
         <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
         <mat-form-field appearance="fill">
 
-        <mat-select (selectionChange)="selectState($event)" [(ngModel)]="selectedCategory">
-            <mat-option *ngFor="let cat of ciudades" [value]="cat.name">
-                {{cat.name}}
+        <mat-select (selectionChange)="selectState($event)" [(ngModel)]="selectedState">
+            <mat-option *ngFor="let cat of estados" [value]="cat">
+                {{cat}}
             </mat-option>
         </mat-select>
         </mat-form-field>
 
+    
     
     </div>
 
