@@ -38,15 +38,14 @@ export class Campana {
   public campaigns = [];
   public campaigns2 = [];
   public categories = [];
-  public ciudades = []
+  public ciudades = [];
   condicioncampanavacia = false;
 
 
   public selectedCity;
   public selectedState;
-
+  public estados=["Ejecutandose","Finalizadas","Rechazadas"];
   isFavorite: boolean[] = [];
-
 
  // public producto = [{name:'campana adam',numFollowers:2}];
 
@@ -75,7 +74,8 @@ export class Campana {
           this.ciudades = [];
           ciudadesSnapshot.forEach((ciudades: any) => {
             
-            var elemento = ciudades.payload.doc.data()
+            //var elemento = ciudades.payload.doc.data()
+            var elemento = {...ciudades.payload.doc.data() , ['id'] : ciudades.payload.doc.id}
             if(this.ciudades.includes(elemento)){
                 
             }else{
@@ -93,33 +93,61 @@ export class Campana {
   }
 
 
-  getCampaigns(categoria,ciudad,estadoTiempo): void {
+  getCampaigns(categoria:any,ciudad:any,estado:any): void {
 
     
     this.dialog.open(LoadingContentExampleDialog);
-    console.log(categoria,ciudad,estadoTiempo);
+    console.log(categoria,ciudad,estado);
 
-    if(categoria=="Todas"){
+    /*if(categoria=="Todas"){
       categoria="";
-    }
-    this.firestoreService.getCampañasCategoria(categoria).subscribe((campaignsSnapshot) => {
+    }*/
+    this.firestoreService.getCampañasCategoria(categoria,ciudad,estado).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
       //this.categories = [];
       this.dialog.closeAll();
+      console.log("cantidad de campanas snapshot=> "+campaignsSnapshot.length)
       if (campaignsSnapshot.length == 0) {
         this.condicioncampanavacia = true;
       } else {
           this.condicioncampanavacia = false;
       }
-      console.log(campaignsSnapshot.length);
+      
       campaignsSnapshot.forEach(async (campaign: any) => {
-          /*let fechaActual = new Date();
-          var fechaInicio=this.formatoFecha(campaign.payload.doc.data().dateStart.split(',')[0]);
-          var fechaFin= this.formatoFecha(campaign.payload.doc.data().dateEnd.split(',')[0]);*/
+        
+          if(estado=="Finalizadas" && campaign.payload.doc.data().state.finished){
+            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
+              let temp=userSnapshot.payload.data();
+              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+                
+                let tempo=userAutoriSnapshot.payload.data();
+                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
+                
+                if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
+                  this.campaigns.push(appObj);
+                }
+              });
 
-          //console.log(campaign.payload.doc.data());
-          //fechaActual>=fechaInicio && fechaActual<=fechaFin &&
-          if(campaign.payload.doc.data().state.running){
+            });
+
+          }
+          else if(estado=="Rechazadas" && campaign.payload.doc.data().state.rejected){
+            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
+              let temp=userSnapshot.payload.data();
+              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+                
+                let tempo=userAutoriSnapshot.payload.data();
+                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
+                
+                if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
+                  this.campaigns.push(appObj);
+                }
+              });
+
+            });
+
+          }
+          else if(campaign.payload.doc.data().state.running){
             this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
               let temp=userSnapshot.payload.data();
               console.log(campaign.payload.doc.data());
@@ -139,12 +167,10 @@ export class Campana {
           }
           
       });
-      console.log(this.campaigns);
-  }, (error) => {
+      console.log("lista campanas=> "+this.campaigns);
+    }, (error) => {
       console.log("Error al cargar las campañas", error)
-  });
-
-    
+    });
 
   }
 
@@ -214,21 +240,23 @@ export class Campana {
 
 
 
-  selectCategory(event){
-    this.selectCategory= event.value;
-    this.getCampaigns(this.selectCategory,this.selectedCity,this.selectedState);
+  selectCategory(event:any){
+    console.log("metodo selectCategory");
+    this.selectedCategory= event.value;
+    this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
   }
 
-  selectCity(event){
+  selectCity(event:any){
+    console.log("metodo selectCity");
     this.selectedCity= event.value;
-    this.getCampaigns(this.selectCategory,this.selectedCity,this.selectedState);
+    this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
   }
 
-  selectState(event){
+  selectState(event:any){
+    console.log("metodo selectState");
     this.selectedState= event.value;
-    this.getCampaigns(this.selectCategory,this.selectedCity,this.selectedState);
+    this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
   }
-
 
 
   public doFilter = (value: string) => {
