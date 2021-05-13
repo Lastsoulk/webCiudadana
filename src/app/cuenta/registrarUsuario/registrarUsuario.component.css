@@ -1,4 +1,7 @@
-
+element.style {
+  background-image: url(http://127.0.0.1:8000/assets/images/auth/login_1.jpg);
+  background-size: cover;
+}
 input[type=text],input[type=file], select {
     width: 100%;
     padding: 12px 20px;

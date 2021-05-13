@@ -135,7 +135,8 @@
                         [latitude]="latitude" 
                         [longitude]="longitude" [markerDraggable]="false"> 
                     </agm-marker>
-                </agm-map>               
+                </agm-map>          
+                <div *ngIf="true" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="redirectEventDetail({eventId: events[i].eventID})">Ver más</button></div>     
                 </div>
         </div>
     </div>

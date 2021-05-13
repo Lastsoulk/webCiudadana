@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FireBaseService, ICampaña } from '../../services/fire-base.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ConversationsService } from 'src/app/services/conversations.service';
 
 
@@ -86,13 +86,30 @@ export class DetalleEvento {
 
 
 
+  redirectCampaignDetail(value) {
+    let campaignId = value.campaignId;
+    console.log(campaignId);
+    //  console.log("aqui abajo",bandera)
 
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "camp": JSON.stringify(campaignId),
+        "misCampanas": false,
+        "estadoCampana":false,
+        "campanaUsuario":false,
+        // "estadoNegado": bandera,
+
+      }
+    };
+    this.router.navigate(["detalleCampana"], navigationExtras);
+
+
+
+
+  }
 
   
-
-
-
-
 
 
 }

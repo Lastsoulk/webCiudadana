@@ -27,7 +27,7 @@
                 <p class="titulos">Contacto</p>
                 <p class="textoDetalle">{{promotor.email}}</p>
                 <p class="titulos">Campaña</p>
-                <p class="textoDetalle">{{evento.idCampaign}}</p>
+                <p class="textoDetalle" (click)="redirectCampaignDetail({campaignId: evento.idCampaign})">{{evento.idCampaign}}</p>
             </div>
         </div>
         

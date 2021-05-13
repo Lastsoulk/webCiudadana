@@ -84,8 +84,8 @@ export class Campana {
            
       });
 
-      console.log('ciudades--')
-    console.log(this.ciudades)
+      //console.log('ciudades--')
+    //console.log(this.ciudades)
     
     })
     
@@ -122,6 +122,7 @@ export class Campana {
           if(campaign.payload.doc.data().state.running){
             this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
               let temp=userSnapshot.payload.data();
+              console.log(campaign.payload.doc.data());
               console.log(temp);
               this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
                 

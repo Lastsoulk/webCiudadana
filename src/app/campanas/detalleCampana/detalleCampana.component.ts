@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FireBaseService, ICampaña } from '../../services/fire-base.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { ConversationsService } from 'src/app/services/conversations.service';
 import { firestore } from 'firebase';
 import { MatDialog } from '@angular/material/dialog';
@@ -133,8 +133,10 @@ export class DetalleCampana {
       this.firestoreService.getDatosUser(this.user.uid).subscribe((userSnapshot) => {
       this.usuario = userSnapshot.payload.data();
       this.firestoreService.checkFollow(this.user.uid,this.campaignId).subscribe((snp) => {
-        this.followCampaignID= snp[0].payload.doc.id;
-        this.followedCampaign=true;
+        if(snp.length>0){
+          this.followCampaignID= snp[0].payload.doc.id;
+          this.followedCampaign=true;
+        }
       });
 
     }, (error) => {
@@ -152,8 +154,13 @@ export class DetalleCampana {
           this.condicionNoEventos = false;
       }
       snp.forEach(async (obj: any) => {
-        console.log(obj.payload.doc.data());
-        this.events.push(obj.payload.doc.data());
+  
+
+        let appObj = { ...obj.payload.doc.data(),eventID: obj.payload.doc.id}
+                
+        if(!this.events.some((item) => item.eventID == appObj.eventID)){
+            this.events.push(appObj);
+        }
         
       });
        
@@ -281,7 +288,7 @@ export class DetalleCampana {
               }
               console.log(this.firestoreService.addFollow(addfollow));
               this.followedCampaign=true;
-              console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
+              //console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
               
               Swal.fire(
                 'Firmada!',
@@ -329,7 +336,7 @@ export class DetalleCampana {
                   if (content) {
                     const b = content.querySelector('b')
                     if (b) {
-                      b.textContent = Swal.getTimerLeft()
+                      //b.textContent = Swal.getTimerLeft()
                     }
                   }
                 }, 100)
@@ -366,7 +373,7 @@ export class DetalleCampana {
 
             console.log(this.firestoreService.quitarFollow(this.followCampaignID));
             this.followedCampaign=false;
-            console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers-1,this.originalCampaign.campaignId));
+            //console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers-1,this.originalCampaign.campaignId));
             
             Swal.fire(
               'Confirmado!',
@@ -377,6 +384,18 @@ export class DetalleCampana {
         })
 }
 
+  redirectEventDetail(value) {
+    let eventId = value.eventId;
 
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "eventId": JSON.stringify(eventId),
+
+        // "estadoNegado": bandera,
+
+      }
+    };
+    this.router.navigate(["detalleEvento"], navigationExtras);
+  }
 
 }
