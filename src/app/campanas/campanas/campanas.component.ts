@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -10,6 +10,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
+import { MatSelectSearchVersion } from 'ngx-mat-select-search';
+import { ReplaySubject, Subject } from 'rxjs';
+import { MatSelect } from '@angular/material/select';
+import { take, takeUntil } from 'rxjs/operators';
 /**
  * @title Card with multiple sections
  */
@@ -17,8 +21,14 @@ import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
 
 
 interface Ciudad {
-  value: string;
-  viewValue: string;
+  id: string;
+  idProvince:string;
+  name: string;
+}
+
+interface Categoria {
+  name: string;
+  id:string;
 }
 
 @Component({
@@ -26,28 +36,43 @@ interface Ciudad {
   templateUrl: './campanas.component.html',
   styleUrls: ['./campanas.component.css'],
 })
-export class Campana {
+export class Campana implements OnInit, OnDestroy {
   images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
 
   myArray: any[] = []
   public dataSource = new MatTableDataSource<Campana>();
   public dataSource2 = new MatTableDataSource<Campana>();
-  public listaCategorias: any[] = []
-  public selectedCategory;
+  
 
   public campaigns = [];
-  public campaigns2 = [];
-  public categories = [];
-  public ciudades = [];
+
+  
   condicioncampanavacia = false;
 
 
-  public selectedCity;
-  public selectedState;
-  public estados=["Ejecutandose","Finalizadas","Rechazadas"];
+  
+  public selectedState = "Ejecutandose";
+  public estados=["Ejecutandose","Finalizadas"];
   isFavorite: boolean[] = [];
 
- // public producto = [{name:'campana adam',numFollowers:2}];
+  //category control
+  public listaCategorias: any[] = []
+  public selectedCategory;
+  public categoryCtrl: FormControl = new FormControl();
+  public categoryFilterCtrl: FormControl = new FormControl();
+  public filteredCategories: ReplaySubject<Categoria[]> = new ReplaySubject<Categoria[]>(1);
+
+  //city control
+  public ciudades = [];
+  public selectedCity;
+  public cityCtrl: FormControl = new FormControl();
+  public cityFilterCtrl: FormControl = new FormControl();
+  public filteredCities: ReplaySubject<Ciudad[]> = new ReplaySubject<Ciudad[]>(1);
+
+
+  @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
+
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private firestore: AngularFirestore,
@@ -59,11 +84,14 @@ export class Campana {
 
   }
 
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
 
     async ngOnInit() {
-
-
-        this.getCampaigns("","","");
+        this.getCampaigns("Todas","","Ejecutandose");
         this.getCategorias();
         //this.crearCampaign();
         this.getCiudades();
@@ -72,6 +100,7 @@ export class Campana {
   getCiudades(){
         this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
           this.ciudades = [];
+          this.ciudades.push({id: '',name:'Todas',idProvince:"www"})
           ciudadesSnapshot.forEach((ciudades: any) => {
             
             //var elemento = ciudades.payload.doc.data()
@@ -79,14 +108,22 @@ export class Campana {
             if(this.ciudades.includes(elemento)){
                 
             }else{
-                const add = this.ciudades.push(elemento)
+                this.ciudades.push(elemento);
             }
            
-      });
+          });
+          this.cityCtrl.setValue(this.ciudades[0]);
 
-      //console.log('ciudades--')
-    //console.log(this.ciudades)
+          this.filteredCities.next(this.ciudades.slice());
+
+          this.cityFilterCtrl.valueChanges
+            .pipe(takeUntil(this._onDestroy))
+            .subscribe(() => {
+              this.filterCities();
+            });    
+
     
+          console.log(this.ciudades)
     })
     
 
@@ -99,13 +136,9 @@ export class Campana {
     this.dialog.open(LoadingContentExampleDialog);
     console.log(categoria,ciudad,estado);
 
-    /*if(categoria=="Todas"){
-      categoria="";
-    }*/
     this.firestoreService.getCampañasCategoria(categoria,ciudad,estado).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
-      //this.categories = [];
-      this.dialog.closeAll();
+      
       console.log("cantidad de campanas snapshot=> "+campaignsSnapshot.length)
       if (campaignsSnapshot.length == 0) {
         this.condicioncampanavacia = true;
@@ -131,27 +164,12 @@ export class Campana {
             });
 
           }
-          else if(estado=="Rechazadas" && campaign.payload.doc.data().state.rejected){
-            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
-              let temp=userSnapshot.payload.data();
-              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
-                
-                let tempo=userAutoriSnapshot.payload.data();
-                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
-                
-                if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
-                  this.campaigns.push(appObj);
-                }
-              });
 
-            });
-
-          }
           else if(campaign.payload.doc.data().state.running){
             this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
               let temp=userSnapshot.payload.data();
-              console.log(campaign.payload.doc.data());
-              console.log(temp);
+              //console.log(campaign.payload.doc.data());
+              //console.log(temp);
               this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
                 
                 let tempo=userAutoriSnapshot.payload.data();
@@ -168,6 +186,7 @@ export class Campana {
           
       });
       console.log("lista campanas=> "+this.campaigns);
+      this.dialog.closeAll();
     }, (error) => {
       console.log("Error al cargar las campañas", error)
     });
@@ -196,20 +215,29 @@ export class Campana {
   getCategorias(){
     this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
       this.listaCategorias = [];
-      this.listaCategorias.push({idCategoria: '',name:'Todas'})
+      this.listaCategorias.push({name:'Todas',id:"www"})
       campaignsSnapshot.forEach((cat: any) => {
         //console.log(cat.payload.doc.data());
         this.listaCategorias.push({
-          idCategoria: cat.payload.doc.data(),
           name: cat.payload.doc.data().name,
-
+          id : cat.payload.doc.id
         });
       });
-      
-      this.selectedCategory= this.listaCategorias[0].name;
+
+      this.categoryCtrl.setValue(this.listaCategorias[0]);
+
+      this.filteredCategories.next(this.listaCategorias.slice());
+
+      this.categoryFilterCtrl.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterCategories();
+        });    
     }), (error) => {
-      console.log("Error al cargar las campañas", error);
+      console.log("Error al cargar las categorias", error);
     }
+    
+
     
   }
 
@@ -218,8 +246,6 @@ export class Campana {
   redirectCampaignDetail(value) {
     let campaignId = value.campaignId;
     console.log(campaignId);
-    //  console.log("aqui abajo",bandera)
-
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -227,34 +253,27 @@ export class Campana {
         "misCampanas": false,
         "estadoCampana":false,
         "campanaUsuario":false,
-        // "estadoNegado": bandera,
-
       }
     };
     this.router.navigate(["detalleCampana"], navigationExtras);
-
-
-
-
   }
 
 
 
   selectCategory(event:any){
-    console.log("metodo selectCategory");
-    this.selectedCategory= event.value;
+    this.selectedCategory= event.value.name;
     this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
   }
 
   selectCity(event:any){
-    console.log("metodo selectCity");
-    this.selectedCity= event.value;
+    this.selectedCity= event.value.id;
     this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
   }
 
   selectState(event:any){
-    console.log("metodo selectState");
+    
     this.selectedState= event.value;
+    console.log("metodo selectState",this.selectedState);
     this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
   }
 
@@ -270,6 +289,42 @@ export class Campana {
   isFavoritee(elem: any) {
     this.isFavorite[elem] = !this.isFavorite[elem];
     // Add other code here
+  }
+
+
+
+
+  protected filterCategories() {
+    if (!this.listaCategorias) {
+      return;
+    }
+    let search = this.categoryFilterCtrl.value;
+    if (!search) {
+      this.filteredCategories.next(this.listaCategorias.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredCategories.next(
+      this.listaCategorias.filter(category => category.name.toLowerCase().indexOf(search) > -1)
+    );
+  }
+
+
+  protected filterCities() {
+    if (!this.ciudades) {
+      return;
+    }
+    let search = this.cityFilterCtrl.value;
+    if (!search) {
+      this.filteredCities.next(this.ciudades.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredCities.next(
+      this.ciudades.filter(city => city.name.toLowerCase().indexOf(search) > -1)
+    );
   }
 
 }

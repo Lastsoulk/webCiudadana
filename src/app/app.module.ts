@@ -99,6 +99,7 @@ import { DetalleNoticia } from './noticias/detalleNoticia/detalleNoticia.compone
 import { FooterComponent } from './footer/footer.component';
 import { LoadingContentExampleDialog } from './loading/loading.component';
 import { DatePipe } from '@angular/common';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -203,7 +204,7 @@ import { DatePipe } from '@angular/common';
     PortalModule,
     ScrollingModule,
     MatFormFieldModule,
-   
+    NgxMatSelectSearchModule,
   ],
   exports: [
     MatToolbarModule,

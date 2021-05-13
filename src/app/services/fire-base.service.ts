@@ -35,7 +35,7 @@ export class FireBaseService {
       else if(id=="Negadas"){
         return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.rejected","==",true)).snapshotChanges();
       }else if(id=="Pendientes"){
-        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.rejected",'!=',true).where("state.running",'!=',true).where("state.finished",'!=',true)).snapshotChanges();
+        return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.rejected",'==',false).where("state.running",'==',false).where("state.finished",'==',false)).snapshotChanges();
       }else if(id=="Aprobadas"){
         return this.firestore.collection("campaigns", ref => ref.where("promoter",'==',userId).where("state.running",'==',true)).snapshotChanges();
       }else if(id=="Finalizadas"){
@@ -65,43 +65,35 @@ export class FireBaseService {
 
   getCampañasCategoria(categoria:String="", ciudad:String="", estado:String="") {
   
-    if(categoria=="" ||(categoria=="Todas" && estado=="Ejecutandose")){ 
-      console.log("firebase vacio => "+categoria,ciudad,estado);
-       return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
+    if(estado=="Ejecutandose"){ 
+      if(categoria=="Todas"  && ciudad==""){
+        return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
       }
-      
-      else if((categoria=="Todas" && ciudad!="")){
-        //funciona
-        console.log("firebase todas las campanas de la ciudad  => "+categoria,ciudad,estado);
+      else if(categoria=="Todas" && ciudad !=""){
         return this.firestore.collection("campaigns", ref => ref.where("city",'==',ciudad).where("state.running",'==',true)).snapshotChanges();
       }
-      else if( estado=="Finalizadas"&& categoria=="Todas"){
-        console.log("firebase todas Finalizadas => "+categoria,ciudad,estado);
+      else if(categoria!="Todas" && ciudad !=""){
+        return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("city",'==',ciudad).where("state.running",'==',true)).snapshotChanges();
+      }
+      else if(categoria!="Todas" && ciudad ==""){
+        return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("state.running",'==',true)).snapshotChanges();
+      }
+    }
+    if(estado=="Finalizadas"){
+      if(categoria=="Todas"  && ciudad==""){
         return this.firestore.collection("campaigns", ref => ref.where("state.finished",'==',true)).snapshotChanges();
       }
-      else if( estado=="Rechazadas"&& categoria=="Todas"){
-        console.log("firebase todas rechazadas => "+categoria,ciudad,estado);
-        return this.firestore.collection("campaigns", ref => ref.where("state.rejected",'==',true)).snapshotChanges();
+      else if(categoria=="Todas" && ciudad !=""){
+        return this.firestore.collection("campaigns", ref => ref.where("city",'==',ciudad).where("state.finished",'==',true)).snapshotChanges();
       }
-      else if(estado=="Finalizadas" ){
-        console.log("firebase todas ciudades finalizado=> "+categoria,ciudad,estado);
+      else if(categoria!="Todas" && ciudad !=""){
         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("city",'==',ciudad).where("state.finished",'==',true)).snapshotChanges();
       }
-      else if(estado=="Rechazadas"){
-        console.log("firebase todas ciudades rechazado=> "+categoria,ciudad,estado);
-        return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("city",'==',ciudad).where("state.rejected",'==',true)).snapshotChanges();
+      else if(categoria!="Todas" && ciudad ==""){
+        return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("state.finished",'==',true)).snapshotChanges();
       }
-      else if(ciudad!=""){
-        //funciona
-        console.log("firebase ciudad=> "+categoria,ciudad,estado);
-        return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("city",'==',ciudad).where("state.running",'==',true)).snapshotChanges();
-      }                      
-     else{
-        console.log("firebase categoria seleccionada=> "+categoria,ciudad,estado);
-         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("state.running",'==',true)).snapshotChanges();
-      }
-    //return this.firestore.collection("campaignUpdates").snapshotChanges();
-   
+    }
+    
   }
 
   getAutoridades(){

@@ -16,32 +16,44 @@
         <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Categoria:</div>
         <mat-form-field appearance="fill">
 
-        <mat-select (selectionChange)="selectCategory($event)" [(ngModel)]="selectedCategory">
-            <mat-option *ngFor="let cat of listaCategorias" [value]="cat.name">
-                {{cat.name}}
-            </mat-option>
-        </mat-select>
+            <mat-select (selectionChange)="selectCategory($event)"  [formControl]="categoryCtrl" placeholder="Category" #singleSelect>
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="categoryFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
+                    noEntriesFoundLabel="No se han encontrado resultados">
+                        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+                    {{category?.name}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
-        
+            
         <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Ciudad:</div>
         <mat-form-field appearance="fill">
 
-        <mat-select (selectionChange)="selectCity($event)" [(ngModel)]="selectedCity">
-            <mat-option *ngFor="let cat of ciudades" [value]="cat.id">
-                {{cat.name}}
-            </mat-option>
-        </mat-select>
-        </mat-form-field>
+            <mat-select (selectionChange)="selectCity($event)" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="cityFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
+                    noEntriesFoundLabel="No se han encontrado resultados">
+                        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+                    {{city?.name}}
+                </mat-option>
+            </mat-select>
+            </mat-form-field>
 
 
-        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
-        <mat-form-field appearance="fill">
+            <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
+            <mat-form-field appearance="fill">
 
-        <mat-select (selectionChange)="selectState($event)" [(ngModel)]="selectedState">
-            <mat-option *ngFor="let cat of estados" [value]="cat">
-                {{cat}}
-            </mat-option>
-        </mat-select>
+            <mat-select (selectionChange)="selectState($event)" [(ngModel)]="selectedState">
+                <mat-option *ngFor="let cat of estados" [value]="cat">
+                    {{cat}}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
 
     
@@ -82,6 +94,7 @@
                                 <h5>¿Cuál es el problema?</h5>
                                 <p style="font-size: 11;  text-align: justify;">{{key.description | slice:0:500}}...</p>
                                 <p style="font-size: 11;  text-align: justify;">{{key.questionAsking | slice:0:300}}...</p>
+                                <p style="font-size: 11;  text-align: justify;">{{key.categories}}</p>
                             </div>
                         </div>
                     </mat-card-content>
