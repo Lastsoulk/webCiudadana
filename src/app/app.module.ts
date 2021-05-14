@@ -100,6 +100,9 @@ import { FooterComponent } from './footer/footer.component';
 import { LoadingContentExampleDialog } from './loading/loading.component';
 import { DatePipe } from '@angular/common';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { ShareMediaContentExampleDialog } from './shareMedia/shareMedia.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +131,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     ContactComponent,
     DialogContentExampleDialog,
     LoadingContentExampleDialog,
+    ShareMediaContentExampleDialog,
     Eventos,
     ChatComponent,
     noticiasComponent,
@@ -205,6 +209,10 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     ScrollingModule,
     MatFormFieldModule,
     NgxMatSelectSearchModule,
+    ShareButtonsModule.withConfig({
+      debug: true
+    }),
+    ShareIconsModule,
   ],
   exports: [
     MatToolbarModule,

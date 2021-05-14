@@ -73,8 +73,7 @@
     </div>
 
     <div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
-    <div *ngIf="!campanaUsuario&&!followedCampaign" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar campaña</button></div>
-    <div *ngIf="!campanaUsuario&&followedCampaign" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: rgb(138, 19, 19);" mat-raised-button (click)="quitarFirma()">Quitar firma</button></div>
+    <div *ngIf="!campanaUsuario&&!followedCampaign&&originalCampaign.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar campaña</button></div>
     
     <div style="text-align: center;" *ngIf="condicionNoEventos">
         <div style="    font-size: xx-large;color: #f05454;margin-top: 2em;">Lo sentimos, no hay eventos para esta campaña.</div>

@@ -10,6 +10,7 @@ import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
 import { MapsAPILoader } from '@agm/core';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { ShareMediaContentExampleDialog } from 'src/app/shareMedia/shareMedia.component';
 
 
 // import {firestore} from "@angular/fire/firestore"
@@ -69,6 +70,8 @@ export class DetalleCampana {
   zoom: number;
 
   i = 0;
+
+  public ruta = this.router.url;
 
   constructor(
     private firestoreService: FireBaseService,
@@ -270,9 +273,10 @@ export class DetalleCampana {
   }
 */
   async firmarCampana(){
+    if(this.usuario!=null){
       if(this.usuario.cedula!=""){
-          Swal.fire({
-            title: 'Desea firmar la campaña?',
+        Swal.fire({
+            title: '¿Desea firmar la campaña?',
             text: this.originalCampaign.name,
             icon: 'warning',
             showCancelButton: true,
@@ -288,17 +292,26 @@ export class DetalleCampana {
               }
               console.log(this.firestoreService.addFollow(addfollow));
               this.followedCampaign=true;
-              //console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
-              
-              Swal.fire(
-                'Firmada!',
-                'La campaña ha sido firmada!',
-                'success'
-              )
+              //eliminar updateFollowers en caso se cree el trigger en la base.
+              console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
+                
+              Swal.fire({
+                title:'Firmada!',
+                text:'La campaña ha sido firmada!',
+                icon:'success',
+                showCloseButton: true,
+                confirmButtonText:
+                  '<i class="fa fa-thumbs-up"></i> Compartir!',
+                confirmButtonAriaLabel: 'Share',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.dialog.open(ShareMediaContentExampleDialog);
+                }
+              })
               this.getLoggedUser();
+              
             }
           })
-
       }
       if(this.usuario.cedula==""){
         console.log("no puede firmar");
@@ -308,7 +321,7 @@ export class DetalleCampana {
           text: 'Digité su cédula',
           input: 'text',
           inputAttributes: {
-            autocapitalize: 'off'
+          autocapitalize: 'off'
           },
           showCancelButton: true,
           confirmButtonText: 'Registrar',
@@ -316,50 +329,82 @@ export class DetalleCampana {
           allowOutsideClick: () => !Swal.isLoading()
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log(result.value);
-            let datos={
-              nombre:this.usuario.displayName, cedula:result.value,telefono:this.usuario.phoneNumber
-            }
-            this.firestoreService.updateDatosUser(this.user.uid, datos);
-
-
-            let timerInterval
-            Swal.fire({
-              title: 'Procesando!',
-              html: 'Se recargara la página',
-              timer: 2000,
-              timerProgressBar: true,
-              didOpen: () => {
+            let number = this.validateNumber(result.value);
+            if(number){
+              let datos={
+                nombre:this.usuario.displayName, cedula:result.value,telefono:this.usuario.phoneNumber
+              }
+              this.firestoreService.updateDatosUser(this.user.uid, datos);
+              let timerInterval
+              Swal.fire({
+                title: 'Procesando!',
+                html: 'Se recargará la página',
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
                 Swal.showLoading()
                 timerInterval = setInterval(() => {
                   const content = Swal.getContent()
                   if (content) {
                     const b = content.querySelector('b')
                     if (b) {
-                      //b.textContent = Swal.getTimerLeft()
+                          //b.textContent = Swal.getTimerLeft()
                     }
                   }
                 }, 100)
-              },
-              willClose: () => {
-                clearInterval(timerInterval)
-              }
-            }).then((result) => {
-              /* Read more about handling dismissals below */
-              if (result.dismiss === Swal.DismissReason.timer) {
-                console.log('I was closed by the timer')
-
-              }
-            })
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                  /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+                  console.log('I was closed by the timer')
+                }
+              })
+            }
+            else if(!number){
+              Swal.fire({
+                title: 'Formato incorrecto de cédula.',
+                icon: 'error',
+                html:'Usted ingreso <b>'+result.value+'</b>',
+                footer: "Tienen que ser 10 números.",
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.reload();
+                }
+              })
+            }
           }
         })
-
       }
-      
+    }
+    if(this.usuario==null){
+      console.log("no logged");
+      Swal.fire({
+        title: 'Usted necesita tener una cuenta para firmar la campaña.',
+        text: this.originalCampaign.name,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Login!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.router.navigate(["/login"]);
+        }
+      })
+    }
     
   }
 
-  async quitarFirma(){
+  validateNumber(input){
+    const s = String(input)
+    return !isNaN(+s) && isFinite(+s) && (typeof input === 'number' || !/e/i.test(s)) && input.length==10;
+  }
+  /*async quitarFirma(){
         Swal.fire({
           title: 'Desea quitar la firma de la campaña?',
           text: this.originalCampaign.name,
@@ -382,7 +427,7 @@ export class DetalleCampana {
             )
           }
         })
-}
+}*/
 
   redirectEventDetail(value) {
     let eventId = value.eventId;

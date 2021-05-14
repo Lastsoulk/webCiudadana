@@ -16,7 +16,7 @@
         <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Categoria:</div>
         <mat-form-field appearance="fill">
 
-            <mat-select (selectionChange)="selectCategory($event)"  [formControl]="categoryCtrl" placeholder="Category" #singleSelect>
+            <mat-select (selectionChange)="select($event)"  [formControl]="categoryCtrl" placeholder="Category" #singleSelect>
                 <mat-option>
                     <ngx-mat-select-search [formControl]="categoryFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
                     noEntriesFoundLabel="No se han encontrado resultados">
@@ -32,7 +32,7 @@
         <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Ciudad:</div>
         <mat-form-field appearance="fill">
 
-            <mat-select (selectionChange)="selectCity($event)" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
+            <mat-select (selectionChange)="select($event)" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
                 <mat-option>
                     <ngx-mat-select-search [formControl]="cityFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
                     noEntriesFoundLabel="No se han encontrado resultados">
@@ -49,7 +49,7 @@
             <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
             <mat-form-field appearance="fill">
 
-            <mat-select (selectionChange)="selectState($event)" [(ngModel)]="selectedState">
+            <mat-select (selectionChange)="select($event)" [(ngModel)]="selectedState">
                 <mat-option *ngFor="let cat of estados" [value]="cat">
                     {{cat}}
                 </mat-option>
@@ -94,15 +94,15 @@
                                 <h5>¿Cuál es el problema?</h5>
                                 <p style="font-size: 11;  text-align: justify;">{{key.description | slice:0:500}}...</p>
                                 <p style="font-size: 11;  text-align: justify;">{{key.questionAsking | slice:0:300}}...</p>
-                                <p style="font-size: 11;  text-align: justify;">{{key.categories}}</p>
+                                <p style="font-size: medium; background-color: rgba(56, 77, 73, 0.507);color:white; width: 120px;text-align: center;border-radius: 10%;">{{key.categories}}</p>
                             </div>
                         </div>
                     </mat-card-content>
                     
                     <mat-card-actions class="action-buttons">
                         <button mat-button color="primary" style="font-size: medium; margin-right: 2em;" >
-                                <mat-icon class="material-icons1" *ngIf="showFirst" style="color:#f44336">favorite_border</mat-icon> 
-                                <mat-icon class="material-icons1" *ngIf="!showFirst" style="color:#f44336">favorite</mat-icon> {{key.numFollowers}} Followers
+                                <mat-icon class="material-icons1" *ngIf="!key.isFavorite" style="color:#3f51b5">favorite_border</mat-icon> 
+                                <mat-icon class="material-icons1" *ngIf="key.isFavorite" style="color:#f44336">favorite</mat-icon> {{key.numFollowers}} Followers
                         </button>
 
                         <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 

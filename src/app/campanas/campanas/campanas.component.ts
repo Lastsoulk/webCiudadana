@@ -70,6 +70,9 @@ export class Campana implements OnInit, OnDestroy {
   public filteredCities: ReplaySubject<Ciudad[]> = new ReplaySubject<Ciudad[]>(1);
 
 
+  usuario: any;
+  user: any;
+
   @ViewChild('singleSelect', { static: true }) singleSelect: MatSelect;
 
   protected _onDestroy = new Subject<void>();
@@ -95,6 +98,8 @@ export class Campana implements OnInit, OnDestroy {
         this.getCategorias();
         //this.crearCampaign();
         this.getCiudades();
+        this.user = await this.AuthService.getCurrentUser();
+        console.log(this.user.uid);
     }
   
   getCiudades(){
@@ -121,9 +126,6 @@ export class Campana implements OnInit, OnDestroy {
             .subscribe(() => {
               this.filterCities();
             });    
-
-    
-          console.log(this.ciudades)
     })
     
 
@@ -131,15 +133,10 @@ export class Campana implements OnInit, OnDestroy {
 
 
   getCampaigns(categoria:any,ciudad:any,estado:any): void {
-
-    
     this.dialog.open(LoadingContentExampleDialog);
-    console.log(categoria,ciudad,estado);
-
     this.firestoreService.getCampañasCategoria(categoria,ciudad,estado).subscribe((campaignsSnapshot) => {
       this.campaigns = [];
       
-      console.log("cantidad de campanas snapshot=> "+campaignsSnapshot.length)
       if (campaignsSnapshot.length == 0) {
         this.condicioncampanavacia = true;
       } else {
@@ -147,45 +144,33 @@ export class Campana implements OnInit, OnDestroy {
       }
       
       campaignsSnapshot.forEach(async (campaign: any) => {
-        
-          if(estado=="Finalizadas" && campaign.payload.doc.data().state.finished){
-            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
-              let temp=userSnapshot.payload.data();
-              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+        let campaignID = campaign.payload.doc.id;
+        let isFav : boolean;
+        if(this.user!=null){
+          this.firestoreService.checkFollow(this.user.uid,campaignID).subscribe((snp) => {
+            if(snp.length>0){
+              isFav = true;
+            }
+            else if(snp.length==0){
+              isFav=false;
+            }
+          });
+        }
+        if(this.user==null){
+          isFav=false;
+        }
+        this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
+          let temp=userSnapshot.payload.data();
+          this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
+            let tempo=userAutoriSnapshot.payload.data();
+            let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['isFavorite']: isFav,['autority']: tempo ,campaignId: campaign.payload.doc.id}
                 
-                let tempo=userAutoriSnapshot.payload.data();
-                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
-                
-                if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
-                  this.campaigns.push(appObj);
-                }
-              });
-
-            });
-
-          }
-
-          else if(campaign.payload.doc.data().state.running){
-            this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
-              let temp=userSnapshot.payload.data();
-              //console.log(campaign.payload.doc.data());
-              //console.log(temp);
-              this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
-                
-                let tempo=userAutoriSnapshot.payload.data();
-                let appObj = { ...campaign.payload.doc.data(),['promotore']: temp, ['autority']: tempo ,campaignId: campaign.payload.doc.id}
-                
-                if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
-                  this.campaigns.push(appObj);
-                }
-              });
-
-            });
-
-          }
-          
+            if(!this.campaigns.some((item) => item.campaignId == appObj.campaignId)){
+              this.campaigns.push(appObj);
+            }
+          });
+        });
       });
-      console.log("lista campanas=> "+this.campaigns);
       this.dialog.closeAll();
     }, (error) => {
       console.log("Error al cargar las campañas", error)
@@ -193,24 +178,11 @@ export class Campana implements OnInit, OnDestroy {
 
   }
 
-
   formatoFecha(fecha:string){
     fecha = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
     return new Date(Date.parse(fecha));
     
 }
-
-
-
-  getDatosUser(dato:any){
-    this.firestoreService.getDatosUser(dato).subscribe((userSnapshot) => {
-
-      }, (error) => {
-        console.log(error)
-      });
-  }
-
-  
 
   getCategorias(){
     this.firestoreService.getCategorias().subscribe((campaignsSnapshot) => {
@@ -259,39 +231,14 @@ export class Campana implements OnInit, OnDestroy {
   }
 
 
-
-  selectCategory(event:any){
-    this.selectedCategory= event.value.name;
-    this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
-  }
-
-  selectCity(event:any){
-    this.selectedCity= event.value.id;
-    this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
-  }
-
-  selectState(event:any){
-    
-    this.selectedState= event.value;
-    console.log("metodo selectState",this.selectedState);
-    this.getCampaigns(this.selectedCategory,this.selectedCity,this.selectedState);
-  }
-
-
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-  }
-
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  select(event:any){
+    this.getCampaigns(this.categoryCtrl.value.name,this.cityCtrl.value.id,this.selectedState);
   }
  
   isFavoritee(elem: any) {
     this.isFavorite[elem] = !this.isFavorite[elem];
     // Add other code here
   }
-
-
 
 
   protected filterCategories() {
