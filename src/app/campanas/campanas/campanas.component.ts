@@ -51,8 +51,8 @@ export class Campana implements OnInit, OnDestroy {
 
 
   
-  public selectedState = "Ejecutandose";
-  public estados=["Ejecutandose","Finalizadas"];
+  public selectedState = "Activas";
+  public estados=["Activas","Finalizadas"];
   isFavorite: boolean[] = [];
 
   //category control
@@ -94,7 +94,7 @@ export class Campana implements OnInit, OnDestroy {
 
 
     async ngOnInit() {
-        this.getCampaigns("Todas","","Ejecutandose");
+        this.getCampaigns("Todas","","Activas");
         this.getCategorias();
         //this.crearCampaign();
         this.getCiudades();

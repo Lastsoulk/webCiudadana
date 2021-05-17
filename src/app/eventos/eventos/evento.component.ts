@@ -9,16 +9,22 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { MatTableDataSource } from '@angular/material/table';
 import firebase from 'firebase';
 import { AppComponent } from 'src/app/app.component';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
 
 /**
  * @title Card with multiple sections
  */
 
+ interface Ciudad {
+  id: string;
+  idProvince:string;
+  name: string;
+}
 
-
-interface Ciudad {
-  value: string;
-  viewValue: string;
+interface Categoria {
+  name: string;
+  id:string;
 }
 
 @Component({
@@ -34,11 +40,26 @@ export class Eventos {
   public dates = [];
 
   public tipoEvento = ["Todas", "Convocatorias", "Noticias"];
-  public ciudades = ["Todas"];
+  //public ciudades = ["Todas"];
   public esConvocatoria = false;
   public condicioneventovacio = false;
 
+  //date control
+  selectedDate="";
+  
+
+  //city control
+  public ciudades = [];
   public selectedCity;
+  public cityCtrl: FormControl = new FormControl();
+  public cityFilterCtrl: FormControl = new FormControl();
+  public filteredCities: ReplaySubject<Ciudad[]> = new ReplaySubject<Ciudad[]>(1);
+
+  //state control
+  public selectedState = "Activas";
+  public estados=["Activas","Finalizadas"];
+
+  protected _onDestroy = new Subject<void>();
 
   constructor(
     private firestore: AngularFirestore,
@@ -49,6 +70,24 @@ export class Eventos {
 
   }
 
+  ngOnDestroy(): void {
+    this._onDestroy.next();
+    this._onDestroy.complete();
+  }
+
+  ngOnInit(): void {
+    this.getCiudades();
+  
+    this.getEvents("Todas", "Convocatorias","Activas");
+
+    if(localStorage.getItem('currentUser')!=null){
+      this.esConvocatoria = true;
+    }
+
+    else{
+      this.esConvocatoria = false;
+    }
+  }
 
   redirectEventDetail(value) {
     let eventId = value.eventId;
@@ -59,29 +98,38 @@ export class Eventos {
       queryParams: {
         "eventId": JSON.stringify(eventId),
 
-        // "estadoNegado": bandera,
-
       }
     };
     this.router.navigate(["detalleEvento"], navigationExtras);
   }
 
 
-  getEvents(ciudad, tipo): void {
+  getEvents(ciudad, tipo,estado): void {
     if (tipo == 'Convocatorias') {
       this.esConvocatoria = true;
     }
     if (tipo == 'Noticias') {
       this.esConvocatoria = false;
     }
-    this.firestoreService.getEvents(ciudad, tipo).subscribe((eventsSnapshot) => {
+    this.firestoreService.getEvents(ciudad, tipo,estado).subscribe((eventsSnapshot) => {
       this.events = [];
-      this.categories = [];
-      let i = 0
-      //console.log('veamos: ', eventsSnapshot.length)
+
       eventsSnapshot.forEach((event: any) => {
-        let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
-        this.events.push(appObj);
+        var fechaSeleccionada=this.formatoDatePicker(this.selectedDate);
+        var fechaEvento=event.payload.doc.data().dateEvent.split(",")[0];
+       
+
+        if(fechaSeleccionada!==""&& fechaSeleccionada <= fechaEvento){
+          
+          let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
+          this.events.push(appObj);
+          
+        }else if(fechaSeleccionada==""){//se carga por primera vez
+          let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
+          this.events.push(appObj);
+
+        }
+        
       });
       console.log("this.events", this.events);
       this.events.sort(this.sortFunction);
@@ -92,7 +140,6 @@ export class Eventos {
       } else {
         this.condicioneventovacio = false;
       }
-      // this.dataSource.data = this.campaigns as Campaign[];
     }, (error) => {
       console.log("Error al cargar los eventos", error)
     });
@@ -106,36 +153,85 @@ export class Eventos {
     return dateA < dateB ? 1 : -1;
   };
 
-
-  ngOnInit(): void {
-    this.getCiudades();
-    this.getEvents("Todas", "Convocatorias");
-    //this.esConvocatoria = AppComponent.estoyLogeado;
-
-    if(localStorage.getItem('currentUser')!=null){
-      this.esConvocatoria = true;
-    }
-
-    else{
-      this.esConvocatoria = false;
-    }
-  }
-
-  getCiudades() {
-    this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
-      //  this.ciudades = [];
-      ciudadesSnapshot.forEach((ciudades: any) => {
-        var elemento = ciudades.payload.doc.data().city
-        if (this.ciudades.includes(elemento)) {
-
+  formatoDatePicker(fecha:any){
+    
+    if(fecha!=""){
+      fecha=new Date(fecha);
+      var anioSelec = fecha.getFullYear();
+        var mesSelec = fecha.getMonth() + 1;
+        var diaSelec = fecha.getUTCDate();
+        var periodoSeleccionado;
+        if (mesSelec < 10) {
+          if(diaSelec<10){
+            periodoSeleccionado = `0${diaSelec}/0${mesSelec}/${anioSelec}`; 
+          }else{  
+            periodoSeleccionado = `${diaSelec}/0${mesSelec}/${anioSelec}`; 
+          }
         } else {
-          const add = this.ciudades.push(elemento)
+          if(diaSelec<10){
+            periodoSeleccionado = `0${diaSelec}/0${mesSelec}/${anioSelec}`; 
+          }else{  
+            periodoSeleccionado = `${diaSelec}/0${mesSelec}/${anioSelec}`; 
+          }
         }
-        this.selectedCity = this.ciudades[0];
+       
+      console.log("DEPUES=> "+periodoSeleccionado);
+      return periodoSeleccionado;
+    }else{
+      return fecha;
+    }
+    
+    
+}
+
+  getCiudades(){
+    this.firestoreService.getCiudades("todas").subscribe((ciudadesSnapshot) => {
+      this.ciudades = [];
+      this.ciudades.push({id: '',name:'Todas',idProvince:"www"})
+      ciudadesSnapshot.forEach((ciudades: any) => {
+        
+        //var elemento = ciudades.payload.doc.data()
+        var elemento = {...ciudades.payload.doc.data() , ['id'] : ciudades.payload.doc.id}
+        if(this.ciudades.includes(elemento)){
+            
+        }else{
+            this.ciudades.push(elemento);
+        }
+       
       });
-      console.log(this.ciudades);
+      this.cityCtrl.setValue(this.ciudades[0]);
+
+      this.filteredCities.next(this.ciudades.slice());
+
+      this.cityFilterCtrl.valueChanges
+        .pipe(takeUntil(this._onDestroy))
+        .subscribe(() => {
+          this.filterCities();
+        });    
     })
+
+
   }
 
+  protected filterCities() {
+    if (!this.ciudades) {
+      return;
+    }
+    let search = this.cityFilterCtrl.value;
+    if (!search) {
+      this.filteredCities.next(this.ciudades.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.filteredCities.next(
+      this.ciudades.filter(city => city.name.toLowerCase().indexOf(search) > -1)
+    );
+  }
+
+  select(event:any){
+    
+    this.getEvents(this.cityCtrl.value.id,"Convocatorias",this.selectedState);
+  }
 
 }

@@ -65,14 +65,14 @@ export class Noticias {
   }
 
 
-  getEvents(ciudad, tipo): void {
+  getEvents(ciudad, tipo,estado): void {
     if (tipo == 'Convocatorias') {
       this.esConvocatoria = true;
     }
     if (tipo == 'Noticias') {
       this.esConvocatoria = false;
     }
-    this.firestoreService.getEvents(ciudad, tipo).subscribe((eventsSnapshot) => {
+    this.firestoreService.getEvents(ciudad, tipo,estado).subscribe((eventsSnapshot) => {
       this.events = [];
       this.categories = [];
       let i = 0
@@ -153,7 +153,7 @@ export class Noticias {
 
 
     this.getCiudades();
-    this.getEvents("Todas", "Noticias");
+    this.getEvents("Todas", "Noticias","Activas");
 
   }
 

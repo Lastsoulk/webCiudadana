@@ -46,6 +46,10 @@ export class FireBaseService {
     //return this.firestore.collection("campaignUpdates").snapshotChanges();
   }
 
+  getCampañasById(id:any){
+    return this.firestore.collection("campaigns").doc(id).snapshotChanges();
+  }
+
   getEventosUsuario(id:String="",idUser:String="") {
       if(id=="todos"){
         console.log('cargando todas de: ',idUser)
@@ -65,31 +69,39 @@ export class FireBaseService {
 
   getCampañasCategoria(categoria:String="", ciudad:String="", estado:String="") {
   
-    if(estado=="Ejecutandose"){ 
-      if(categoria=="Todas"  && ciudad==""){
+    if(estado=="Activas"){ 
+      if(categoria=="Todas"  && ciudad==""){//inicio
+        //console.log("cat=todas, ciudad=vacio, ejecut=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("state.running",'==',true)).snapshotChanges();
       }
       else if(categoria=="Todas" && ciudad !=""){
+        //console.log("cat=todas, ciudad!=vacio, ejecut=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("city",'==',ciudad).where("state.running",'==',true)).snapshotChanges();
       }
-      else if(categoria!="Todas" && ciudad !=""){
+      else if(categoria!="Todas" && ciudad !=""){//categoria=salud,ciudad=guayaquil
+        //console.log("cat!=todas, ciudad!=vacio, ejecut=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("city",'==',ciudad).where("state.running",'==',true)).snapshotChanges();
       }
-      else if(categoria!="Todas" && ciudad ==""){
+      else if(categoria!="Todas" && ciudad ==""){//categoria=salud, ciudad=todas
+        //console.log("cat!=todas, ciudad==vacio, ejecut=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("state.running",'==',true)).snapshotChanges();
       }
     }
     if(estado=="Finalizadas"){
       if(categoria=="Todas"  && ciudad==""){
+        //console.log("cat==todas, ciudad=vacio, finaliz=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("state.finished",'==',true)).snapshotChanges();
       }
       else if(categoria=="Todas" && ciudad !=""){
+        //console.log("cat==todas, ciudad!=vacio, finaliz=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("city",'==',ciudad).where("state.finished",'==',true)).snapshotChanges();
       }
       else if(categoria!="Todas" && ciudad !=""){
+        //console.log("cat!=todas, ciudad!=vacio, finaliz=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("city",'==',ciudad).where("state.finished",'==',true)).snapshotChanges();
       }
       else if(categoria!="Todas" && ciudad ==""){
+        //console.log("cat!=todas, ciudad=vacio, finaliz=> "+categoria,ciudad,estado);
         return this.firestore.collection("campaigns", ref => ref.where("categories",'array-contains',categoria).where("state.finished",'==',true)).snapshotChanges();
       }
     }
@@ -211,19 +223,45 @@ export class FireBaseService {
     return this.firestore.collection("events").doc(event_id).snapshotChanges();
   }
 
-  public getEvents(ciudad: any,tipo: any) {
-    if(ciudad=="Todas" && tipo == "Todas"){
-      return this.firestore.collection("events").snapshotChanges(); //, ref => ref.where("state.running",'==',true)).snapshotChanges();
+  public getEvents(ciudad: any,tipo: any,estado:any) {
+      
+    if(estado=="Activas"){ 
+      if(ciudad=="Todas" && tipo == "Todas"){//no se cuando se ejecuta
+        return this.firestore.collection("events", ref => ref.where("state.running",'==',true)).snapshotChanges();
+      }
+      else if(ciudad=="Todas" && tipo == "Noticias"){
+        return this.firestore.collection("events", ref => ref.where("type","==","Noticia").where("state.running",'==',true)).snapshotChanges();
 
+      }else if(ciudad=="Todas" && tipo == "Convocatorias"){//inicio
+        return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria").where("state.running",'==',true)).snapshotChanges();
+
+      }else if(ciudad=="" && tipo == "Convocatorias"){//ciudad=todas, estado=ejecutandose
+        //console.log("ciudad=todas, estado=ejecutandose=> "+ciudad,tipo,estado);
+        return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria").where("state.running",'==',true)).snapshotChanges();
+
+      }else if(ciudad!="Todas" && tipo == "Convocatorias"){//ciudad=guayaquil;
+          //console.log("ciudad!=todas, estado=ejecutandose=> "+ciudad,tipo,estado);
+          
+          return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria").where("city","==",ciudad).where("state.running",'==',true)).snapshotChanges();
+      }
+  
     }
-    else if(ciudad=="Todas" && tipo == "Noticias"){
-      return this.firestore.collection("events", ref => ref.where("type","==","Noticia")).snapshotChanges();
+    if(estado=="Finalizadas"){
+     
+      if(ciudad=="Todas" && tipo == "Todas"){
+        return this.firestore.collection("events", ref => ref.where("state.finished",'==',true)).snapshotChanges();
+      }
+      else if(ciudad=="Todas" && tipo == "Noticias"){
+        return this.firestore.collection("events", ref => ref.where("type","==","Noticia").where("state.finished",'==',true)).snapshotChanges();
 
-    }else if(ciudad=="Todas" && tipo == "Convocatorias"){
-        return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria")).snapshotChanges();
+      }else if(ciudad=="" && tipo == "Convocatorias"){//ciudades=todas estado=rechazadas
+        //console.log("ciudad==todas, finalizadas"+ciudad,estado)
+        return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria").where("state.finished",'==',true)).snapshotChanges();
 
-    }else if(ciudad!="Todas" && tipo == "Convocatorias"){
-        return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria").where("city","==",ciudad)).snapshotChanges();
+      }else if(ciudad!="Todas" && tipo == "Convocatorias"){
+        //console.log("ciudad!=todas, finalizadas"+ciudad,estado)
+          return this.firestore.collection("events", ref => ref.where("type","==","Convocatoria").where("city","==",ciudad).where("state.finished",'==',true)).snapshotChanges();
+      }
     }
   }
 

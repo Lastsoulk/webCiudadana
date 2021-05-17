@@ -3,22 +3,49 @@
 
     <div id="campañareciente">Convocatorias disponibles</div>
     <div style="width: 100%; height: 3px; background: #f05454; margin-bottom: 3em; margin-top:1em;"></div>
-    <div class="row">
-        <div class="example" style="display: flex;margin-top: 1em;margin-left: 2.5em;">
-            <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una ciudad:</div>
-            <mat-form-field appearance="fill">
+
+
+    <div style="display: flex;margin-top: 1em;">
         
-            <mat-select (selectionChange)="getEvents($event.value,'Convocatorias')" [(ngModel)]="selectedCity">
-                <mat-option *ngFor="let ciu of ciudades" [value]="ciu">
-                    {{ciu}}
+        <!--date-->
+        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Fecha:</div>
+        <mat-form-field appearance="fill">
+            <mat-label>Seleccione fecha</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="{{selectedDate}}">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker >  </mat-datepicker>
+        </mat-form-field>
+          
+          
+        <!--city-->
+        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Ciudad:</div>
+        <mat-form-field appearance="fill">
+
+            <mat-select (selectionChange)="select($event)" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="cityFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
+                    noEntriesFoundLabel="No se han encontrado resultados">
+                        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                    </ngx-mat-select-search>
                 </mat-option>
-            
+                <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+                    {{city?.name}}
+                </mat-option>
             </mat-select>
             </mat-form-field>
-        </div>
+
+
+            <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
+            <mat-form-field appearance="fill">
+
+            <mat-select (selectionChange)="select($event)" [(ngModel)]="selectedState">
+                <mat-option *ngFor="let cat of estados" [value]="cat">
+                    {{cat}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    
     </div>
-
-
 
 
     <div style="text-align: center;" *ngIf="condicioneventovacio">
@@ -57,7 +84,7 @@
                             <div class="col-xs-12 col-md-12 col-lg-12">  
                                 <h4 style="font-size: 20px; text-align:center;">Descripción</h4>
                                 <p style="font-size: 20px; text-align:center;">{{key.description | slice:0:40}}</p>
-                                <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent | date:'dd/MM/yyyy'}}</p>
+                                <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent}}</p>
                                 <p style="font-size: 20px; text-align:center;">Direccion: {{key.address}}</p>
                                 <br><br>
                                 <button *ngIf="esConvocatoria" mat-raised-button style="background-color:#28a745;color:white;text-align: center;margin:auto;display:block;margin-bottom: 1em;">¡Quiero ir!</button>

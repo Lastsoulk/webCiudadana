@@ -73,7 +73,7 @@ export class CardFancyExample implements OnInit {
         console.log('----CAMPANAS------');
         console.log(this.myArray)
 
-        this.firestoreService.getEvents("Todas","Todas").subscribe((eventSnapshot) => {
+        this.firestoreService.getEvents("Todas","Todas","Activas").subscribe((eventSnapshot) => {
             var i=0;
             eventSnapshot.forEach((event: any) => {
                 if(i<=6){
