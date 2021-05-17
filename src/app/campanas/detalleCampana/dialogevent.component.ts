@@ -23,7 +23,9 @@ export interface DialogData {
     fotoconvocatoria: string;
     direccion: string;
     ciudadconvocatoria: string;
-
+    type:string;
+    idEvent:any;
+    dateEvent:any;
 }
 
 //esto es para cargar la foto
@@ -42,8 +44,7 @@ export class DialogEvent {
     //variable para la imagen
     file: File;
     photoSelected: string | ArrayBuffer;
-    //url de la imagen a cargar
-    urlfile: string;
+
 
     latitude: number;
     longitude: number;
@@ -70,30 +71,32 @@ export class DialogEvent {
     async ngOnInit() {
         //this.setCurrentLocation();
         this.user = await this.AuthService.getCurrentUser();
-      
-        this.mapsAPILoader.load().then(() => {
-            this.setCurrentLocation();
-            this.geoCoder = new google.maps.Geocoder;
-
-            let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-            autocomplete.addListener("place_changed", () => {
-                this.ngZone.run(() => {
-                    //get the place result
-                    let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-                    //verify result
-                    if (place.geometry === undefined || place.geometry === null) {
-                        return;
-                    }
-
-                    //set latitude, longitude and zoom
-                    this.latitude = place.geometry.location.lat();
-                    this.longitude = place.geometry.location.lng();
-                    this.zoom = 12;
-                    console.log(place)
+        if(this.data.type=="Convocatoria"){
+            this.mapsAPILoader.load().then(() => {
+                this.setCurrentLocation();
+                this.geoCoder = new google.maps.Geocoder;
+    
+                let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+                autocomplete.addListener("place_changed", () => {
+                    this.ngZone.run(() => {
+                        //get the place result
+                        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+    
+                        //verify result
+                        if (place.geometry === undefined || place.geometry === null) {
+                            return;
+                        }
+    
+                        //set latitude, longitude and zoom
+                        this.latitude = place.geometry.location.lat();
+                        this.longitude = place.geometry.location.lng();
+                        this.zoom = 12;
+                        console.log(place)
+                    });
                 });
             });
-        });
+        }
+        
     }
 
     // Get Current Location Coordinates
@@ -156,7 +159,7 @@ export class DialogEvent {
         }
     }
 
-    crearConvocatoria(){
+    crearEvento(){
         //this.dialogRef = this.dialog.open(LoadingContentExampleDialog);
         const filename = Math.floor(Date.now() / 1000);
         var nameImage = 'eventImages/' + filename;
@@ -166,34 +169,51 @@ export class DialogEvent {
                 var storageRef = storage.ref();
                 storageRef.child(nameImage).getDownloadURL()
                     .then((resp: any) => {
-                        console.log("la url foto", resp);
                         this.data.fotoconvocatoria = resp;
-                        this.data.direccion = this.address;
-                        console.log('Convocatoria creada ', this.data)
-                        console.log('String direccion ', this.address)
-                        this.urlfile = resp;
-
-                        let dataEvento = {
-                            name: this.data.nombreconvocatoria,
-                            address: this.address,
-                            idCampaign: this.data.campaignId,
-                            idUser: this.user.uid,
-                            dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
-                            dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
-                            dateEvent: this.datePipe.transform(this.data.fechaconvocatoria, 'dd/MM/yyyy, HH:mm'),
-                            denyReason:"",
-                            description: this.data.descripcion,
-                            eventPic: [this.data.fotoconvocatoria],
-                            city : this.data.city,
-                            lat : this.latitude,
-                            long: this.longitude,
-                            numFollowers: 0,
-                            type: 'Convocatoria',
-                            state: { finished: false, rejected: false, running: false},
+                        let dataEvento;
+                        if(this.data.type=="Convocatoria"){
+                            this.data.direccion = this.address;
+                            dataEvento = {
+                                name: this.data.nombreconvocatoria,
+                                address: this.address,
+                                idCampaign: this.data.campaignId,
+                                idUser: this.user.uid,
+                                dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                dateEvent: this.datePipe.transform(this.data.fechaconvocatoria, 'dd/MM/yyyy, HH:mm'),
+                                denyReason:"",
+                                description: this.data.descripcion,
+                                eventPic: [this.data.fotoconvocatoria],
+                                city : this.data.city,
+                                lat : null,
+                                long: null,
+                                numFollowers: 0,
+                                type: 'Convocatoria',
+                                state: { finished: false, rejected: false, running: false},
+                            }
                         }
-                        
-                
-                
+                        else if(this.data.type=="Noticia"){
+                            dataEvento = {
+                                name: this.data.nombreconvocatoria,
+                                address: this.data.direccion,
+                                idCampaign: this.data.campaignId,
+                                idUser: this.user.uid,
+                                dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                dateEvent: this.data.dateEvent,
+                                denyReason:"",
+                                description: this.data.descripcion,
+                                eventPic: [this.data.fotoconvocatoria],
+                                city : this.data.city,
+                                lat : null,
+                                long: null,
+                                numFollowers: 0,
+                                type: 'Noticia',
+                                state: { finished: false, rejected: false, running: false},
+                                idEvent: this.data.idEvent
+                            }
+                        }
+
                         this.firestoreService.crearEvento(dataEvento);
                         console.log(dataEvento)
                 

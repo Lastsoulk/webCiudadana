@@ -169,8 +169,11 @@ export class FireBaseService {
               idCampaign : evento.idCampaign,
               idEvent: res.id,
               idUser : evento.idUser,
-          }
-          this.addFollowEvent(addfollow);
+            }
+            if(evento.type=="Noticia"){
+              addfollow.assistance=false;
+            }
+            this.addFollowEvent(addfollow);
 
           }, err => reject(err));
     });

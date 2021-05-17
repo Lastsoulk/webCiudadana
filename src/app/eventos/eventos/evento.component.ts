@@ -11,6 +11,8 @@ import firebase from 'firebase';
 import { AppComponent } from 'src/app/app.component';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
 
 /**
  * @title Card with multiple sections
@@ -22,15 +24,26 @@ import { take, takeUntil } from 'rxjs/operators';
   name: string;
 }
 
-interface Categoria {
-  name: string;
-  id:string;
-}
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @Component({
   selector: 'events',
   templateUrl: './evento.component.html',
   styleUrls: ['./evento.component.css'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+  ]
 })
 export class Eventos {
   images = [944, 1011, 984].map((n) => `https://picsum.photos/id/${n}/900/500`);
@@ -41,7 +54,6 @@ export class Eventos {
 
   public tipoEvento = ["Todas", "Convocatorias", "Noticias"];
   //public ciudades = ["Todas"];
-  public esConvocatoria = false;
   public condicioneventovacio = false;
 
   //date control
@@ -78,56 +90,34 @@ export class Eventos {
   ngOnInit(): void {
     this.getCiudades();
   
-    this.getEvents("Todas", "Convocatorias","Activas");
+    this.getEvents("Todas","Activas","");
 
-    if(localStorage.getItem('currentUser')!=null){
-      this.esConvocatoria = true;
-    }
-
-    else{
-      this.esConvocatoria = false;
-    }
   }
 
   redirectEventDetail(value) {
     let eventId = value.eventId;
-
-
-
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "eventId": JSON.stringify(eventId),
-
+        "evenU":false,
       }
     };
-    this.router.navigate(["detalleEvento"], navigationExtras);
+    this.router.navigate(["detalleEvento",eventId], navigationExtras);
   }
 
 
-  getEvents(ciudad, tipo,estado): void {
-    if (tipo == 'Convocatorias') {
-      this.esConvocatoria = true;
-    }
-    if (tipo == 'Noticias') {
-      this.esConvocatoria = false;
-    }
-    this.firestoreService.getEvents(ciudad, tipo,estado).subscribe((eventsSnapshot) => {
+  getEvents(ciudad,estado,fechaSeleccionada): void {
+    console.log(ciudad,",estado: ",estado,",fecha:",fechaSeleccionada);
+    this.firestoreService.getEvents(ciudad,"Convocatorias",estado).subscribe((eventsSnapshot) => {
       this.events = [];
-
       eventsSnapshot.forEach((event: any) => {
-        var fechaSeleccionada=this.formatoDatePicker(this.selectedDate);
         var fechaEvento=event.payload.doc.data().dateEvent.split(",")[0];
-       
-
-        if(fechaSeleccionada!==""&& fechaSeleccionada <= fechaEvento){
-          
+        if(fechaSeleccionada!=""&& fechaSeleccionada <= fechaEvento){ 
           let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
           this.events.push(appObj);
           
         }else if(fechaSeleccionada==""){//se carga por primera vez
           let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
           this.events.push(appObj);
-
         }
         
       });
@@ -147,16 +137,18 @@ export class Eventos {
 
   }
 
+  
+
   sortFunction(a, b) {
     var dateA = new Date(a.dateEvent).getTime();
     var dateB = new Date(b.dateEvent).getTime();
     return dateA < dateB ? 1 : -1;
   };
 
-  formatoDatePicker(fecha:any){
-    
-    if(fecha!=""){
-      fecha=new Date(fecha);
+  setFecha(){
+    var fecha;
+    if(this.selectedDate!=""){
+      fecha=new Date(this.selectedDate);
       var anioSelec = fecha.getFullYear();
         var mesSelec = fecha.getMonth() + 1;
         var diaSelec = fecha.getUTCDate();
@@ -174,14 +166,9 @@ export class Eventos {
             periodoSeleccionado = `${diaSelec}/0${mesSelec}/${anioSelec}`; 
           }
         }
-       
-      console.log("DEPUES=> "+periodoSeleccionado);
       return periodoSeleccionado;
-    }else{
-      return fecha;
-    }
-    
-    
+    } 
+    return this.selectedDate;
 }
 
   getCiudades(){
@@ -229,9 +216,8 @@ export class Eventos {
     );
   }
 
-  select(event:any){
-    
-    this.getEvents(this.cityCtrl.value.id,"Convocatorias",this.selectedState);
+  select(){
+    this.getEvents(this.cityCtrl.value.id,this.selectedState,this.setFecha());
   }
 
 }

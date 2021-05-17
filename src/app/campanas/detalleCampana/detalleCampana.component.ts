@@ -40,25 +40,20 @@ export class DetalleCampana {
   usuario: any;
   user: any;
 
-  public campaignUpdateId;
   public campaignId;
   public followedCampaign = false;
-  private followCampaignID;
+
 
   public originalCampaignInfo = undefined;
   public originalCampaign = undefined;
-  public lastCampaignUpdate = undefined;
 
   public categoriesUpdate = [];
   public categoriesOriginal = [];
-  public zone;
-  public params;
 
   public conversation = {}
   public mostrar_chat: boolean = false;
 
 
-  public miCampanaNegada: boolean = false;
   public campanaUsuario: boolean = false;
   public misCampanas: boolean;
 
@@ -95,7 +90,8 @@ export class DetalleCampana {
         fotoconvocatoria: this.fotoconvocatoria, 
         direccion: this.direccion,
         campaignId : this.originalCampaign.campaignId,
-        city : this.originalCampaign.city
+        city : this.originalCampaign.city,
+        type:"Convocatoria"
       }
     });
 
@@ -108,26 +104,21 @@ export class DetalleCampana {
 
   getRouteParams(): void {
     this.route.queryParams.subscribe(params => {
-      this.params = params;
-
-
-      this.campaignId = this.params.camp.replace("\"", "");
-      this.campaignId = this.campaignId.toString().substring(0, this.campaignId.length - 1);
-
-      this.miCampanaNegada = (this.params.estadoCampana == 'true');
-      this.campanaUsuario = (this.params.campanaUsuario == 'true');
+      this.campanaUsuario = (params.campU == 'true');
     });
-    //console.log("this.campaignId", this.campaignId);
   }
 
   async ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.campaignId=params['id'];
+    });
     this.dialog.open(LoadingContentExampleDialog);
     this.getRouteParams();
     this.datosconversations();
     
-    this.getOriginalCampaignById(JSON.parse(this.params.camp));
+    this.getOriginalCampaignById(this.campaignId);
     
-    this.getEventsById(JSON.parse(this.params.camp));
+    this.getEventsById(this.campaignId);
     
   }
 
@@ -137,7 +128,7 @@ export class DetalleCampana {
       this.usuario = userSnapshot.payload.data();
       this.firestoreService.checkFollow(this.user.uid,this.campaignId).subscribe((snp) => {
         if(snp.length>0){
-          this.followCampaignID= snp[0].payload.doc.id;
+          //this.followCampaignID= snp[0].payload.doc.id;
           this.followedCampaign=true;
         }
       });
@@ -158,16 +149,18 @@ export class DetalleCampana {
       }
       snp.forEach(async (obj: any) => {
   
-
-        let appObj = { ...obj.payload.doc.data(),eventID: obj.payload.doc.id}
-                
-        if(!this.events.some((item) => item.eventID == appObj.eventID)){
-            this.events.push(appObj);
+        if(obj.payload.doc.data().type=="Convocatoria"){
+          let appObj = { ...obj.payload.doc.data(),eventID: obj.payload.doc.id}
+                  
+          if(!this.events.some((item) => item.eventID == appObj.eventID)){
+              this.events.push(appObj);
+          }
         }
-        
       });
-       
-      this.setMap(this.events[0].lat,this.events[0].long);
+       if(this.events.length>0){
+        this.setMap(this.events[0].lat,this.events[0].long);
+       }
+      
     }, (error) => {
       console.log(error)
     });
@@ -183,8 +176,6 @@ export class DetalleCampana {
     this.latitude=lat;
     this.longitude=long;
     this.zoom = 16;
-    console.log(this.latitude);
-    console.log(this.longitude);
     this.mapsAPILoader.load();
   }
 
@@ -209,16 +200,12 @@ export class DetalleCampana {
       });
 
       this.getLoggedUser();
-
-      //console.log("this.originalCampaign", this.originalCampaign);
-
     }, (error) => {
       console.log(error)
     });
   }
 
   sendMessageToConversation($event) {
-    console.log('aqi');
     const mensaje_chat = $event;
     console.log(mensaje_chat);
     this.createMessage(mensaje_chat, true);
@@ -314,7 +301,6 @@ export class DetalleCampana {
           })
       }
       if(this.usuario.cedula==""){
-        console.log("no puede firmar");
         Swal.fire({
           icon: 'warning',
           title: 'No tiene registrado su cédula.',
@@ -359,7 +345,6 @@ export class DetalleCampana {
               }).then((result) => {
                   /* Read more about handling dismissals below */
                 if (result.dismiss === Swal.DismissReason.timer) {
-                  console.log('I was closed by the timer')
                 }
               })
             }
@@ -382,7 +367,6 @@ export class DetalleCampana {
       }
     }
     if(this.usuario==null){
-      console.log("no logged");
       Swal.fire({
         title: 'Usted necesita tener una cuenta para firmar la campaña.',
         text: this.originalCampaign.name,

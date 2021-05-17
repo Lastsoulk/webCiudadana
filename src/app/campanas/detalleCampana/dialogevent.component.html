@@ -1,25 +1,28 @@
-<h1 style="margin-bottom: 1%;margin-top: 1%;color: #1976d2;font-weight: bold;" mat-dialog-title>Nueva Convocatoria</h1>
+<h1 *ngIf="this.data.type=='Convocatoria'" style="margin-bottom: 1%;margin-top: 1%;color: #1976d2;font-weight: bold;" mat-dialog-title>Nueva Convocatoria</h1>
+<h1 *ngIf="this.data.type=='Noticia'" style="margin-bottom: 1%;margin-top: 1%;color: #1976d2;font-weight: bold;" mat-dialog-title>Nueva Noticia</h1>
 <div mat-dialog-content>
-  <div style="color: #1976d2;">Nombre de la convocatoria</div>
+  <div *ngIf="this.data.type=='Convocatoria'" style="color: #1976d2;">Nombre de la convocatoria</div>
+  <div *ngIf="this.data.type=='Noticia'" style="color: #1976d2;">Nombre de la noticia</div>
   <mat-form-field style="width: 400px;">
-    <mat-label>Ingrese el nombre de tu convocatoria</mat-label>
+    <mat-label>Ingrese el nombre</mat-label>
     <input name="someUnusualName" autocomplete="off" matInput [(ngModel)]="data.nombreconvocatoria">
   </mat-form-field>
-  <div style="color: #1976d2;">Descripcion</div>
+  <div style="color: #1976d2;">Descripción</div>
   <mat-form-field style="width: 400px;">
-    <mat-label>Cuéntenos por qué organizaste esta reunión</mat-label>
+    <mat-label>Cuéntenos los detalles</mat-label>
     <input name="someUnusualName2" autocomplete="off"matInput [(ngModel)]="data.descripcion">
   </mat-form-field >
-  <div style="color: #1976d2;">Fecha y hora de la convocatoria</div>
+  <div *ngIf="this.data.type=='Convocatoria'" style="color: #1976d2;">Fecha y hora de la convocatoria</div>
   <div>
-    <mat-form-field>
+    <mat-form-field *ngIf="this.data.type=='Convocatoria'">
       <input matInput [ngxMatDatetimePicker]="picker1" [(ngModel)]="data.fechaconvocatoria" 
       placeholder="Choose a date">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
     </mat-form-field>
   </div>
-  <div style="color: #1976d2;">Foto de la convocatoria</div>
+  <div style="color: #1976d2;" *ngIf="this.data.type=='Convocatoria'">Foto de la convocatoria</div>
+  <div style="color: #1976d2;" *ngIf="this.data.type=='Noticia'">Foto de la Noticia</div>
   <div class="form-row" style="margin-bottom: 2%;">
     <div class="col col" style="text-align: center">
       <div class="border margencamera">
@@ -30,16 +33,16 @@
       </div>
     </div>
 </div>
-  <div style="color: #1976d2;">Dirección de la convocatoria</div>
+  <div style="color: #1976d2;" *ngIf="this.data.type=='Convocatoria'">Dirección de la convocatoria</div>
   <!--<mat-form-field style="width: 400px;">
     <mat-label>¿En dónde quieres realizar tu reunión?</mat-label>
     <input name="someUnusualName4" autocomplete="off" matInput [(ngModel)]="data.direccion">
   </mat-form-field>-->
-  <div class="form-group" style="width: 400px;">
+  <div class="form-group" style="width: 400px;" *ngIf="this.data.type=='Convocatoria'">
     <label>¿En dónde quieres realizar tu reunión?</label>
     <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
   </div>
-  <agm-map 
+  <agm-map *ngIf="this.data.type=='Convocatoria'"
       [latitude]="latitude" 
       [longitude]="longitude" 
       [zoom]="zoom" >
@@ -49,7 +52,7 @@
         (dragEnd)="markerDragEnd($event)"> 
       </agm-marker>
   </agm-map>
-  <h5>Address: {{address}}</h5>
+  <h5 *ngIf="this.data.type=='Convocatoria'">Address: {{address}}</h5>
   <!--<div>Latitude: {{latitude}}</div>
   <div>Longitude: {{longitude}}</div>-->
 
@@ -65,7 +68,8 @@
 
 <div style="justify-content: center;" mat-dialog-actions>
     <button mat-button (click)="cancelar()" style="background-color: #e42222;">Cancelar</button>
-    <button mat-button (click)="crearConvocatoria()" cdkFocusInitial style="background-color: #4caf50;">Crear Convocatoria</button>
+    <button *ngIf="this.data.type=='Convocatoria'" mat-button (click)="crearEvento()" cdkFocusInitial style="background-color: #4caf50;">Crear Convocatoria</button>
+    <button *ngIf="this.data.type=='Noticia'" mat-button (click)="crearEvento()" cdkFocusInitial style="background-color: #4caf50;">Crear Noticia</button>
 </div>
 
 <!-- [mat-dialog-close]="data"  -->

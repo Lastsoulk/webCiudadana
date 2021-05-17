@@ -32,7 +32,7 @@
 
 <mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;"  >
     <mat-grid-tile *ngFor="let key of eventos">
-        <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectCampaignDetail({campaignId: key.campaignId, estadoCampana: key.state.rejected})">
+        <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectEventDetail({eventId: key.eventId})">
             <mat-card-header>
                 <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                 <mat-card-title>{{key.name}}</mat-card-title>

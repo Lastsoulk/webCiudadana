@@ -8,10 +8,10 @@
     <div style="display: flex;margin-top: 1em;">
         
         <!--date-->
-        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Fecha:</div>
+        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Eventos despúes de:</div>
         <mat-form-field appearance="fill">
             <mat-label>Seleccione fecha</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="{{selectedDate}}">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="{{selectedDate}}" (dateChange)="select()">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker >  </mat-datepicker>
         </mat-form-field>
@@ -21,7 +21,7 @@
         <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Ciudad:</div>
         <mat-form-field appearance="fill">
 
-            <mat-select (selectionChange)="select($event)" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
+            <mat-select (selectionChange)="select()" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
                 <mat-option>
                     <ngx-mat-select-search [formControl]="cityFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
                     noEntriesFoundLabel="No se han encontrado resultados">
@@ -38,7 +38,7 @@
             <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
             <mat-form-field appearance="fill">
 
-            <mat-select (selectionChange)="select($event)" [(ngModel)]="selectedState">
+            <mat-select (selectionChange)="select()" [(ngModel)]="selectedState">
                 <mat-option *ngFor="let cat of estados" [value]="cat">
                     {{cat}}
                 </mat-option>
@@ -87,7 +87,7 @@
                                 <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent}}</p>
                                 <p style="font-size: 20px; text-align:center;">Direccion: {{key.address}}</p>
                                 <br><br>
-                                <button *ngIf="esConvocatoria" mat-raised-button style="background-color:#28a745;color:white;text-align: center;margin:auto;display:block;margin-bottom: 1em;">¡Quiero ir!</button>
+                                <button *ngIf="true" mat-raised-button style="background-color:#28a745;color:white;text-align: center;margin:auto;display:block;margin-bottom: 1em;">¡Quiero ir!</button>
                             </div>
                         </div>
                     </mat-card-content>

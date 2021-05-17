@@ -72,7 +72,8 @@ export class misEventos {
             this.eventos = [];
             this.categories = [];
             campaignsSnapshot.forEach((event: any) => {
-                this.eventos.push(event.payload.doc.data());
+                let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
+                this.eventos.push(appObj);
             });
             console.log("this.eventos", this.eventos);
             console.log(this.eventos.length);
@@ -120,21 +121,15 @@ export class misEventos {
     }
 
 
-    redirectCampaignDetail(value) {
-        let campaignId = value.campaignId;
-        let estadoCampana = value.estadoCampana;
-
-        console.log('aca: ', estadoCampana);
-
+    redirectEventDetail(value) {
+        let eventID = value.eventId;
         let navigationExtras: NavigationExtras = {
             queryParams: {
-                "camp": JSON.stringify(campaignId),
-                "estadoCampana": estadoCampana,
-                "campanaUsuario":true,
+                "evenU":true,
 
             }
         };
-        this.router.navigate(["detalleCampana"], navigationExtras);
+        this.router.navigate(["detalleEvento",eventID], navigationExtras);
     }
 
     public doFilter = (value: string) => {

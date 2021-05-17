@@ -72,11 +72,11 @@
         
     </div>
 
-    <div *ngIf="campanaUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
+    <div *ngIf="campanaUsuario&&!originalCampaign.state.rejected" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
     <div *ngIf="!campanaUsuario&&!followedCampaign&&originalCampaign.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar campaña</button></div>
     
-    <div style="text-align: center;" *ngIf="condicionNoEventos">
-        <div style="    font-size: xx-large;color: #f05454;margin-top: 2em;">Lo sentimos, no hay eventos para esta campaña.</div>
+    <div style="text-align: center;" *ngIf="condicionNoEventos &&!originalCampaign.state.rejected">
+        <div style="font-size: xx-large;color: #f05454;margin-top: 2em;">Lo sentimos, no hay eventos para esta campaña.</div>
         <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
     </div>
 
@@ -141,7 +141,7 @@
     </div>
 
     
-    <div *ngIf="miCampanaNegada" id="divChat">
+    <div *ngIf="originalCampaign.state.rejected" id="divChat">
         <button id="botonChat" *ngIf="!mostrar_chat"(click)="mostrar_chat= true">Mostrar Chat</button>
         <ng-container *ngIf="mostrar_chat">
 

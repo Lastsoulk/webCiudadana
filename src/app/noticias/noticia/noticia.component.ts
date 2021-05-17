@@ -47,82 +47,37 @@ export class Noticias {
 
   }
 
+  ngOnInit(): void {
+    this.getCiudades();
+    this.getEvents("Todas", "Activas","");
+  }
 
   redirectEventDetail(value) {
     let eventId = value.eventId;
-
-
-
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "eventId": JSON.stringify(eventId),
-
-        // "estadoNegado": bandera,
-
+        "evenU":false,
       }
     };
-    this.router.navigate(["detalleEvento"], navigationExtras);
+    this.router.navigate(["detalleEvento",eventId], navigationExtras);
   }
 
 
-  getEvents(ciudad, tipo,estado): void {
-    if (tipo == 'Convocatorias') {
-      this.esConvocatoria = true;
-    }
-    if (tipo == 'Noticias') {
-      this.esConvocatoria = false;
-    }
-    this.firestoreService.getEvents(ciudad, tipo,estado).subscribe((eventsSnapshot) => {
+  getEvents(ciudad,estado,fechaSeleccionada): void {
+    console.log(ciudad,",estado: ",estado,",fecha:",fechaSeleccionada);
+    this.firestoreService.getEvents(ciudad,"Noticias",estado).subscribe((eventsSnapshot) => {
       this.events = [];
-      this.categories = [];
-      let i = 0
-      console.log('veamos: ', eventsSnapshot.length)
       eventsSnapshot.forEach((event: any) => {
-        //console.log('test', event.payload.doc.data())
-        if (new Date(event.payload.doc.data().dateEvent).getTime() != new Date().getTime() && event.payload.doc.data().type === "convocatoria") {
-          console.log('La fecha del evento es menor al now', new Date(event.payload.doc.data().dateEvent).getTime() > new Date().getTime())
-          this.events.push({
-            name: event.payload.doc.data().name,
-            address: event.payload.doc.data().address,
-            description: event.payload.doc.data().description,
-            eventId: event.payload.doc.id,
-            eventPic: event.payload.doc.data().eventPic,
-            state: event.payload.doc.data().state,
-            dateEvent: event.payload.doc.data().dateEvent,
-            city: event.payload.doc.data().city,
-            type: event.payload.doc.data().type
-          });
-
-          //console.log('campanaid', event.payload.doc.data().campaignId)
-          var refproduct = firebase.firestore();
-          refproduct.collection('campaigns').doc(event.payload.doc.data().campaignId).get().then(snapshot => {
-            //console.log('campana', snapshot.data().name)
-            this.events[i]['nombrecampana'] = snapshot.data().name
-            i++
-          })
-        } else if (event.payload.doc.data().type == 'noticia') {
-          this.events.push({
-            name: event.payload.doc.data().name,
-            address: event.payload.doc.data().address,
-            description: event.payload.doc.data().description,
-            eventId: event.payload.doc.id,
-            eventPic: event.payload.doc.data().eventPic,
-            state: event.payload.doc.data().state,
-            dateEvent: event.payload.doc.data().dateEvent,
-            city: event.payload.doc.data().city,
-            type: event.payload.doc.data().type,
-            dateCreate: event.payload.doc.data().dateCreate
-          });
-
-          //console.log('campanaid', event.payload.doc.data().campaignId)
-          var refproduct = firebase.firestore();
-          refproduct.collection('campaigns').doc(event.payload.doc.data().campaignId).get().then(snapshot => {
-            //console.log('campana', snapshot.data().name)
-            this.events[i]['nombrecampana'] = snapshot.data().name
-            i++
-          })
-
+        var fechaEvento=event.payload.doc.data().dateEvent.split(",")[0];
+        if(fechaSeleccionada!=""&& fechaSeleccionada <= fechaEvento){ 
+          let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
+          this.events.push(appObj);
+          
+        }else if(fechaSeleccionada==""){//se carga por primera vez
+          let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
+          this.events.push(appObj);
         }
+        
       });
       console.log("this.events", this.events);
       this.events.sort(this.sortFunction);
@@ -133,11 +88,10 @@ export class Noticias {
       } else {
         this.condicioneventovacio = false;
       }
-      // this.dataSource.data = this.campaigns as Campaign[];
     }, (error) => {
       console.log("Error al cargar los eventos", error)
     });
-
+    
 
   }
 
@@ -148,14 +102,7 @@ export class Noticias {
   };
 
 
-  ngOnInit(): void {
-
-
-
-    this.getCiudades();
-    this.getEvents("Todas", "Noticias","Activas");
-
-  }
+  
 
   getCiudades() {
 

@@ -99,7 +99,6 @@ export class Campana implements OnInit, OnDestroy {
         //this.crearCampaign();
         this.getCiudades();
         this.user = await this.AuthService.getCurrentUser();
-        console.log(this.user.uid);
     }
   
   getCiudades(){
@@ -189,7 +188,6 @@ export class Campana implements OnInit, OnDestroy {
       this.listaCategorias = [];
       this.listaCategorias.push({name:'Todas',id:"www"})
       campaignsSnapshot.forEach((cat: any) => {
-        //console.log(cat.payload.doc.data());
         this.listaCategorias.push({
           name: cat.payload.doc.data().name,
           id : cat.payload.doc.id
@@ -217,17 +215,12 @@ export class Campana implements OnInit, OnDestroy {
 
   redirectCampaignDetail(value) {
     let campaignId = value.campaignId;
-    console.log(campaignId);
-
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "camp": JSON.stringify(campaignId),
-        "misCampanas": false,
-        "estadoCampana":false,
-        "campanaUsuario":false,
+        "campU":false,
       }
     };
-    this.router.navigate(["detalleCampana"], navigationExtras);
+    this.router.navigate(["detalleCampana",campaignId], navigationExtras);
   }
 
 

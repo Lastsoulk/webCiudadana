@@ -65,14 +65,10 @@ export class misCampanas {
 
     async ngOnInit() {
         const user = await this.AuthService.getCurrentUser();
-        //console.log(user);
         this.datosUsuario = user.uid;
-        console.log('user: ', this.datosUsuario)
-        console.log("mis campanas"+this.estadoCampana)
         this.getCampaigns(this.estadoCampana);
         this.dataSource.filterPredicate = (data: misCampanas, filter: string): boolean => {
             const dataStr = Object.keys(data).reduce((currentTerm: string, key: string) => {
-                console.log((data as { [key: string]: any })[key]);
                 return (currentTerm + (data as { [key: string]: any })[key]);
             }, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
             const transformedFilter = filter.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
@@ -91,10 +87,7 @@ export class misCampanas {
               } else {
                   this.condicioncampanavacia = false;
               }
-
-            
             campaignsSnapshot.forEach((campaign: any) => {
-                console.log(campaign.payload.doc.data());
                 this.firestoreService.getDatosUser(campaign.payload.doc.data().promoter).subscribe((userSnapshot) => {
                     let temp=userSnapshot.payload.data();
                     this.firestoreService.getAutoridad(campaign.payload.doc.data().authority).subscribe((userAutoriSnapshot) => {
@@ -128,19 +121,12 @@ export class misCampanas {
 
     redirectCampaignDetail(value) {
         let campaignId = value.campaignId;
-        let estadoCampana = value.estadoCampana;
-
-        console.log('aca: ', estadoCampana);
-
         let navigationExtras: NavigationExtras = {
             queryParams: {
-                "camp": JSON.stringify(campaignId),
-                "estadoCampana": estadoCampana,
-                "campanaUsuario":true,
-
+                "campU":true,
             }
         };
-        this.router.navigate(["detalleCampana"], navigationExtras);
+        this.router.navigate(["detalleCampana",campaignId], navigationExtras);
     }
 
     public doFilter = (value: string) => {

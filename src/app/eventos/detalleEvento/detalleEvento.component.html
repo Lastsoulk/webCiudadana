@@ -38,6 +38,7 @@
         </div>
         
     </div>
-    
+    <div *ngIf="eventoUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir noticia</button></div>
+    <div *ngIf="!eventoUsuario&&!followedEvent&&e.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar evento</button></div>
 
 </div>
