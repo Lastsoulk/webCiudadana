@@ -4,33 +4,43 @@
     <div id="campañareciente">Noticias disponibles</div>
 <div style="width: 100%; height: 3px; background: #f05454; margin-bottom: 3em;"></div>
 
-<div class="row">
-    <!--div class="example-container" style="display: flex;margin-top: 1em;margin-left: 1.5em;">
-        <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona tipo de evento:</div>
-        <mat-form-field appearance="fill">
-    
-          <mat-select (selectionChange)="getEvents('Noticias',$event.value)">
-            <mat-option *ngFor="let tipo of tipoEvento" [value]="tipo">
-                {{tipo}}
-            </mat-option>
-         
-          </mat-select>
-        </mat-form-field>
-    </div-->
-    
-    <div class="example-container" style="display: flex;margin-top: 1em;margin-left: 2.5em;" *ngIf="esConvocatoria">
-        <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona una ciudad:</div>
-        <mat-form-field appearance="fill">
-    
-          <mat-select (selectionChange)="getEvents($event.value,'Convocatorias')">
-            <mat-option *ngFor="let ciu of ciudades" [value]="ciu">
-                {{ciu}}
-            </mat-option>
-         
-          </mat-select>
-        </mat-form-field>
-    </div>
+<div style="display: flex;margin-top: 1em;">  
+    <!--city-->
+    <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Ciudad:</div>
+    <mat-form-field appearance="fill">
 
+        <mat-select (selectionChange)="select()" [formControl]="cityCtrl" placeholder="Ciudad" #singleSelect>
+            <mat-option>
+                <ngx-mat-select-search [formControl]="cityFilterCtrl" [preventHomeEndKeyPropagation]="true" placeholderLabel="Buscar"
+                noEntriesFoundLabel="No se han encontrado resultados">
+                    <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+                {{city?.name}}
+            </mat-option>
+        </mat-select>
+        </mat-form-field>
+
+
+        <div style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Estado:</div>
+        <mat-form-field appearance="fill">
+
+        <mat-select (selectionChange)="select()" [(ngModel)]="selectedState">
+            <mat-option *ngFor="let cat of estados" [value]="cat">
+                {{cat}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!--date-->
+    <div *ngIf="selectedState!='Finalizadas'" style="font-size: medium;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Eventos despúes de:</div>
+    <mat-form-field appearance="fill" *ngIf="selectedState!='Finalizadas'">
+        <mat-label>Seleccione fecha</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="{{selectedDate}}" (dateChange)="select()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker >  </mat-datepicker>
+    </mat-form-field>
 
 </div>
 
@@ -48,25 +58,25 @@
         <mat-sidenav-container class="example-container" (click)="redirectEventDetail({eventId: key.eventId})">
             <mat-card class="example-card" >
                 <mat-card-header >
-                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                     <mat-card-title>{{key.name}}</mat-card-title>
-                    <mat-card-subtitle > 
-                        <div *ngIf="key.type==='noticia'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: steelblue;">{{key.type}}</div>
-                        <div *ngIf="key.type==='convocatoria'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: #dc3545;">{{key.type}}</div>
+                    <mat-card-subtitle (click)="redirectCampaignDetail({idCampaign: key.idCampaign})" > 
+                        <!--div *ngIf="key.type==='noticia'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: steelblue;">{{key.type}}</div>
+                        <div *ngIf="key.type==='convocatoria'" style="width: 60%;border: solid;margin-bottom: 0.5em;border-radius: 10px;text-align: center;color: white;background-color: #dc3545;">{{key.type}}</div-->
+                        <div>
+                            Noticia de Campaña: <mat-chip (click)="redirectCampaignDetail({idCampaign: key.idCampaign})" 
+                            style="margin-bottom: 0.5em" color="accent" matTooltip="Campaña"
+                            matTooltipClass="example-tooltip-red"
+                            [matTooltipPosition]="'right'"
+                            selected>{{key.campana.name}}</mat-chip>
+                        </div>
                     </mat-card-subtitle>
-                    <mat-chip-list style="margin-bottom: 0.5em ">
-                        <mat-chip style="margin-bottom: 0.5em" color="accent" matTooltip="Campaña"
-                        matTooltipClass="example-tooltip-red"
-                        [matTooltipPosition]="'margin-right'"
-                        selected>{{key.nombrecampana}}</mat-chip>
-                    </mat-chip-list>
                 </mat-card-header>
                 <img mat-card-image img-fluid style="margin-top: 1em; margin-bottom: 1em;" src={{key.eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                 <button *ngIf="key.type==='convocatoria'" mat-raised-button style="background-color:#28a745;color:white;text-align: center;margin:auto;display:block;margin-bottom: 1em;">¡Quiero ir!</button>
                 
                 <mat-card-content> 
                     <p style="font-size: 20px; text-align:center;">{{key.description | slice:0:40}}</p>
-                    <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent | date:'yyyy/MM/dd'}}</p>
+                    <p style="font-size: 20px; text-align:center;">Dia: {{key.dateEvent}}</p>
                     <p style="font-size: 20px; text-align:center;">Direccion: {{key.address}}</p>
                 </mat-card-content>
                

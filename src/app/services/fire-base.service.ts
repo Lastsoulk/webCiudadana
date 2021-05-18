@@ -287,8 +287,9 @@ export class FireBaseService {
             console.log(res);
           }, err => reject(err));
     });
-
   }
+
+  
 
   public updateFollowers(variable:any,campaignID){
     return new Promise<any>((resolve, reject) =>{
@@ -309,6 +310,10 @@ export class FireBaseService {
     return this.firestore.collection("followers", ref => ref.where("idUser",'==',idUser).where("idCampaign",'==',idCampaign)).snapshotChanges();
   }
 
+  public checkFollowEvents(idUser,idEvent){
+    return this.firestore.collection("followers-events", ref => ref.where("idUser",'==',idUser).where("idEvent",'==',idEvent)).snapshotChanges();
+  }
+
   public addFollowEvent(data:any){
     return new Promise<any>((resolve, reject) =>{
       this.firestore
@@ -320,6 +325,31 @@ export class FireBaseService {
     });
 
   }
+
+  public updateFollowersEvent(variable:any,id){
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore
+          .collection("events")
+          .doc(id)
+          .set({numFollowers    :   variable
+          }
+          , { merge: true })
+          
+          .then(res => {
+            resolve(res);
+          }, err => reject(err));
+    });
+  }
+  
+  public quitarFollowEvent(id){
+    return new Promise<any>((resolve, reject) =>{
+      this.firestore.collection('followers-events').doc(id).delete()
+          .then(res => {
+            console.log(res);
+          }, err => reject(err));
+    });
+  }
+
 
   public getEventsByCampaign(campaign_id){
 

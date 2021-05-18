@@ -22,10 +22,11 @@ export interface DialogData {
     fechaconvocatoria: string;
     fotoconvocatoria: string;
     direccion: string;
-    ciudadconvocatoria: string;
     type:string;
     idEvent:any;
     dateEvent:any;
+    dateStart:any;
+    dateEnd:any;
 }
 
 //esto es para cargar la foto
@@ -54,6 +55,8 @@ export class DialogEvent {
     public user$: Observable<firebase.User> = this.AuthService.afAuth.user;
     public user;
 
+    public isInvalid=false;
+
     @ViewChild('search')
     public searchElementRef: ElementRef;
 
@@ -70,6 +73,7 @@ export class DialogEvent {
 
     async ngOnInit() {
         //this.setCurrentLocation();
+        console.log(this.data);
         this.user = await this.AuthService.getCurrentUser();
         if(this.data.type=="Convocatoria"){
             this.mapsAPILoader.load().then(() => {
@@ -158,72 +162,90 @@ export class DialogEvent {
             
         }
     }
+    select(){
+        let fecha = this.data.dateStart.split(',')[0];
+        let fechaA = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
+        fecha = this.data.dateEnd.split(',')[0];
+        let fechaB = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
+        var dateA = new Date(fechaA);
+        var dateB = new Date(fechaB);
+        let fechaConv = new Date(this.data.fechaconvocatoria);
+        if(dateA> fechaConv || dateB<fechaConv){
+            this.isInvalid=true; //no deja pasar
+        }
+        if(dateA< fechaConv && dateB>fechaConv){
+            this.isInvalid=false;
+        }
+    }
 
     crearEvento(){
         //this.dialogRef = this.dialog.open(LoadingContentExampleDialog);
-        const filename = Math.floor(Date.now() / 1000);
-        var nameImage = 'eventImages/' + filename;
-        const pictures = storage().ref(nameImage);
-            pictures.put(this.file).then((resp) => {
-                var storage = firebase.storage();
-                var storageRef = storage.ref();
-                storageRef.child(nameImage).getDownloadURL()
-                    .then((resp: any) => {
-                        this.data.fotoconvocatoria = resp;
-                        let dataEvento;
-                        if(this.data.type=="Convocatoria"){
-                            this.data.direccion = this.address;
-                            dataEvento = {
-                                name: this.data.nombreconvocatoria,
-                                address: this.address,
-                                idCampaign: this.data.campaignId,
-                                idUser: this.user.uid,
-                                dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
-                                dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
-                                dateEvent: this.datePipe.transform(this.data.fechaconvocatoria, 'dd/MM/yyyy, HH:mm'),
-                                denyReason:"",
-                                description: this.data.descripcion,
-                                eventPic: [this.data.fotoconvocatoria],
-                                city : this.data.city,
-                                lat : null,
-                                long: null,
-                                numFollowers: 0,
-                                type: 'Convocatoria',
-                                state: { finished: false, rejected: false, running: false},
+        if(!this.isInvalid){
+            const filename = Math.floor(Date.now() / 1000);
+            var nameImage = 'eventImages/' + filename;
+            const pictures = storage().ref(nameImage);
+                pictures.put(this.file).then((resp) => {
+                    var storage = firebase.storage();
+                    var storageRef = storage.ref();
+                    storageRef.child(nameImage).getDownloadURL()
+                        .then((resp: any) => {
+                            this.data.fotoconvocatoria = resp;
+                            let dataEvento;
+                            if(this.data.type=="Convocatoria"){
+                                this.data.direccion = this.address;
+                                dataEvento = {
+                                    name: this.data.nombreconvocatoria,
+                                    address: this.address,
+                                    idCampaign: this.data.campaignId,
+                                    idUser: this.user.uid,
+                                    dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                    dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                    dateEvent: this.datePipe.transform(this.data.fechaconvocatoria, 'dd/MM/yyyy, HH:mm'),
+                                    denyReason:"",
+                                    description: this.data.descripcion,
+                                    eventPic: [this.data.fotoconvocatoria],
+                                    city : this.data.city,
+                                    lat : this.latitude,
+                                    long: this.longitude,
+                                    numFollowers: 0,
+                                    type: 'Convocatoria',
+                                    state: { finished: false, rejected: false, running: false},
+                                }
                             }
-                        }
-                        else if(this.data.type=="Noticia"){
-                            dataEvento = {
-                                name: this.data.nombreconvocatoria,
-                                address: this.data.direccion,
-                                idCampaign: this.data.campaignId,
-                                idUser: this.user.uid,
-                                dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
-                                dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
-                                dateEvent: this.data.dateEvent,
-                                denyReason:"",
-                                description: this.data.descripcion,
-                                eventPic: [this.data.fotoconvocatoria],
-                                city : this.data.city,
-                                lat : null,
-                                long: null,
-                                numFollowers: 0,
-                                type: 'Noticia',
-                                state: { finished: false, rejected: false, running: false},
-                                idEvent: this.data.idEvent
+                            else if(this.data.type=="Noticia"){
+                                dataEvento = {
+                                    name: this.data.nombreconvocatoria,
+                                    address: this.data.direccion,
+                                    idCampaign: this.data.campaignId,
+                                    idUser: this.user.uid,
+                                    dateModified: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                    dateCreate: this.datePipe.transform(new Date(), 'dd/MM/yyyy, HH:mm'),
+                                    dateEvent: this.data.fechaconvocatoria,
+                                    denyReason:"",
+                                    description: this.data.descripcion,
+                                    eventPic: [this.data.fotoconvocatoria],
+                                    city : this.data.city,
+                                    lat : null,
+                                    long: null,
+                                    numFollowers: 0,
+                                    type: 'Noticia',
+                                    state: { finished: false, rejected: false, running: false},
+                                    idEvent: this.data.idEvent
+                                }
                             }
-                        }
 
-                        this.firestoreService.crearEvento(dataEvento);
-                        console.log(dataEvento)
-                
-                        this.dialogRef.close();
-                
-                    })
-                    .catch((err) => {
-                        console.log("error al obtener", "=>", err);
-                    })
-            })
+                            this.firestoreService.crearEvento(dataEvento);
+                            console.log(dataEvento)
+                    
+                            this.dialogRef.close();
+                    
+                        })
+                        .catch((err) => {
+                            console.log("error al obtener", "=>", err);
+                        })
+                })
+            }
+        
 
         //var ciu = this.data.ciudadconvocatoria
 

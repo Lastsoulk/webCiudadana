@@ -72,7 +72,7 @@
         
     </div>
 
-    <div *ngIf="campanaUsuario&&!originalCampaign.state.rejected" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
+    <div *ngIf="campanaUsuario&&originalCampaign.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir convocatoria</button></div>
     <div *ngIf="!campanaUsuario&&!followedCampaign&&originalCampaign.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar campaña</button></div>
     
     <div style="text-align: center;" *ngIf="condicionNoEventos &&!originalCampaign.state.rejected">
@@ -135,6 +135,7 @@
                         [longitude]="longitude" [markerDraggable]="false"> 
                     </agm-marker>
                 </agm-map>          
+                <br>
                 <div *ngIf="true" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="redirectEventDetail({eventId: events[i].eventID})">Ver más</button></div>     
                 </div>
         </div>
