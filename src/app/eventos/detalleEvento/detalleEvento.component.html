@@ -33,16 +33,12 @@
                 <p class="textoDetalle">{{evento.userP.email}}</p>
 
                 <p  class="titulos">Estado del evento</p>
-                <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="e.state.rejected && !e.state.running && !e.state.finished" >Negada</p>
-                <p style="font-size: medium; background-color: rgba(167, 167, 15, 0.507);color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="!e.state.running && !e.state.rejected && !e.state.finished">Pendiente</p>
-                <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="e.state.running">Aprobada</p>
-                <p style="font-size: medium; background-color: rgba(56, 77, 73, 0.507);color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="e.state.finished">Finalizada</p>
+                <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="evento.state.rejected && !evento.state.running && !evento.state.finished" >Negada</p>
+                <p style="font-size: medium; background-color: rgba(167, 167, 15, 0.507);color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="!evento.state.running && !evento.state.rejected && !evento.state.finished">Pendiente</p>
+                <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="evento.state.running">Aprobada</p>
+                <p style="font-size: medium; background-color: rgba(56, 77, 73, 0.507);color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="evento.state.finished">Finalizada</p>
                  
-                <p class="titulos">Categoria</p>
-                <div *ngFor="let categori of e.categories">
-                    <p style="font-size: medium; float:left; margin-right: 10px; background-color: rgba(28, 139, 119, 0.507);color:white; width: 120px;text-align: center;border-radius: 10%;">{{categori}}</p>
-                </div>
-                <br><br>
+
 
                 <p class="titulos">Campaña</p>
                 <p class="textoDetalle" style="cursor:pointer" (click)="redirectCampaignDetail({campaignId: evento.idCampaign})">{{evento.campana.name}}</p>
