@@ -1,16 +1,11 @@
 {
   "hosting": {
+    "site": "test-cd786-ciudadano",
     "public": "public",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
     ]
   }
 }

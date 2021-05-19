@@ -343,7 +343,7 @@ export class DetalleEvento {
             console.log(this.firestoreService.quitarFollowEvent(this.followID));
             this.followed=false;
             //eliminar updateFollowersEvent en caso se cree el trigger en la base.
-            console.log(this.firestoreService.updateFollowersEvent(this.evento.numFollowers-1,this.evento.eventId));
+            //console.log(this.firestoreService.updateFollowersEvent(this.evento.numFollowers-1,this.evento.eventId));
             
             Swal.fire(
               'Confirmado!',

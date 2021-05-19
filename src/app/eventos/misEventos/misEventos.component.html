@@ -23,26 +23,29 @@
     </div>
 
 
-    <div class="row" style="display: flex;padding-left: 3em; margin-right:3em;">
-        <div  class="col-xs-12 col-md-4 col-lg-4" *ngFor="let key of eventos" style="display: flex;padding-left: 3em;  margin-top:4em;">  
+    <div class="row" style="display: flex;padding-left: 3em; margin-right:3em;" >
+        <div  class="col-xs-12 col-md-4 col-lg-4" *ngFor="let key of eventos" style="display: flex;padding-left: 3em;  margin-top:4em;" >  
             <mat-sidenav-container  class="example-container" style="cursor:pointer">
                 <mat-card class="example-card" >
                     <mat-card-header>
-                        <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
                         <mat-card-title>{{key.name}}</mat-card-title>
                         <mat-card-subtitle>{{key.type}}</mat-card-subtitle>
                     </mat-card-header>
                     <img mat-card-image src={{key.eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
                     <p style="font-size: 17.2px;">{{key.description}}</p>
-                        
+                    <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="key.state.rejected && !key.state.running && !key.state.finished" >Negada</p>
+                    <p style="font-size: medium; background-color: rgba(167, 167, 15, 0.507);color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="!key.state.running && !key.state.rejected && !key.state.finished">Pendiente</p>
+                    <p style="font-size: medium; background-color: green;color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="key.state.running">Aprobada</p>
+                    <p style="font-size: medium; background-color: rgba(56, 77, 73, 0.507);color:white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="key.state.finished">Finalizada</p>
                     <mat-card-actions class="action-buttons">
-                        <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary"> {{key.numFollowers}}<mat-icon class="material-icons1" >face</mat-icon >  </button>
-                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color:red;width: 150px;border-radius: 10%;" *ngIf="key.state.rejected" >Estado: Negada</p>
-                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: yellow;width: 150px;border-radius: 10%;" *ngIf="key.state.waiting">Estado: Pendiente</p>
-                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: green;width: 150px;border-radius: 10%;" *ngIf="key.state.running">Estado: Aprobada</p>
-        
+                        <button mat-button color="primary" style="font-size: medium; margin-right: 2em;" >
+                            <mat-icon class="material-icons1" *ngIf="showFirst" style="color:#f44336">favorite_border</mat-icon> 
+                            <mat-icon class="material-icons1" *ngIf="!showFirst" style="color:#f44336">favorite</mat-icon> {{key.numFollowers}} Followers
+                        </button>
+                        <button mat-icon-button color="primary" style="font-size: medium; margin-right: 2em;" 
+                        (click)="redirectEventDetail({eventId: key.eventId})" target="_blank" ><mat-icon class="material-icons1">visibility</mat-icon>
+                        Ver más</button>
                     </mat-card-actions>
-                    
                 </mat-card>
             </mat-sidenav-container>
         

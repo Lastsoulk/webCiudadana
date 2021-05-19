@@ -284,7 +284,7 @@ export class DetalleCampana {
               console.log(this.firestoreService.addFollow(addfollow));
               this.followedCampaign=true;
               //eliminar updateFollowers en caso se cree el trigger en la base.
-              console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
+              //console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers+1,this.originalCampaign.campaignId));
                 
               Swal.fire({
                 title:'Firmada!',
