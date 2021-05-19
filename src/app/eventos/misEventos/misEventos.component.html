@@ -1,61 +1,84 @@
 
-<div id="campañareciente">Mis Eventos</div>
+<div id="div">
 
-<div class="example-container" style="display: flex;margin-top: 1em;">
-    <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona un estado del evento:</div>
-    <mat-form-field appearance="fill">
+    <div id="campañareciente">Mis Eventos</div>
+    <div style="width: 100%; height: 3px; background: #f05454; margin-bottom: 3em; margin-top:1em;"></div>
 
-      <mat-select (selectionChange)="getCampaigns($event.value)">
-        <mat-option *ngFor="let estado of arregloEstados" [value]="estado">
-            {{estado}}
-        </mat-option>
-     
-      </mat-select>
-    </mat-form-field>
+    <div style="display: flex;margin-top: 1em;">
+        <div style="font-size: larger;margin-top: 1em;margin-right: 1em;margin-left: 1em;">Selecciona un estado del evento:</div>
+        <mat-form-field appearance="fill">
 
-
-
-    
-
-</div>
-
-<div style="width:35%;height:5px; background: #00A6FF;margin-left: 1.5em;"></div>
-
-
-
-
-<div style="text-align: center;" *ngIf="condicioncampanavacia">
-    <div style="    font-size: xx-large;color: #00A6FF;margin-top: 2em;">Lo sentimos, no hay eventos registrados aún.</div>
-    <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
-</div>
-
-
-<mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;"  >
-    <mat-grid-tile *ngFor="let key of eventos">
-        <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectEventDetail({eventId: key.eventId})">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                <mat-card-title>{{key.name}}</mat-card-title>
-                <!-- <mat-card-subtitle>Promotor Estrella</mat-card-subtitle> -->
-            </mat-card-header>
-            <div class="container" style="margin-top: 5%;padding-left: 0;padding-right: 0;text-align: center;">
-                <img mat-card-image src={{key.eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
-                <div class="content">
-                  <h4>{{key.name}}</h4>
-                  <p style="font-size: 17.2px;">{{key.description}}</p>
-                  <!-- <p style="color:#13CE66;">4  convocatorias</p> -->
-                </div>
-                <div id="divAbajo">
-                    <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
-
-                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color:red;width: 150px;border-radius: 10%;" *ngIf="key.state.rejected" >Estado: Negada</p>
-                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: yellow;width: 150px;border-radius: 10%;" *ngIf="key.state.waiting">Estado: Pendiente</p>
-                    <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: green;width: 150px;border-radius: 10%;" *ngIf="key.state.running">Estado: Aprobada</p>
-     
-                </div>
-            </div>
+            <mat-select (selectionChange)="getCampaigns($event.value)">
+                <mat-option *ngFor="let estado of arregloEstados" [value]="estado">
+                    {{estado}}
+                </mat-option>
             
-        </mat-card>
-    </mat-grid-tile>
-  
-</mat-grid-list>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div style="text-align: center;" *ngIf="condicioncampanavacia">
+        <div style="    font-size: xx-large;color: #00A6FF;margin-top: 2em;">Lo sentimos, no hay eventos registrados aún.</div>
+        <img style="width: 622px!important;" width="622px!important" height="378px" src="assets/img/search-concept-landing-page.jpg">
+    </div>
+
+
+    <div class="row" style="display: flex;padding-left: 3em; margin-right:3em;">
+        <div  class="col-xs-12 col-md-4 col-lg-4" *ngFor="let key of eventos" style="display: flex;padding-left: 3em;  margin-top:4em;">  
+            <mat-sidenav-container  class="example-container" style="cursor:pointer">
+                <mat-card class="example-card" >
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                        <mat-card-title>{{key.name}}</mat-card-title>
+                        <mat-card-subtitle>{{key.type}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img mat-card-image src={{key.eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+                    <p style="font-size: 17.2px;">{{key.description}}</p>
+                        
+                    <mat-card-actions class="action-buttons">
+                        <button mat-icon-button style="font-size: medium; margin-right: 2em;" color="primary"> {{key.numFollowers}}<mat-icon class="material-icons1" >face</mat-icon >  </button>
+                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color:red;width: 150px;border-radius: 10%;" *ngIf="key.state.rejected" >Estado: Negada</p>
+                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: yellow;width: 150px;border-radius: 10%;" *ngIf="key.state.waiting">Estado: Pendiente</p>
+                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: green;width: 150px;border-radius: 10%;" *ngIf="key.state.running">Estado: Aprobada</p>
+        
+                    </mat-card-actions>
+                    
+                </mat-card>
+            </mat-sidenav-container>
+        
+        </div>
+    </div>
+
+
+    <!--
+    <mat-grid-list cols="3"  rowHeight="600px" style="margin-bottom: 1em;"  >
+        <mat-grid-tile *ngFor="let key of eventos">
+            <mat-card style="margin-right: 2em;" class="example-card tarjeta" (click)="redirectEventDetail({eventId: key.eventId})">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                    <mat-card-title>{{key.name}}</mat-card-title>
+                    
+                </mat-card-header>
+                <div class="container" style="margin-top: 5%;padding-left: 0;padding-right: 0;text-align: center;">
+                    <img mat-card-image src={{key.eventPic}} alt="Photo of a Shiba Inu" width="367.737" height="294.188">
+                    <div class="content">
+                    <h4>{{key.name}}</h4>
+                    <p style="font-size: 17.2px;">{{key.description}}</p>
+                    
+                    </div>
+                    <div id="divAbajo">
+                        <p style="font-size: 17.2px;">Followers: {{key.numFollowers}}</p>
+
+                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color:red;width: 150px;border-radius: 10%;" *ngIf="key.state.rejected" >Estado: Negada</p>
+                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: yellow;width: 150px;border-radius: 10%;" *ngIf="key.state.waiting">Estado: Pendiente</p>
+                        <p style="margin-left:  auto;margin-right: auto;text-align: center;font-size: 17.2px; background-color: green;width: 150px;border-radius: 10%;" *ngIf="key.state.running">Estado: Aprobada</p>
+        
+                    </div>
+                </div>
+                
+            </mat-card>
+        </mat-grid-tile>
+    
+    </mat-grid-list>-->
+
+</div>

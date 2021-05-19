@@ -83,6 +83,8 @@ export class DetalleEvento {
                   email:this.promotor.email,
                   idCampaign:this.evento.idCampaign,
                   campaign:this.campania.name,
+                  state:this.campania.state,
+                  categories:this.campania.categories,
                   id:eventoId
                 });
               }

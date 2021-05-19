@@ -82,47 +82,65 @@
   }
 
   
-/* .button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #f4511e;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 28px;
-  padding: 20px;
-  width: 200px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-} */
+  #div{
+    margin-top: 200px;
+    margin-left: 4em;
+    margin-right: 5em;
+  }
+    
+#campañareciente {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-left: 1em;
+    text-align: center;
+}
+    
+.example-card {
+  max-width: 100%;
+  margin-top: 4px;
+}
 
-/* .button span {
-  cursor: pointer;
-  display: inline-block;
+.example-header-image {
+background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+background-size: cover;
+}
+
+.container {
   position: relative;
-  transition: 0.5s;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.button span:after {
+.container img {vertical-align: middle;
+  padding-top: 1em;}
 
-content: '\00bb';  /* Entidades CSS. Para usar entidades HTML, use &#8594;*/
 
-/* position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+.example-container {
+  width: auto;
+  height: auto;
+  border: 1px solid rgba(111, 111, 111, 0.50);
 }
 
-.button:hover span {
-  padding-right: 25px;
+.container .content2 {
+  position: absolute;
+  bottom: 0;
+  padding: 30px;
+  margin-left: 65%;
 }
 
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}  */
+.action-buttons{
+  text-align: center;
+}
 
+.material-icons1{
+  height:30px !important;
+  width:30px !important;
+  font-size:30px !important;
+}
 
- 
+.mat-card-image {
+  margin: 0;
+}

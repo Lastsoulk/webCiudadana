@@ -1,209 +1,211 @@
-<div id="tituloPerfil"> <h3>Mi Perfil</h3></div>
-<!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
+<div id="div">
+    <div id="tituloPerfil"> <h3>Mi Perfil</h3></div>
+    <!-- <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;"></div> -->
 
-<div id="divFoto" *ngIf="datosUsuario.profilePic!=null"><img mat-card-image id="fotoPerfil" src={{datosUsuario.profilePic}} alt="Photo of a Shiba Inu"></div>
-<div id="divFoto" *ngIf="datosUsuario.profilePic==null"><img mat-card-image id="fotoPerfil" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyUguex7RmISnFFKWSbxE3lHHD5r9IljJAbA&usqp=CAU" alt="Photo of a Shiba Inu"></div>
-
-
-<div id="datosUsuario">
-    <h3>Datos Personales</h3>
+    <div id="divFoto" *ngIf="datosUsuario.profilePic!=null"><img mat-card-image id="fotoPerfil" src={{datosUsuario.profilePic}} alt="Photo of a Shiba Inu"></div>
+    <div id="divFoto" *ngIf="datosUsuario.profilePic==null"><img mat-card-image id="fotoPerfil" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyUguex7RmISnFFKWSbxE3lHHD5r9IljJAbA&usqp=CAU" alt="Photo of a Shiba Inu"></div>
 
 
-    <form [formGroup]="Form" id='form' (ngSubmit)="changeData($event)">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="form-text">Nombre</label>
-                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.displayName}}" readonly>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="fname"  placeholder="Nombre del usuario" *ngIf= "editMode" value="{{datosUsuario.displayName}}">
+    <div id="datosUsuario">
+        <h3>Datos Personales</h3>
+
+
+        <form [formGroup]="Form" id='form' (ngSubmit)="changeData($event)">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="form-text">Nombre</label>
+                        <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.displayName}}" readonly>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="fname"  placeholder="Nombre del usuario" *ngIf= "editMode" value="{{datosUsuario.displayName}}">
+                        </div>
                     </div>
-                </div>
-        
-                <div class="form-group">
-                    <label class="infoUsuario">Cédula</label>
-                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.cedula}}" readonly>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="cedula"  placeholder="Cedula del usuario" *ngIf= "editMode" value="{{datosUsuario.cedula}}">
+            
+                    <div class="form-group">
+                        <label class="infoUsuario">Cédula</label>
+                        <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.cedula}}" readonly>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="cedula"  placeholder="Cedula del usuario" *ngIf= "editMode" value="{{datosUsuario.cedula}}">
+                        </div>
                     </div>
+            
+                    
                 </div>
-        
-                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="infoUsuario">Teléfono</label>
+                        <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.phoneNumber}}" readonly>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="telefono"  placeholder="Teléfono del usuario" *ngIf= "editMode" value="{{datosUsuario.phoneNumber}}">
+                        </div>
+                    </div>
+                    <label class="infoUsuario">Correo</label>
+                    <div>
+                        <input class="form-control" type="text" *ngIf= "user$ | async as user" placeholder="{{datosUsuario.email}}" readonly>
+                    </div>
+                    
+                </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="infoUsuario">Teléfono</label>
-                    <input class="form-control" type="text" *ngIf= "!editMode" placeholder="{{datosUsuario.phoneNumber}}" readonly>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="telefono"  placeholder="Teléfono del usuario" *ngIf= "editMode" value="{{datosUsuario.phoneNumber}}">
-                    </div>
-                </div>
-                <label class="infoUsuario">Correo</label>
-                <div>
-                    <input class="form-control" type="text" *ngIf= "user$ | async as user" placeholder="{{datosUsuario.email}}" readonly>
-                </div>
-                
+            <br>
+            <div>
+                <h4 class="infoUsuario" *ngIf= "!editMode">Rol</h4>
+                <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.citizen">Citizen</h6>
+                <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.admin">Admin</h6>
+                <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.superadmin">SuperAdmin</h6>
             </div>
-        </div>
-        <br>
-        <div>
-            <h4 class="infoUsuario" *ngIf= "!editMode">Rol</h4>
-            <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.citizen">Citizen</h6>
-            <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.admin">Admin</h6>
-            <h6 class="textoUsuario" *ngIf= "!editMode&&datosUsuario.role.superadmin">SuperAdmin</h6>
-        </div>
-        <br>
+            <br>
+            
+
+            <div class="form-group" >
+                <button type="submit" class="btn btn-primary submit-btn btn-block" *ngIf= "editMode">Guardar</button>
+                <button (click)="changeEditMode()" *ngIf= "!editMode" class = "btn-primary btn-block">Editar</button>
+                <button (click)="changeEditMode()" *ngIf= "editMode" type="cancel" class="btn-danger btn-block">Cancelar</button>
+            </div>
+
+        </form>
+
+
         
 
-        <div class="form-group" >
-            <button type="submit" class="btn btn-primary submit-btn btn-block" *ngIf= "editMode">Guardar</button>
-            <button (click)="changeEditMode()" *ngIf= "!editMode" class = "btn-primary btn-block">Editar</button>
-            <button (click)="changeEditMode()" *ngIf= "editMode" type="cancel" class="btn-danger btn-block">Cancelar</button>
-        </div>
-
-    </form>
+    </div>
+    <!-- 
+    <div id="campañareciente">Mis campañas</div>
+    <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;margin-bottom: 0.5em;"></div>
 
 
-    
+    <mat-grid-list cols="3" rowHeight="600px">
+        <mat-grid-tile>
+            <mat-card style="margin-right: 2em;" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
+                    <mat-card-title>Andres Caicedo</mat-card-title>
+                    <mat-card-subtitle>Promotor Estrella</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card style="margin-right: 2em;" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady.jpg);"></div>
+                    <mat-card-title>Carla Alcivar</mat-card-title>
+                    <mat-card-subtitle>Promotora Destacada</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="../../assets/img/493-banner2p-750x600.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card style="margin-right: 2em;" class="example-card">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut lobortis odio. Vivamus ultricies, nisl nec viverra bibendum, sem ante venenatis diam, et convallis ex.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary">Primary</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
 
+    <div id="campañareciente">Eventos Asistidos</div>
+    <div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;margin-bottom: 0.5em;"></div>
+
+    <mat-grid-list cols="4" rowHeight="550px">
+        <mat-grid-tile>
+            <mat-card style="margin-left: 2em;margin-right: 1em" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/169346.jpg);"></div>
+                    <mat-card-title>Donación de Ropa</mat-card-title>
+                    <mat-card-subtitle>Convocatoria</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="../../assets/img/224942482.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady2.jpg);"></div>
+                    <mat-card-title>Minga Barrial</mat-card-title>
+                    <mat-card-subtitle>Noticia</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="../../assets/img/LODGE-COLCA-750x600.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/profile1.jpeg);"></div>
+                    <mat-card-title>Exhibición de museo</mat-card-title>
+                    <mat-card-subtitle>Convocatoria</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="../../assets/img/Mamut-750x600.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>Marcha por falta de agua</mat-card-title>
+                    <mat-card-subtitle>Noticia</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="../../assets/img/pkrdamlake.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
+                    </p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button>LIKE</button>
+                    <button mat-button>SHARE</button>
+                </mat-card-actions>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+    -->
 </div>
-<!-- 
-<div id="campañareciente">Mis campañas</div>
-<div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;margin-bottom: 0.5em;"></div>
-
-
-<mat-grid-list cols="3" rowHeight="600px">
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/images.jpg);"></div>
-                <mat-card-title>Andres Caicedo</mat-card-title>
-                <mat-card-subtitle>Promotor Estrella</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady.jpg);"></div>
-                <mat-card-title>Carla Alcivar</mat-card-title>
-                <mat-card-subtitle>Promotora Destacada</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="../../assets/img/493-banner2p-750x600.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em;" class="example-card">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ut lobortis odio. Vivamus ultricies, nisl nec viverra bibendum, sem ante venenatis diam, et convallis ex.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button color="primary">Primary</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-</mat-grid-list>
-
-<div id="campañareciente">Eventos Asistidos</div>
-<div style="width:230px;height:5px; background: #00A6FF;margin-left: 1.5em;margin-bottom: 0.5em;"></div>
-
-<mat-grid-list cols="4" rowHeight="550px">
-    <mat-grid-tile>
-        <mat-card style="margin-left: 2em;margin-right: 1em" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/169346.jpg);"></div>
-                <mat-card-title>Donación de Ropa</mat-card-title>
-                <mat-card-subtitle>Convocatoria</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="../../assets/img/224942482.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/lady2.jpg);"></div>
-                <mat-card-title>Minga Barrial</mat-card-title>
-                <mat-card-subtitle>Noticia</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="../../assets/img/LODGE-COLCA-750x600.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image" style="background-image: url(../../assets/img/profile1.jpeg);"></div>
-                <mat-card-title>Exhibición de museo</mat-card-title>
-                <mat-card-subtitle>Convocatoria</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="../../assets/img/Mamut-750x600.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-        <mat-card style="margin-right: 2em; margin-left: 1em;" class="example-card">
-            <mat-card-header>
-                <div mat-card-avatar class="example-header-image"></div>
-                <mat-card-title>Marcha por falta de agua</mat-card-title>
-                <mat-card-subtitle>Noticia</mat-card-subtitle>
-            </mat-card-header>
-            <img mat-card-image src="../../assets/img/pkrdamlake.jpg" alt="Photo of a Shiba Inu">
-            <mat-card-content>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec semper placerat luctus. Sed malesuada pellentesque lectus vel accumsan. Duis lacinia ex ut mi iaculis, at luctus magna interdum. Integer nulla tortor, molestie ut sapien ac.
-                </p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-            </mat-card-actions>
-        </mat-card>
-    </mat-grid-tile>
-</mat-grid-list>
- -->
