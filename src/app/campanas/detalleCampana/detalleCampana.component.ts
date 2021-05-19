@@ -67,6 +67,7 @@ export class DetalleCampana {
   i = 0;
 
   public ruta = this.router.url;
+  params: any;
 
   constructor(
     private firestoreService: FireBaseService,
@@ -91,7 +92,9 @@ export class DetalleCampana {
         direccion: this.direccion,
         campaignId : this.originalCampaign.campaignId,
         city : this.originalCampaign.city,
-        type:"Convocatoria"
+        type:"Convocatoria",
+        dateStart:this.originalCampaign.dateStart,
+        dateEnd:this.originalCampaign.dateEnd,
       }
     });
 
@@ -104,6 +107,7 @@ export class DetalleCampana {
 
   getRouteParams(): void {
     this.route.queryParams.subscribe(params => {
+      this.params=params;
       this.campanaUsuario = (params.campU == 'true');
     });
   }
@@ -388,43 +392,16 @@ export class DetalleCampana {
     const s = String(input)
     return !isNaN(+s) && isFinite(+s) && (typeof input === 'number' || !/e/i.test(s)) && input.length==10;
   }
-  /*async quitarFirma(){
-        Swal.fire({
-          title: 'Desea quitar la firma de la campaña?',
-          text: this.originalCampaign.name,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Quitar firma!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-
-            console.log(this.firestoreService.quitarFollow(this.followCampaignID));
-            this.followedCampaign=false;
-            //console.log(this.firestoreService.updateFollowers(this.originalCampaign.numFollowers-1,this.originalCampaign.campaignId));
-            
-            Swal.fire(
-              'Confirmado!',
-              'Se ha eliminado la firma de la campaña!',
-              'success'
-            )
-          }
-        })
-}*/
-
+ 
   redirectEventDetail(value) {
     let eventId = value.eventId;
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        "eventId": JSON.stringify(eventId),
-
-        // "estadoNegado": bandera,
-
+        "evenU":this.params.campU
       }
     };
-    this.router.navigate(["detalleEvento"], navigationExtras);
+    this.router.navigate(["detalleEvento",eventId], navigationExtras);
   }
 
 }

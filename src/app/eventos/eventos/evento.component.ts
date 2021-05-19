@@ -13,6 +13,9 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingContentExampleDialog } from 'src/app/loading/loading.component';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * @title Card with multiple sections
@@ -53,11 +56,12 @@ export class Eventos {
   public dates = [];
 
   public tipoEvento = ["Todas", "Convocatorias", "Noticias"];
-  //public ciudades = ["Todas"];
+  usuario: any;
+  user: any;
   public condicioneventovacio = false;
 
   //date control
-  selectedDate="";
+  selectedDate : Date;
   
 
   //city control
@@ -77,7 +81,8 @@ export class Eventos {
     private firestore: AngularFirestore,
     private firestoreService: FireBaseService,
     public router: Router,
-
+    public dialog: MatDialog,
+    private AuthService: AuthService,
   ) {
 
   }
@@ -87,11 +92,12 @@ export class Eventos {
     this._onDestroy.complete();
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.dialog.open(LoadingContentExampleDialog);
     this.getCiudades();
-  
-    this.getEvents("Todas","Activas","");
-
+    this.selectedDate=new Date();
+    this.getEvents("Todas","Activas",this.setFecha());
+    this.user = await this.AuthService.getCurrentUser();
   }
 
   redirectEventDetail(value) {
@@ -104,32 +110,66 @@ export class Eventos {
     this.router.navigate(["detalleEvento",eventId], navigationExtras);
   }
 
+  redirectCampaignDetail(value) {
+    let idCampaign = value.idCampaign;
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        "campU":false,
+      }
+    };
+    this.router.navigate(["detalleCampana",idCampaign], navigationExtras);
+  }
+
 
   getEvents(ciudad,estado,fechaSeleccionada): void {
     console.log(ciudad,",estado: ",estado,",fecha:",fechaSeleccionada);
+    this.events = [];
     this.firestoreService.getEvents(ciudad,"Convocatorias",estado).subscribe((eventsSnapshot) => {
-      this.events = [];
       eventsSnapshot.forEach((event: any) => {
-        var fechaEvento=event.payload.doc.data().dateEvent.split(",")[0];
-        if(fechaSeleccionada!=""&& fechaSeleccionada <= fechaEvento){ 
-          let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
-          this.events.push(appObj);
-          
-        }else if(fechaSeleccionada==""){//se carga por primera vez
-          let appObj = { ...event.payload.doc.data(),eventId: event.payload.doc.id}
-          this.events.push(appObj);
+        let isFav : boolean;
+        if (eventsSnapshot.length == 0) {
+          this.condicioneventovacio = true;
+        } else {
+          this.condicioneventovacio = false;
         }
+        if(this.user!=null){
+          this.firestoreService.checkFollowEvents(this.user.uid,event.payload.doc.id).subscribe((snp) => {
+            if(snp.length>0){
+              isFav = true;
+            }
+            else if(snp.length==0){
+              isFav=false;
+            }
+          });
+        }
+        if(this.user==null){
+          isFav=false;
+        }
+        this.firestoreService.getCampañasById(event.payload.doc.data().idCampaign).subscribe((campaignSNP) => {
+          this.firestoreService.getCiudadById(event.payload.doc.data().city).subscribe((citysnp) => {
+            let temp=campaignSNP.payload.data();
+            let ciudad = citysnp.payload.data();
+            var fechaEvento=event.payload.doc.data().dateEvent.split(",")[0];
+            let appObj = { ...event.payload.doc.data(),['campana']:temp,['isFavorite']: isFav,['ciudad']:ciudad,eventId: event.payload.doc.id}
+            if(fechaSeleccionada!=null &&fechaSeleccionada <= fechaEvento && this.selectedState!='Finalizadas'){ 
+              if(!this.events.some((item) => item.eventId == appObj.eventId)){
+                this.events.push(appObj);
+              }
+            }else if(fechaSeleccionada==null){
+              if(!this.events.some((item) => item.eventId == appObj.eventId)){
+                this.events.push(appObj);
+              }
+            }
+          });
+          
+        
+        });
+
         
       });
-      console.log("this.events", this.events);
       this.events.sort(this.sortFunction);
       console.log('ordenado', this.events)
-
-      if (this.events.length == 0) {
-        this.condicioneventovacio = true;
-      } else {
-        this.condicioneventovacio = false;
-      }
+      this.dialog.closeAll();
     }, (error) => {
       console.log("Error al cargar los eventos", error)
     });
@@ -137,17 +177,20 @@ export class Eventos {
 
   }
 
-  
 
   sortFunction(a, b) {
-    var dateA = new Date(a.dateEvent).getTime();
-    var dateB = new Date(b.dateEvent).getTime();
+    let fecha = a.dateEvent.split(',')[0];
+    let fechaA = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
+    fecha = b.dateEvent.split(',')[0];
+    let fechaB = fecha.substr(3, 2)+"/"+fecha.substr(0, 2)+"/"+fecha.substr(6, 4);
+    var dateA = new Date(fechaA);
+    var dateB = new Date(fechaB);
     return dateA < dateB ? 1 : -1;
   };
 
   setFecha(){
     var fecha;
-    if(this.selectedDate!=""){
+    if(this.selectedDate!=null){
       fecha=new Date(this.selectedDate);
       var anioSelec = fecha.getFullYear();
         var mesSelec = fecha.getMonth() + 1;
@@ -217,6 +260,12 @@ export class Eventos {
   }
 
   select(){
+    if(this.selectedState=="Finalizadas"){
+      this.selectedDate=null;
+    }
+    if(this.selectedState=="Activas"){
+      this.selectedDate=new Date();
+    }
     this.getEvents(this.cityCtrl.value.id,this.selectedState,this.setFecha());
   }
 

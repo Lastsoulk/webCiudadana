@@ -128,7 +128,7 @@ export class CrearCampana {
                 console.log(this.fb);
                 let data = {
                     name: form.value.personal.contact.nameCampaign,
-                    numFollowers: 0,
+                    numFollowers: 1,
                     promoter: this.user.uid ,
                     state: { finished: false, rejected: false, running: false },
                     campaignPic: [this.fb],

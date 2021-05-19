@@ -12,11 +12,15 @@
     <mat-label>Cuéntenos los detalles</mat-label>
     <input name="someUnusualName2" autocomplete="off"matInput [(ngModel)]="data.descripcion">
   </mat-form-field >
+  <br>
   <div *ngIf="this.data.type=='Convocatoria'" style="color: #1976d2;">Fecha y hora de la convocatoria</div>
   <div>
+    <p *ngIf="isInvalid">Fecha no valida!</p>
+    <mat-label *ngIf="this.data.type=='Convocatoria'">La fecha tiene que estar dentro del rango: <b>{{data.dateStart.split(',')[0]}}</b> -
+      <b>{{data.dateEnd.split(',')[0]}}</b></mat-label><br>
     <mat-form-field *ngIf="this.data.type=='Convocatoria'">
       <input matInput [ngxMatDatetimePicker]="picker1" [(ngModel)]="data.fechaconvocatoria" 
-      placeholder="Choose a date">
+      placeholder="Choose a date" (dateChange)="select()">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
     </mat-form-field>

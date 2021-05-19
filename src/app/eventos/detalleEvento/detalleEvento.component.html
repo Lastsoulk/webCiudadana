@@ -1,7 +1,7 @@
-<div id="div" *ngFor= "let e of misEventos">
+<div id="div">
 
     <div id="titulo" >
-        <h2>{{e.name}}</h2>
+        <h2>{{evento.name}}</h2>
         <div style="width: 100%; height: 3px; background: #f05454; margin-bottom: 3em; margin-top:1em;"></div>
     </div>
     
@@ -10,27 +10,27 @@
         <div class="row">
     
             <div class="col-12 col-lg-12" id="campanaFoto">
-                <img id="fotoPerfil" src={{e.eventPic}} alt="Foto de evento">
+                <img id="fotoPerfil" src={{evento.eventPic}} alt="Foto de evento">
             </div>
     
             <div class="col-12 col-lg-12" id="descripcion">
                 <p class="titulos">Descripcion del evento</p>
-                <p class="textoDetalle">{{e.description}}</p>
+                <p class="textoDetalle">{{evento.description}}</p>
 
                 <p class="titulos">Dia y Hora del evento</p>
-                <p class="textoDetalle">{{e.dateEvent}}-{{e.hourEvent}}</p> 
+                <p class="textoDetalle">{{evento.dateEvent}}</p> 
 
                 <p class="titulos">Dirección</p>
-                <p class="textoDetalle">{{e.address}}</p>
+                <p class="textoDetalle">{{evento.address}}</p>
 
                 <p class="titulos">Ciudad</p>
-                <p class="textoDetalle">{{e.name}}</p>
+                <p class="textoDetalle">{{evento.name}}</p>
 
                 <p class="titulos">Tipo</p>
-                <p class="textoDetalle">Convocatoria</p>
+                <p class="textoDetalle">{{evento.type}}</p>
 
                 <p class="titulos">Contacto</p>
-                <p class="textoDetalle">{{e.email}}</p>
+                <p class="textoDetalle">{{evento.userP.email}}</p>
 
                 <p  class="titulos">Estado del evento</p>
                 <p style="font-size: medium; background-color:red; color: white; width: 120px;text-align: center;border-radius: 10%;" *ngIf="e.state.rejected && !e.state.running && !e.state.finished" >Negada</p>
@@ -45,12 +45,12 @@
                 <br><br>
 
                 <p class="titulos">Campaña</p>
-                <p class="textoDetalle" style="cursor:pointer" (click)="redirectCampaignDetail({campaignId: e.idCampaign})">{{e.campaign}}</p>
+                <p class="textoDetalle" style="cursor:pointer" (click)="redirectCampaignDetail({campaignId: evento.idCampaign})">{{evento.campana.name}}</p>
             </div>
         </div>
         
     </div>
-    <div *ngIf="eventoUsuario" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir noticia</button></div>
-    <div *ngIf="!eventoUsuario&&!followedEvent&&e.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarCampana()">Firmar evento</button></div>
-
+    <div *ngIf="eventoUsuario&&evento.type!='Noticia'&&evento.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="openDialog()">Añadir noticia</button></div>
+    <div *ngIf="!eventoUsuario&&!followed&&evento.state.running" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: green;" mat-raised-button (click)="firmarEvento()">Firmar evento</button></div>
+    <div *ngIf="!eventoUsuario&&followed&&evento.state.running&&usuario.cedula!=evento.userP.cedula" style="text-align: center;margin-top: 0;"><button style="color: white;background-color: rgb(146, 5, 5);" mat-raised-button (click)="quitarFirma()">Quitar firma</button></div>
 </div>
